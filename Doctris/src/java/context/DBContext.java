@@ -18,7 +18,7 @@ public class DBContext {
     public Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://clinicbooking.mysql.database.azure.com:3306/doctris_system";
+            String url = "jdbc:mysql://clinicbooking.mysql.database.azure.com:3306/doctris_system?allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false&requireSSL=false";
             String username = "khuonghung1423";
             String password = "clinic.booking1423";
             Connection connection = DriverManager.getConnection(url, username, password);
