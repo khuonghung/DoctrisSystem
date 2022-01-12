@@ -10,6 +10,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
+import dal.UserDAO;
+import java.sql.SQLException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,8 +33,48 @@ public class UserController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
+        try {
+            if (action.equals("login")) {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+            if (action.equals("checklogin")) {
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                String remember = request.getParameter("remember");
+                UserDAO dao = new UserDAO();
+                Account account = dao.login(email, password);
+                if (account == null) {
+                    request.setAttribute("error", "Tài khoản không tồn tại !");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", account);
+                    Cookie cemail = new Cookie("email", email);
+                    Cookie cpass = new Cookie("pass", password);
+                    Cookie rem = new Cookie("remember", remember);
+                    if (remember != null) {
+                        cemail.setMaxAge(60 * 60 * 24 * 30);
+                        cpass.setMaxAge(60 * 60 * 24 * 3);
+                        rem.setMaxAge(60 * 60 * 24 * 30);
+                    } else {
+                        cemail.setMaxAge(0);
+                        cpass.setMaxAge(0);
+                        rem.setMaxAge(0);
+                    }
+                    response.addCookie(cemail);
+                    response.addCookie(cpass);
+                    response.addCookie(rem);
+                    response.sendRedirect("index.jsp");
+                }
+            }
+        } catch (IOException | SQLException | ServletException e) {
+            System.out.println(e);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
