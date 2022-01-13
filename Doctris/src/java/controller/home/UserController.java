@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import dal.UserDAO;
+import configs.*;
 import java.sql.SQLException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -71,6 +72,66 @@ public class UserController extends HttpServlet {
                     response.sendRedirect("index.jsp");
                 }
             }
+            if(action.equals("register")){
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+            if (action.equals("checkregister")) {
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                String repassword = request.getParameter("repassword");
+                String username = request.getParameter("username");
+                int role_id = 1;
+                if (!password.equals(repassword)) {
+                    request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
+                } else {
+                    UserDAO dao = new UserDAO();
+                    Account account = dao.checkAcc(email, username);
+                    if (account != null) {
+                        request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
+                        request.getRequestDispatcher("user?action=register").forward(request, response);
+                    } else {
+                        Account a = new Account(username, password, email, role_id);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("register", a);
+                        response.sendRedirect("user?action=generalcapcha");
+                    }
+                }
+            }
+            if(action.equals("capcha")){
+                request.getRequestDispatcher("capcha.jsp").forward(request, response);
+            }
+            if (action.equals("generalcapcha")) {
+                String capcha = Capcha.getCapcha();
+                HttpSession session = request.getSession();
+                Account a = (Account) session.getAttribute("register");
+                String email = a.getEmail();
+                String username = a.getUsername();
+                SendMail.setContent(username, capcha, email);
+                session.setAttribute("capcha", capcha);
+                request.getRequestDispatcher("user?action=capcha").forward(request, response);
+            }
+            if (action.equals("checkcapcha")) {
+                String capcha = request.getParameter("capcha");
+                HttpSession session = request.getSession();
+                String scapcha = (String) session.getAttribute("capcha");
+                if (capcha.equals(scapcha)) {
+                    Account a = (Account) session.getAttribute("register");
+                    String email = a.getEmail();
+                    String password = a.getPassword();
+                    String username = a.getUsername();
+                    int role_id = a.getRole_id();
+                    UserDAO dao = new UserDAO();
+                    dao.Register(email, password, username,role_id);
+                    session.removeAttribute("register");
+                    request.setAttribute("error", "Đăng ký thành công...");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
+                }else{
+                   request.setAttribute("error", "Xác thực không thành công, Hãy thử lại mã xác nhận!");
+                   request.getRequestDispatcher("user?action=capcha").forward(request, response); 
+                }
+            }
+
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);
         }

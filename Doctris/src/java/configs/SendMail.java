@@ -37,7 +37,7 @@ public class SendMail {
             message.setFrom(new InternetAddress(user));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(sub);
-            message.setContent(msg, "text/html");
+            message.setContent(msg, "text/html; charset=UTF-8");
             Transport.send(message);
 
         } catch (MessagingException e) {
@@ -45,12 +45,12 @@ public class SendMail {
         }
     }
 
-    public static void setContent(String username, int code, String email) {
+    public static void setContent(String username, String code, String email) {
         String subject = "[Doctris] Please verify your email.";
         String message = "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n "
                 + "\n"
-                + "<head>\n"
+                + "<head>\n "
                 + "</head>\n"
                 + "\n"
                 + "<body>\n"

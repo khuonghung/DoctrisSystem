@@ -50,4 +50,43 @@ public class UserDAO {
         return null;
     }
     
+    public Account checkAcc(String email, String username) throws SQLException {
+        String sql = "select * from users where email=? or username=?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, username);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            }
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
+
+    public void Register(String email, String password, String username, int role_id) throws SQLException {
+        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `password`, `email`, `role_id`) VALUES (?, ?, ?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setInt(4, role_id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    
 }
