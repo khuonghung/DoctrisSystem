@@ -21,38 +21,33 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Đăng ký</h4>  
-                                <form action="#" method="" class="login-form mt-4">
+                                <p style="color: red; align-content: center;">
+                                    ${requestScope.error}
+                                </p>
+                                <form action="user?action=checkregister" method="POST" class="login-form mt-4">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="mb-3">                                               
-                                                <label class="form-label">First name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="First Name" name="s" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">                                                
-                                                <label class="form-label">Last name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Last Name" name="s" required="">
+                                                <label class="form-label">Tên người dùng <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="First Name" name="username" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                                <label class="form-label">Email <span class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" placeholder="Email" name="email" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" required="">
+                                                <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                                                <input type="password" class="form-control" placeholder="password" name="password" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input align-middle" type="checkbox" value="" id="accept-tnc-check">
-                                                    <label class="form-check-label" for="accept-tnc-check">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
-                                                </div>
+                                                <label class="form-label">Nhập lại mật khẩu <span class="text-danger">*</span></label>
+                                                <input type="password" class="form-control" name="repassword" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -61,7 +56,7 @@
                                             </div>
                                         </div>
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login.html" class="text-dark fw-bold">Sign in</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Sign in</a></p>
                                         </div>
                                     </div>
                                 </form>
