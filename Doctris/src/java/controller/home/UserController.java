@@ -97,6 +97,9 @@ public class UserController extends HttpServlet {
                 }
             }
             if(action.equals("capcha")){
+                Account a = (Account) session.getAttribute("register");
+                String email = a.getEmail();
+                request.setAttribute("email", email);
                 request.getRequestDispatcher("capcha.jsp").forward(request, response);
             }
             if (action.equals("generalcapcha")) {
