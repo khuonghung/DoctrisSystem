@@ -29,7 +29,7 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
                                                 <label class="form-label">Tên người dùng <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="First Name" name="username" required="">
+                                                <input type="text" class="form-control" placeholder="username..." name="username" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
