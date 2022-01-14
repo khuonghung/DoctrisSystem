@@ -37,6 +37,8 @@ public class UserController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        HttpSession session = request.getSession();
+        UserDAO userdao = new UserDAO();
         String action = request.getParameter("action");
         try {
             if (action.equals("login")) {
@@ -46,13 +48,11 @@ public class UserController extends HttpServlet {
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
                 String remember = request.getParameter("remember");
-                UserDAO dao = new UserDAO();
-                Account account = dao.login(email, password);
+                Account account = userdao.login(email, password);
                 if (account == null) {
                     request.setAttribute("error", "Tài khoản không tồn tại !");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
-                    HttpSession session = request.getSession();
                     session.setAttribute("user", account);
                     Cookie cemail = new Cookie("email", email);
                     Cookie cpass = new Cookie("pass", password);
@@ -85,14 +85,12 @@ public class UserController extends HttpServlet {
                     request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
-                    UserDAO dao = new UserDAO();
-                    Account account = dao.checkAcc(email, username);
+                    Account account = userdao.checkAcc(email, username);
                     if (account != null) {
                         request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                         request.getRequestDispatcher("user?action=register").forward(request, response);
                     } else {
                         Account a = new Account(username, password, email, role_id);
-                        HttpSession session = request.getSession();
                         session.setAttribute("register", a);
                         response.sendRedirect("user?action=generalcapcha");
                     }
@@ -103,7 +101,6 @@ public class UserController extends HttpServlet {
             }
             if (action.equals("generalcapcha")) {
                 String capcha = Capcha.getCapcha();
-                HttpSession session = request.getSession();
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
                 String username = a.getUsername();
@@ -113,7 +110,6 @@ public class UserController extends HttpServlet {
             }
             if (action.equals("checkcapcha")) {
                 String capcha = request.getParameter("capcha");
-                HttpSession session = request.getSession();
                 String scapcha = (String) session.getAttribute("capcha");
                 if (capcha.equals(scapcha)) {
                     Account a = (Account) session.getAttribute("register");
@@ -121,8 +117,7 @@ public class UserController extends HttpServlet {
                     String password = a.getPassword();
                     String username = a.getUsername();
                     int role_id = a.getRole_id();
-                    UserDAO dao = new UserDAO();
-                    dao.Register(email, password, username,role_id);
+                    userdao.Register(email, password, username,role_id);
                     session.removeAttribute("register");
                     request.setAttribute("error", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
