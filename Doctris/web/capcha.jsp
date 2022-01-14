@@ -25,7 +25,8 @@
                                 <form action="user?action=checkcapcha" method="POST" class="login-form mt-4">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <p class="text-muted">Chúng tôi đã gửi mã xác thực vào email bạn đã đăng ký.Hãy kiểm tra và nhập vào đây</p>
+                                            <p class="text-muted">Chúng tôi đã gửi mã xác thực vào email <b>${requestScope.email}</b></p> 
+                                            <p class="text-muted">Hãy kiểm tra và nhập vào đây</p>
                                             <p style="color: red; align-content: center;">
                                                 ${requestScope.error}
                                             </p>
