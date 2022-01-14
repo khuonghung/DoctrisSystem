@@ -56,7 +56,7 @@
                                             </div>
                                         </div>
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Sign in</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="user?action=login" class="text-dark fw-bold">Sign in</a></p>
                                         </div>
                                     </div>
                                 </form>
