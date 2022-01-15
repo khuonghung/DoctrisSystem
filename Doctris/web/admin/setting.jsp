@@ -117,7 +117,7 @@
                                                 <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?action=Category_blog&page=${i}">${i}</a></li>
                                                 </c:if>
                                                 <c:if test="${requestScope.type == 3}">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?action=Category_services&page=${i}">${i}</a></li>
+                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?action=Category_service&page=${i}">${i}</a></li>
                                                 </c:if>
                                                 <c:if test="${requestScope.type == 0}">
                                                 <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?page=${i}">${i}</a></li>
