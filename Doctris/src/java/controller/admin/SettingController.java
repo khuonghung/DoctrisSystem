@@ -91,7 +91,7 @@ public class SettingController extends HttpServlet {
                 List<Setting> setting = settingdao.getAllSetting();
                 List<SettingDetails> settingdetailslist = settingdao.getBySetting("category_blog");
                 int page, numperpage = 6;
-                int type = 6;
+                int type = 2;
                 int size = settingdetailslist.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
                 String xpage = request.getParameter("page");
@@ -115,7 +115,7 @@ public class SettingController extends HttpServlet {
                 List<Setting> setting = settingdao.getAllSetting();
                 List<SettingDetails> settingdetailslist = settingdao.getBySetting("category_service");
                 int page, numperpage = 6;
-                int type = 6;
+                int type = 3;
                 int size = settingdetailslist.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
                 String xpage = request.getParameter("page");

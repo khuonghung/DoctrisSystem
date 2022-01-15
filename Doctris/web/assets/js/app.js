@@ -21,7 +21,7 @@
  ================================*/
 
 
-window.onload = function loader() {
+ window.onload = function loader() {
     // Preloader
     setTimeout(() => {
         document.getElementById('preloader').style.visibility = 'hidden';
@@ -56,10 +56,10 @@ function getClosest(elem, selector) {
             Element.prototype.msMatchesSelector ||
             Element.prototype.oMatchesSelector ||
             Element.prototype.webkitMatchesSelector ||
-            function(s) {
+            function (s) {
                 var matches = (this.document || this.ownerDocument).querySelectorAll(s),
                     i = matches.length;
-                while (--i >= 0 && matches.item(i) !== this) {}
+                while (--i >= 0 && matches.item(i) !== this) { }
                 return i > -1;
             };
     }
@@ -115,15 +115,15 @@ function activateMenu() {
 //Admin Menu
 function activateSidebarMenu() {
     var current = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-    if (current !== "" && document.getElementById("sidebar")) {
+    if (current !== "" && document.getElementById("sidebar")){
         var menuItems = document.querySelectorAll('#sidebar a');
         for (var i = 0, len = menuItems.length; i < len; i++) {
             if (menuItems[i].getAttribute("href").indexOf(current) !== -1) {
                 menuItems[i].parentElement.className += " active";
-                if (menuItems[i].closest(".sidebar-submenu")) {
+                if(menuItems[i].closest(".sidebar-submenu")) {
                     menuItems[i].closest(".sidebar-submenu").classList.add("d-block");
                 }
-                if (menuItems[i].closest(".sidebar-dropdown")) {
+                if(menuItems[i].closest(".sidebar-dropdown")) {
                     menuItems[i].closest(".sidebar-dropdown").classList.add("active");
                 }
             }
@@ -131,18 +131,18 @@ function activateSidebarMenu() {
     }
 }
 
-if (document.getElementById("close-sidebar")) {
+if(document.getElementById("close-sidebar")){
     document.getElementById("close-sidebar").addEventListener("click", function() {
         document.getElementsByClassName("page-wrapper")[0].classList.toggle("toggled");
     });
 }
 
 // Clickable Menu
-if (document.getElementById("navigation")) {
+if(document.getElementById("navigation")){
     var elements = document.getElementById("navigation").getElementsByTagName("a");
-    for (var i = 0, len = elements.length; i < len; i++) {
-        elements[i].onclick = function(elem) {
-            if (elem.target.getAttribute("href") === "javascript:void(0)") {
+    for(var i = 0, len = elements.length; i < len; i++) {
+        elements[i].onclick = function (elem) {
+            if(elem.target.getAttribute("href") === "javascript:void(0)") {
                 var submenu = elem.target.nextElementSibling.nextElementSibling;
                 submenu.classList.toggle('open');
             }
@@ -150,11 +150,11 @@ if (document.getElementById("navigation")) {
     }
 }
 
-if (document.getElementById("sidebar")) {
+if(document.getElementById("sidebar")){
     var elements = document.getElementById("sidebar").getElementsByTagName("a");
-    for (var i = 0, len = elements.length; i < len; i++) {
-        elements[i].onclick = function(elem) {
-            if (elem.target.getAttribute("href") === "javascript:void(0)") {
+    for(var i = 0, len = elements.length; i < len; i++) {
+        elements[i].onclick = function (elem) {
+            if(elem.target.getAttribute("href") === "javascript:void(0)") {
                 elem.target.parentElement.classList.toggle("active");
                 elem.target.nextElementSibling.classList.toggle("d-block");
             }
@@ -165,12 +165,12 @@ if (document.getElementById("sidebar")) {
 // Menu sticky
 function windowScroll() {
     var navbar = document.getElementById("topnav");
-    if (navbar === null) {
-
-    } else if (document.body.scrollTop >= 50 ||
-        document.documentElement.scrollTop >= 50) {
+    if(navbar === null) {
+        
+    }else if( document.body.scrollTop >= 50 ||
+    document.documentElement.scrollTop >= 50){
         navbar.classList.add("nav-sticky");
-    } else {
+    }else {
         navbar.classList.remove("nav-sticky");
     }
 }
@@ -181,17 +181,17 @@ window.addEventListener('scroll', (ev) => {
 })
 
 // back-to-top
-window.onscroll = function() {
+window.onscroll = function () {
     scrollFunction();
 };
 
 function scrollFunction() {
     var mybutton = document.getElementById("back-to-top");
-    if (mybutton === null) {
-
-    } else if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+    if(mybutton === null) {
+        
+    }else if( document.body.scrollTop > 500 || document.documentElement.scrollTop > 500){
         mybutton.style.display = "block";
-    } else {
+    }else {
         mybutton.style.display = "none";
     }
 }
@@ -205,17 +205,17 @@ function topFunction() {
 feather.replace();
 
 // dd-menu
-if (document.getElementsByClassName("dd-menu")) {
+if(document.getElementsByClassName("dd-menu")) {
     var ddmenu = document.getElementsByClassName("dd-menu");
-    for (var i = 0, len = ddmenu.length; i < len; i++) {
-        ddmenu[i].onclick = function(elem) {
+    for(var i = 0, len = ddmenu.length; i < len; i++) {
+        ddmenu[i].onclick = function (elem) {
             elem.stopPropagation();
         }
     }
 }
 
 //ACtive Sidebar
-(function() {
+(function () {
     var current = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);;
     if (current === "") return;
     var menuItems = document.querySelectorAll('.sidebar-nav a');
@@ -228,32 +228,32 @@ if (document.getElementsByClassName("dd-menu")) {
 
 
 //Validation Shop Checkouts
-(function() {
+(function () {
     'use strict'
 
-    if (document.getElementsByClassName('needs-validation').length > 0) {
+    if(document.getElementsByClassName('needs-validation').length > 0) {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
 
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
-            .forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
+            .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                }
 
-                    form.classList.add('was-validated')
-                }, false)
-            })
+                form.classList.add('was-validated')
+            }, false)
+        })
     }
 })();
 
 //Tooltip
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
 });
 
 //Switcher
@@ -262,5 +262,5 @@ try {
         document.getElementById('theme-opt').href = '../assets/css/' + theme + '.min.css';
     };
 } catch (error) {
-
+    
 }
