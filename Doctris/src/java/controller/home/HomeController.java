@@ -38,8 +38,11 @@ public class HomeController extends HttpServlet {
         String action = request.getParameter("action");
         try {
             ServiceDAO servicedao = new ServiceDAO();
+            DoctorDAO doctordao = new DoctorDAO();
             List<Service> servicelist = servicedao.getRandomTop6Service();
+            List<Doctor> doctorlist = doctordao.getRandomTop6Doctor();
             request.setAttribute("service", servicelist);
+            request.setAttribute("doctor", doctorlist);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);

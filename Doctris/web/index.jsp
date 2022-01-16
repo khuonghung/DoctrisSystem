@@ -153,24 +153,19 @@
                 </div>
 
                 <div class="row align-items-center">
-                    <!-- List ra top 10 bác sĩ nổi bật bao gồm tên , thông tin xã hội , category phụ trách -->
-                    <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="assets/images/doctors/01.jpg" class="img-fluid" alt="">
-                                <ul class="list-unstyled team-social mb-0">
-                                    <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="github" class="icons"></i></a></li>
-                                    <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="doctor-team-one.html" class="title text- h5 d-block mb-0">Calvin Carlo</a>
-                                <small class="text-muted speciality">Eye Care</small>
+                    <c:forEach items="${doctor}" var="d">
+                        <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
+                            <div class="card team border-0 rounded shadow overflow-hidden">
+                                <div class="team-img position-relative">
+                                    <img style="height: 296px; width: 100%;" src="${d.img}" class="img-fluid" alt="">
+                                </div>
+                                <div class="card-body content text-center">
+                                    <a href="doctor-team-one.html" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
+                                    <small class="text-muted speciality">${d.settingdetails.name}</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </c:forEach>
 
                     <div class="col-12 mt-4 pt-2 text-center">
                         <a href="doctor-team-one.html" class="btn btn-primary">Tìm kiếm nhiều hơn</a>
