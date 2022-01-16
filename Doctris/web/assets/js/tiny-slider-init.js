@@ -1,6 +1,5 @@
-
 //Tiny slider
-if(document.getElementsByClassName('client-review-slider').length > 0) {
+if (document.getElementsByClassName('client-review-slider').length > 0) {
     var slider = tns({
         container: '.client-review-slider',
         items: 1,
@@ -17,7 +16,7 @@ if(document.getElementsByClassName('client-review-slider').length > 0) {
     });
 };
 
-if(document.getElementsByClassName('slider-range-four').length > 0) {
+if (document.getElementsByClassName('slider-range-four').length > 0) {
     var slider = tns({
         container: '.slider-range-four',
         items: 4,
@@ -39,7 +38,7 @@ if(document.getElementsByClassName('slider-range-four').length > 0) {
             767: {
                 items: 2
             },
-            
+
 
             320: {
                 items: 1
@@ -49,7 +48,7 @@ if(document.getElementsByClassName('slider-range-four').length > 0) {
 };
 
 
-if(document.getElementsByClassName('slider-range-three').length > 0) {
+if (document.getElementsByClassName('slider-range-three').length > 0) {
     var slider = tns({
         container: '.slider-range-three',
         items: 3,
