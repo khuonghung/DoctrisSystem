@@ -25,7 +25,7 @@
                             <p class="para-desc text-white-50 mb-0">Nếu bạn hay người thân cần sự trợ giúp ngay lập tức, điều trị khẩn cấp trong một cuộc tư vấn đơn giản.</p>
 
                             <div class="mt-4 pt-2">
-                                <a href="booking-appointment.html" class="btn btn-primary">Đặt lịch hẹn ngay tại đây ...</a>
+                                <a href="#l" class="btn btn-primary">Đặt lịch hẹn ngay tại đây ...</a>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                 <i class="ri-heart-pulse-fill text-primary h2 mb-0"></i>
                                 <h5 class="mt-1">Dịch vụ chức khỏe</h5>
                                 <p class="text-muted mt-2">Chúng tôi đem đến cho bạn những dịch vụ chất lượng tốt nhất trên thị trường.</p>
-                                <a href="departments.html" class="text-primary">Tìm hiểu ngay <i class="ri-arrow-right-line align-middle"></i></a>
+                                <a href="#" class="text-primary">Tìm hiểu ngay <i class="ri-arrow-right-line align-middle"></i></a>
                             </div>
 
                             <div class="card border-0 p-4">
@@ -50,7 +50,7 @@
                                 <h5 class="mt-1">Đặt lịch trực tuyến</h5>
                                 <p class="text-muted mt-2">Đội ngũ bác sĩ luôn sẵn sàng tư vấn và thăm khám dành riêng cho bạn.</p>
                                 <br>
-                                <a href="departments.html" class="text-primary">Tìm hiểu ngay <i class="ri-arrow-right-line align-middle"></i></a>
+                                <a href="#" class="text-primary">Tìm hiểu ngay <i class="ri-arrow-right-line align-middle"></i></a>
                             </div>
 
                             <div class="card border-0 bg-light p-4">
@@ -98,7 +98,7 @@
                             </div>
 
                             <div class="mt-4">
-                                <a href="aboutus.html" class="btn btn-primary">Tìm hiểu nhiều hơn.. <i class="ri-arrow-right-line align-middle"></i></a>
+                                <a href="#" class="btn btn-primary">Tìm hiểu nhiều hơn.. <i class="ri-arrow-right-line align-middle"></i></a>
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                         </div>
                     </c:forEach>
                     <div class="col-12 mt-4 pt-2 text-center">
-                        <a href="doctor-team-one.html" class="btn btn-primary">Tìm kiếm nhiều hơn</a>
+                        <a href="#" class="btn btn-primary">Tìm kiếm nhiều hơn</a>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                                     <img style="height: 296px; width: 100%;" src="${d.img}" class="img-fluid" alt="">
                                 </div>
                                 <div class="card-body content text-center">
-                                    <a href="doctor-team-one.html" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
+                                    <a href="#" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
                                     <small class="text-muted speciality">${d.settingdetails.name}</small>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                     </c:forEach>
 
                     <div class="col-12 mt-4 pt-2 text-center">
-                        <a href="doctor-team-one.html" class="btn btn-primary">Tìm kiếm nhiều hơn</a>
+                        <a href="#" class="btn btn-primary">Tìm kiếm nhiều hơn</a>
                     </div>
                 </div>
             </div>
@@ -187,107 +187,10 @@
                                     </a>
                                 </div>
                             </div>
-
-                            <div class="content">
-                                <div class="row" id="counter">
-                                    <div class="col-md-4 mt-4 pt-2">
-                                        <div class="counter-box text-center">
-                                            <h1 class="mt-3 text-white title-"><span class="counter-value" data-target="99">10</span>%</h1>
-                                            <h5 class="counter-head text-white title- mb-1">Positive feedback</h5>
-                                            <p class="text-white-50 mb-0">From Doctors</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 mt-4 pt-2">
-                                        <div class="counter-box text-center">
-                                            <h1 class="mt-3 text-white title-"><span class="counter-value" data-target="25">2</span>+</h1>
-                                            <h5 class="counter-head text-white title- mb-1">Experienced Clinics</h5>
-                                            <p class="text-white-50 mb-0">High Qualified</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 mt-4 pt-2">
-                                        <div class="counter-box text-center">
-                                            <h1 class="mt-3 text-white title-"><span class="counter-value" data-target="1251">95</span>+</h1>
-                                            <h5 class="counter-head text-white title- mb-1">Questions & Answers</h5>
-                                            <p class="text-white-50 mb-0">Your Questions</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="feature-posts-placeholder bg-primary"></div>
-            </div>
-
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="section-title text-center mb-4 pb-2">
-                            <h4 class="title mb-4">Patients Says</h4>
-                            <p class="text-muted mx-auto para-desc mb-0">Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <!-- List top đánh giá dịch vụ -->
-                    <div class="col-lg-8 mt-4 pt-2 text-center">
-                        <div class="client-review-slider">
-                            <div class="tiny-slide text-center">
-                                <p class="text-muted h6 fw-normal fst-italic">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. The most well-known dummy text is the 'Lorem Ipsum', which is said to have originated in the 16th century. "</p>
-                                <img src="assets/images/client/01.jpg" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow my-3" alt="">
-                                <ul class="list-unstyled mb-0">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-primary">- Thomas Israel <small class="text-muted">C.E.O</small></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container mt-100 mt-60">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="section-title text-center mb-4 pb-2">
-                            <span class="badge badge-pill badge-soft-primary mb-3">Read News</span>
-                            <h4 class="title mb-4">Latest News & Blogs</h4>
-                            <p class="text-muted mx-auto para-desc mb-0">Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <!-- List bài đăng mới nhất -->
-                    <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2">
-                        <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                            <img src="assets/images/blog/01.jpg" class="img-fluid" alt="">
-                            <div class="card-body p-4">
-                                <ul class="list-unstyled mb-2">
-                                    <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text- h6 me-1"></i>20th November, 2020</li>
-                                    <li class="list-inline-item text-muted small"><i class="uil uil-clock text- h6 me-1"></i>5 min read</li>
-                                </ul>
-                                <a href="blog-detail.html" class="text- title h5">You can easily connect to doctor and make a treatment</a>
-                                <div class="post-meta d-flex justify-content-between mt-3">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                        <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
-                                    </ul>
-                                    <a href="blog-detail.html" class="link">Read More <i class="mdi mdi-chevron-right align-middle"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
