@@ -71,8 +71,8 @@ public class UserController extends HttpServlet {
                     response.addCookie(cemail);
                     response.addCookie(cpass);
                     response.addCookie(rem);
-                    response.sendRedirect("index.jsp");
-                }
+                    response.sendRedirect("home");
+                } 
             }
             
             if(action.equals("logout")){
