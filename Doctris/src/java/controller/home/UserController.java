@@ -14,6 +14,8 @@ import model.Account;
 import dal.UserDAO;
 import configs.*;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
@@ -69,10 +71,15 @@ public class UserController extends HttpServlet {
                     response.addCookie(cemail);
                     response.addCookie(cpass);
                     response.addCookie(rem);
-                    response.sendRedirect("index.jsp");
-                }
+                    response.sendRedirect("home");
+                } 
             }
-            if(action.equals("register")){
+            
+            if(action.equals("logout")){
+            session.removeAttribute("user");
+            response.sendRedirect("home");
+            }
+            if (action.equals("register")) {
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             }
             if (action.equals("checkregister")) {
@@ -81,22 +88,31 @@ public class UserController extends HttpServlet {
                 String repassword = request.getParameter("repassword");
                 String username = request.getParameter("username");
                 int role_id = 1;
-                if (!password.equals(repassword)) {
-                    request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
-                    request.getRequestDispatcher("user?action=login").forward(request, response);
-                } else {
-                    Account account = userdao.checkAcc(email, username);
-                    if (account != null) {
-                        request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
-                        request.getRequestDispatcher("user?action=register").forward(request, response);
+                String regex = "^[a-zA-Z0-9]([a-zA-Z0-9](_|.)[a-zA-Z0-9])*[a-zA-Z0-9]+$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(username);
+                if (matcher.find()) {
+                    if (!password.equals(repassword)) {
+                        request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
+                        request.getRequestDispatcher("user?action=login").forward(request, response);
                     } else {
-                        Account a = new Account(username, password, email, role_id);
-                        session.setAttribute("register", a);
-                        response.sendRedirect("user?action=generalcapcha");
+                        Account account = userdao.checkAcc(email, username);
+                        if (account != null) {
+                            request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
+                            request.getRequestDispatcher("user?action=register").forward(request, response);
+                        } else {
+                            Account a = new Account(username, password, email, role_id);
+                            session.setAttribute("register", a);
+                            response.sendRedirect("user?action=generalcapcha");
+                        }
                     }
+                } else {
+                    request.setAttribute("error", "username không hợp lệ. Hãy nhập lại...");
+                    request.getRequestDispatcher("user?action=register").forward(request, response);
                 }
+
             }
-            if(action.equals("capcha")){
+            if (action.equals("capcha")) {
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
                 request.setAttribute("email", email);
@@ -120,13 +136,13 @@ public class UserController extends HttpServlet {
                     String password = a.getPassword();
                     String username = a.getUsername();
                     int role_id = a.getRole_id();
-                    userdao.Register(email, password, username,role_id);
+                    userdao.Register(email, password, username, role_id);
                     session.removeAttribute("register");
                     request.setAttribute("error", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
-                }else{
-                   request.setAttribute("error", "Xác thực không thành công, Hãy thử lại mã xác nhận!");
-                   request.getRequestDispatcher("user?action=capcha").forward(request, response); 
+                } else {
+                    request.setAttribute("error", "Xác thực không thành công, Hãy thử lại mã xác nhận!");
+                    request.getRequestDispatcher("user?action=capcha").forward(request, response);
                 }
             }
 

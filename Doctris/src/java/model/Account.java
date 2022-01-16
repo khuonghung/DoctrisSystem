@@ -24,6 +24,9 @@ public class Account {
         this.email = email;
         this.role_id = role_id;
     }
+    public Account(String username) {
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;

@@ -51,19 +51,19 @@
                                                 <div class="mb-3">
                                                     <div class="form-check">
                                                         <input ${(cookie.rem.value eq 'ON')?"checked":""} class="form-check-input align-middle" type="checkbox" name="remember" id="remember-check">
-                                                        <label class="form-check-label" for="remember-check">Remember me</label>
+                                                        <label class="form-check-label" for="remember-check">Lưu tài khoản</label>
                                                     </div>
                                                 </div>
-                                                <a href="forgot-password.html" class="text-dark h6 mb-0">Forgot password ?</a>
+                                                <a href="forgot-password.html" class="text-dark h6 mb-0">Quên mật khẩu ?</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-0">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Sign in</button>
+                                                <button class="btn btn-primary">Đăng nhập</button>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account ?</small> <a href="user?action=register" class="text-dark fw-bold">Sign Up</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Chưa có tài khoản ?</small> <a href="user?action=register" class="text-dark fw-bold">Đăng ký</a></p>
                                         </div>
                                     </div>
                                 </form>
