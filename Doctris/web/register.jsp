@@ -29,19 +29,19 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
                                                 <label class="form-label">Tên người dùng <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="username..." name="username" required="">
+                                                <input type="text" class="form-control" name="username" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Email" name="email" required="">
+                                                <input type="email" class="form-control" name="email" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="password" name="password" required="">
+                                                <input type="password" class="form-control" name="password" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -52,11 +52,11 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Register</button>
+                                                <button class="btn btn-primary">Đăng ký</button>
                                             </div>
                                         </div>
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="user?action=login" class="text-dark fw-bold">Sign in</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Đã có tài khoản ?</small> <a href="user?action=login" class="text-dark fw-bold">Đăng nhập</a></p>
                                         </div>
                                     </div>
                                 </form>
