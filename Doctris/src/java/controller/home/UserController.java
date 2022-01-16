@@ -87,6 +87,12 @@ public class UserController extends HttpServlet {
                 String password = request.getParameter("password");
                 String repassword = request.getParameter("repassword");
                 String username = request.getParameter("username");
+                String name = request.getParameter("name");
+                String rgender = request.getParameter("gender");
+                String rphone = request.getParameter("phone");
+                boolean gender = Boolean.parseBoolean(rgender);
+                int phone = Integer.parseInt(rphone);
+                
                 int role_id = 1;
                 String regex = "^[a-zA-Z0-9]([a-zA-Z0-9](_|.)[a-zA-Z0-9])*[a-zA-Z0-9]+$";
                 Pattern pattern = Pattern.compile(regex);
@@ -101,7 +107,7 @@ public class UserController extends HttpServlet {
                             request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                             request.getRequestDispatcher("user?action=register").forward(request, response);
                         } else {
-                            Account a = new Account(username, password, email, role_id);
+                            Account a = new Account(username, role_id, password, name, gender, phone, email);
                             session.setAttribute("register", a);
                             response.sendRedirect("user?action=generalcapcha");
                         }
@@ -135,8 +141,11 @@ public class UserController extends HttpServlet {
                     String email = a.getEmail();
                     String password = a.getPassword();
                     String username = a.getUsername();
+                    String name = a.getName();
+                    int phone = a.getPhone();
+                    boolean gender = a.isGender();
                     int role_id = a.getRole_id();
-                    userdao.Register(email, password, username, role_id);
+                    userdao.Register(email, password, username, role_id, name, phone, gender);
                     session.removeAttribute("register");
                     request.setAttribute("error", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);

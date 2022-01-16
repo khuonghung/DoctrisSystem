@@ -38,7 +38,7 @@ public class UserDAO {
             ps.setString(2, password);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -59,7 +59,7 @@ public class UserDAO {
             ps.setString(2, username);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7));
             }
         } catch (Exception e) {
         } finally {
@@ -70,15 +70,18 @@ public class UserDAO {
         return null;
     }
 
-    public void Register(String email, String password, String username, int role_id) throws SQLException {
-        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `password`, `email`, `role_id`) VALUES (?, ?, ?, ?)";
+    public void Register(String email, String password, String username, int role_id,String name,int phone, boolean gender) throws SQLException {
+        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `role_id`, `password`, `name`, `gender`, `phone`, `email`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, username);
-            ps.setString(2, password);
-            ps.setString(3, email);
-            ps.setInt(4, role_id);
+            ps.setInt(2,role_id);
+            ps.setString(3,password);
+            ps.setString(4, name);
+            ps.setBoolean(5, gender);
+            ps.setInt(6, phone);
+            ps.setString(7, email);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {

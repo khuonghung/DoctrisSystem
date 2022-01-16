@@ -28,48 +28,78 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
-                                                <label class="form-label">Tên người dùng <span class="text-danger">*</span></label>
+                                                <label class="form-label">Tên tài khoản <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="username" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" name="email" required="">
+                                            <div class="mb-3">                                               
+                                                <label class="form-label">Họ Tên <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="name" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" name="password" required="">
+                                            <div class="mb-3">                                               
+                                                <label class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                                <div class="my-3">
+                                                    <div class="form-check">
+                                                        <input id="credit" name="gender" value="true" type="radio" class="form-check-input"
+                                                               checked required>
+                                                        <label class="form-check-label">Nam</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input id="debit" name="gender" value="false" type="radio" class="form-check-input"
+                                                               required>
+                                                        <label class="form-check-label">Nữ</label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Nhập lại mật khẩu <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" name="repassword" required="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="d-grid">
-                                                <button class="btn btn-primary">Đăng ký</button>
-                                            </div>
-                                        </div>
-                                        <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Đã có tài khoản ?</small> <a href="user?action=login" class="text-dark fw-bold">Đăng nhập</a></p>
                                         </div>
                                     </div>
-                                </form>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">                                               
+                                            <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="phone" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" name="email" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                                            <input type="password" class="form-control" name="password" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nhập lại mật khẩu <span class="text-danger">*</span></label>
+                                            <input type="password" class="form-control" name="repassword" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary">Đăng ký</button>
+                                        </div>
+                                    </div>
+                                    <div class="mx-auto">
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Đã có tài khoản ?</small> <a href="user?action=login" class="text-dark fw-bold">Đăng nhập</a></p>
+                                    </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/feather.min.js"></script>
-        <script src="assets/js/app.js"></script>
-    </body>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
 
 </html>
