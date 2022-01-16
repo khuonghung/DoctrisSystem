@@ -5,17 +5,18 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <header id="topnav" class="navigation sticky">
         <div class="container">
-            
+
             <div>
                 <a class="logo" href="index.html">
                     <img src="assets/images/logo-light.png" height="24" class="logo--mode" alt="">
                 </a>
             </div>
-            
+
             <div class="menu-extras">
                 <div class="menu-item">
                     <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
@@ -40,22 +41,32 @@
                     <div class="dropdown dropdown-primary">
                         <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avata.png" class="avatar avatar-ex-small rounded-circle" alt=""></button>
                         <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
-                            <a class="dropdown-item d-flex align-items-center text-" href="doctor-profile.html">
-                                <img src="assets/images/avata.png" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
-                                <div class="flex-1 ms-2">
-                                    <span class="d-block mb-1">Calvin Carlo</span>
-                                </div>
-                            </a>
+                            <c:if test="${sessionScope.user.username != null}">
+                                <a class="dropdown-item d-flex align-items-center text-" href="#">
+                                    <img src="assets/images/avata.png" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                    <div class="flex-1 ms-2">
+                                        <span class="d-block mb-1">${sessionScope.user.username}</span>
+                                    </div>                     
+                                </a>
+                            </c:if>
                             <div class="dropdown-divider border-top"></div>
-                            <a class="dropdown-item text-" href="login.html"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Logout</a>
+                            <c:if test="${sessionScope.user != null}">
+                                <a class="dropdown-item text-" href="user?action=logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.user == null}">
+                                <a class="dropdown-item text-" href="user?action=login"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng Nhập</a>
+                                    </c:if>
+                                    <c:if test="${sessionScope.user != null}">
+                                <a class="dropdown-item text-" href="setting"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Setting</a>
+                                    </c:if>
                         </div>
                     </div>
                 </li>
-                
+
             </ul>
 
             <div id="navigation">
-                
+
                 <ul class="navigation-menu nav-left nav-light">
                     <li><a href="home" class="sub-menu-item">Trang chủ</a></li>
                     <li><a href="#" class="sub-menu-item">Bác sĩ</a></li>
@@ -64,7 +75,7 @@
                     <li><a href="#" class="sub-menu-item">Liên hệ</a></li>
                     <li><a href="#" class="sub-menu-item">Tin tức & chủ đề</a></li>
                 </ul>
-                
+
             </div>
         </div>
     </header>
