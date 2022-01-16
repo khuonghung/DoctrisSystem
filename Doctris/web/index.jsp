@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
@@ -12,7 +13,7 @@
         <jsp:include page="layout/preloader.jsp"/>
 
         <jsp:include page="layout/menu.jsp"/>
-        
+
         <section class="bg-half-260 d-table w-100" style="background: url('assets/images/bg/banner.jpg') center;">
             <div class="bg-overlay bg-overlay-"></div>
             <div class="container">
@@ -87,7 +88,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-7 col-md-6 mt-4 mt-lg-0 pt- pt-lg-0">
                         <div class="ms-lg-4">
                             <div class="section-title">
@@ -104,7 +105,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
@@ -118,26 +119,26 @@
                 </div>
 
                 <div class="row align-items-center">
-                    <!-- List ra top 10 service -->
-                    <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
-                        <div class="card team border-0 rounded shadow overflow-hidden">
-                            <div class="team-img position-relative">
-                                <img src="assets/images/doctors/01.jpg" class="img-fluid" alt="">
-                            </div>
-                            <div class="card-body content text-center">
-                                <a href="doctor-team-one.html" class="title text- h5 d-block mb-0">Calvin Carlo</a>
-                                <small class="text-muted speciality">Eye Care</small>
+                    <c:forEach items="${service}" var="s">
+                        <div class="col-xl-4 col-lg-4 col-md-6 mt-4 pt-2">
+                            <div class="card team border-0 rounded shadow overflow-hidden">
+                                <div class="team-img position-relative">
+                                    <img style="height: 219px;width: 100%"src="${s.img}" class="img-fluid" alt="">
+                                </div>
+                                <div class="card-body content text-center">
+                                    <a href="#" class="title text- h5 d-block mb-0">${s.title}</a>
+                                    <small class="text-muted speciality">${s.settingdetails.name}</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
+                    </c:forEach>
                     <div class="col-12 mt-4 pt-2 text-center">
                         <a href="doctor-team-one.html" class="btn btn-primary">Tìm kiếm nhiều hơn</a>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
