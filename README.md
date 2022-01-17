@@ -4,15 +4,10 @@
 
 # Doctris - Tìm bác sĩ chính xác - Đặt lịch khám dễ dàng
 
-#### Front-End
-https://preview.themeforest.net/item/doctris-doctor-appointment-booking-system/full_screen_preview/30020738
+## Production
 
-#### Back-End
-- Java
+- Try it here : https://doctris.azurewebsites.net/
 
-#### Database management system
-- MySQL
-- Azure Database for MySQL servers
 
 #### Config kết nối Azure Database
 - Hostname : clinicbooking.mysql.database.azure.com
