@@ -14,8 +14,6 @@ import model.Account;
 import dal.UserDAO;
 import configs.*;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
@@ -96,19 +94,19 @@ public class UserController extends HttpServlet {
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
                 int role_id = 1;
-                if (configs.Validate.checkUsername(username) == false) {
+                if (Validate.checkUsername(username) == false) {
                     request.setAttribute("error", "Tên người dùng không hợp lệ !");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (configs.Validate.checkFullName(name) == false) {
+                } else if (Validate.checkFullName(name) == false) {
                     request.setAttribute("error", "Thông tin Họ Tên không hợp lệ !");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (configs.Validate.checkPhone(rphone) == false) {
+                } else if (Validate.checkPhone(rphone) == false) {
                     request.setAttribute("error", "Số điện thoại không hợp lệ !");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (configs.Validate.checkEmail(email) == false) {
+                } else if (Validate.checkEmail(email) == false) {
                     request.setAttribute("error", "Email không hợp lệ !");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (configs.Validate.checkPassword(password) == false) {
+                } else if (Validate.checkPassword(password) == false) {
                     request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt) !");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else {
