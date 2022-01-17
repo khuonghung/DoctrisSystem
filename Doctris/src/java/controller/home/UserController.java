@@ -48,11 +48,12 @@ public class UserController extends HttpServlet {
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
                 String remember = request.getParameter("remember");
+                String enpassword = EncodeData.enCode(password);
                 if (Validate.checkEmail(email) == false) {
                     request.setAttribute("error", "Email không hợp lệ !");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
-                    Account account = userdao.login(email, password);
+                    Account account = userdao.login(email, enpassword);
                     if (account == null) {
                         request.setAttribute("error", "Tài khoản không tồn tại !");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
@@ -114,6 +115,7 @@ public class UserController extends HttpServlet {
                         request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
                         request.getRequestDispatcher("user?action=register").forward(request, response);
                     } else {
+                        String enpassword = EncodeData.enCode(password);
                         boolean gender = Boolean.parseBoolean(rgender);
                         int phone = Integer.parseInt(rphone);
                         String fullname = Validate.capitalizeFirstLetter(name);
@@ -122,7 +124,7 @@ public class UserController extends HttpServlet {
                             request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                             request.getRequestDispatcher("user?action=register").forward(request, response);
                         } else {
-                            Account a = new Account(username, role_id, password, fullname, gender, phone, email);
+                            Account a = new Account(username, role_id, enpassword, fullname, gender, phone, email);
                             session.setAttribute("register", a);
                             response.sendRedirect("user?action=generalcapcha");
                         }
