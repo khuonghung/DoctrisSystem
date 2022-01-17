@@ -50,34 +50,39 @@ public class UserController extends HttpServlet {
                 String email = request.getParameter("email");
                 String password = request.getParameter("password");
                 String remember = request.getParameter("remember");
-                Account account = userdao.login(email, password);
-                if (account == null) {
-                    request.setAttribute("error", "Tài khoản không tồn tại !");
+                if (Validate.checkEmail(email) == false) {
+                    request.setAttribute("error", "Email không hợp lệ !");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
-                    session.setAttribute("user", account);
-                    Cookie cemail = new Cookie("email", email);
-                    Cookie cpass = new Cookie("pass", password);
-                    Cookie rem = new Cookie("remember", remember);
-                    if (remember != null) {
-                        cemail.setMaxAge(60 * 60 * 24 * 30);
-                        cpass.setMaxAge(60 * 60 * 24 * 3);
-                        rem.setMaxAge(60 * 60 * 24 * 30);
+                    Account account = userdao.login(email, password);
+                    if (account == null) {
+                        request.setAttribute("error", "Tài khoản không tồn tại !");
+                        request.getRequestDispatcher("user?action=login").forward(request, response);
                     } else {
-                        cemail.setMaxAge(0);
-                        cpass.setMaxAge(0);
-                        rem.setMaxAge(0);
+                        session.setAttribute("user", account);
+                        Cookie cemail = new Cookie("email", email);
+                        Cookie cpass = new Cookie("pass", password);
+                        Cookie rem = new Cookie("remember", remember);
+                        if (remember != null) {
+                            cemail.setMaxAge(60 * 60 * 24 * 30);
+                            cpass.setMaxAge(60 * 60 * 24 * 3);
+                            rem.setMaxAge(60 * 60 * 24 * 30);
+                        } else {
+                            cemail.setMaxAge(0);
+                            cpass.setMaxAge(0);
+                            rem.setMaxAge(0);
+                        }
+                        response.addCookie(cemail);
+                        response.addCookie(cpass);
+                        response.addCookie(rem);
+                        response.sendRedirect("home");
                     }
-                    response.addCookie(cemail);
-                    response.addCookie(cpass);
-                    response.addCookie(rem);
-                    response.sendRedirect("home");
-                } 
+                }
             }
-            
-            if(action.equals("logout")){
-            session.removeAttribute("user");
-            response.sendRedirect("home");
+
+            if (action.equals("logout")) {
+                session.removeAttribute("user");
+                response.sendRedirect("home");
             }
             if (action.equals("register")) {
                 request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -90,33 +95,41 @@ public class UserController extends HttpServlet {
                 String name = request.getParameter("name");
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
-                boolean gender = Boolean.parseBoolean(rgender);
-                int phone = Integer.parseInt(rphone);
-                
                 int role_id = 1;
-                String regex = "^[a-zA-Z0-9]([a-zA-Z0-9](_|.)[a-zA-Z0-9])*[a-zA-Z0-9]+$";
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(username);
-                if (matcher.find()) {
+                if (configs.Validate.checkUsername(username) == false) {
+                    request.setAttribute("error", "Tên người dùng không hợp lệ !");
+                    request.getRequestDispatcher("user?action=register").forward(request, response);
+                } else if (configs.Validate.checkFullName(name) == false) {
+                    request.setAttribute("error", "Thông tin Họ Tên không hợp lệ !");
+                    request.getRequestDispatcher("user?action=register").forward(request, response);
+                } else if (configs.Validate.checkPhone(rphone) == false) {
+                    request.setAttribute("error", "Số điện thoại không hợp lệ !");
+                    request.getRequestDispatcher("user?action=register").forward(request, response);
+                } else if (configs.Validate.checkEmail(email) == false) {
+                    request.setAttribute("error", "Email không hợp lệ !");
+                    request.getRequestDispatcher("user?action=register").forward(request, response);
+                } else if (configs.Validate.checkPassword(password) == false) {
+                    request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt) !");
+                    request.getRequestDispatcher("user?action=register").forward(request, response);
+                } else {
                     if (!password.equals(repassword)) {
                         request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
-                        request.getRequestDispatcher("user?action=login").forward(request, response);
+                        request.getRequestDispatcher("user?action=register").forward(request, response);
                     } else {
+                        boolean gender = Boolean.parseBoolean(rgender);
+                        int phone = Integer.parseInt(rphone);
+                        String fullname = Validate.capitalizeFirstLetter(name);
                         Account account = userdao.checkAcc(email, username);
                         if (account != null) {
                             request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                             request.getRequestDispatcher("user?action=register").forward(request, response);
                         } else {
-                            Account a = new Account(username, role_id, password, name, gender, phone, email);
+                            Account a = new Account(username, role_id, password, fullname, gender, phone, email);
                             session.setAttribute("register", a);
                             response.sendRedirect("user?action=generalcapcha");
                         }
                     }
-                } else {
-                    request.setAttribute("error", "username không hợp lệ. Hãy nhập lại...");
-                    request.getRequestDispatcher("user?action=register").forward(request, response);
                 }
-
             }
             if (action.equals("capcha")) {
                 Account a = (Account) session.getAttribute("register");
