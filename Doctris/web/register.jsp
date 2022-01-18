@@ -88,18 +88,17 @@
                                     <div class="mx-auto">
                                         <p class="mb-0 mt-3"><small class="text-dark me-2">Đã có tài khoản ?</small> <a href="user?action=login" class="text-dark fw-bold">Đăng nhập</a></p>
                                     </div>
+                                </form>
                             </div>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/feather.min.js"></script>
-    <script src="assets/js/app.js"></script>
-</body>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/js/app.js"></script>
+    </body>
 
 </html>
