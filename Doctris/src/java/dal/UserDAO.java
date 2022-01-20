@@ -38,7 +38,7 @@ public class UserDAO {
             ps.setString(2, password);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7));
+                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -59,7 +59,7 @@ public class UserDAO {
             ps.setString(2, username);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7));
+                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
             }
         } catch (Exception e) {
         } finally {
@@ -70,8 +70,8 @@ public class UserDAO {
         return null;
     }
 
-    public void Register(String email, String password, String username, int role_id,String name,int phone, boolean gender) throws SQLException {
-        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `role_id`, `password`, `name`, `gender`, `phone`, `email`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public void Register(String email, String password, String username, int role_id,String name,int phone, boolean gender,String img,boolean status) throws SQLException {
+        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `role_id`, `password`, `name`, `gender`, `phone`, `email`,`img`,`status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -82,6 +82,8 @@ public class UserDAO {
             ps.setBoolean(5, gender);
             ps.setInt(6, phone);
             ps.setString(7, email);
+            ps.setString(8, img);
+            ps.setBoolean(9, status);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {
@@ -90,6 +92,6 @@ public class UserDAO {
             }
         }
     }
-
+    
     
 }

@@ -95,6 +95,8 @@ public class UserController extends HttpServlet {
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
                 int role_id = 1;
+                String img = "";
+                boolean status = true;
                 if (Validate.checkUsername(username) == false) {
                     request.setAttribute("error", "Tên người dùng không hợp lệ !");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
@@ -124,7 +126,7 @@ public class UserController extends HttpServlet {
                             request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                             request.getRequestDispatcher("user?action=register").forward(request, response);
                         } else {
-                            Account a = new Account(username, role_id, enpassword, fullname, gender, phone, email);
+                            Account a = new Account(username, role_id, enpassword, fullname, gender, phone, email,img,status);
                             session.setAttribute("register", a);
                             response.sendRedirect("user?action=generalcapcha");
                         }
@@ -158,7 +160,9 @@ public class UserController extends HttpServlet {
                     int phone = a.getPhone();
                     boolean gender = a.isGender();
                     int role_id = a.getRole_id();
-                    userdao.Register(email, password, username, role_id, name, phone, gender);
+                    String img = a.getImg();
+                    boolean status = a.isStatus();
+                    userdao.Register(email, password, username, role_id, name, phone, gender,img,status);
                     session.removeAttribute("register");
                     request.setAttribute("error", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
