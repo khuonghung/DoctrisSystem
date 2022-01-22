@@ -93,5 +93,41 @@ public class UserDAO {
         }
     }
     
+    public void Recover(String username, String password) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`users` SET `password` = ? WHERE (`username` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(2, username);
+            ps.setString(1,password);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+    
+    public Account checkAccByEmail(String email) throws SQLException {
+        String sql = "select * from users where email=?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
+            }
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
+    
     
 }

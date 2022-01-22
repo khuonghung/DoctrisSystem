@@ -54,7 +54,7 @@
                                                         <label class="form-check-label" for="remember-check">Lưu tài khoản</label>
                                                     </div>
                                                 </div>
-                                                <a href="forgot-password.html" class="text-dark h6 mb-0">Quên mật khẩu ?</a>
+                                                <a href="user?action=recover" class="text-dark h6 mb-0">Quên mật khẩu ?</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-0">

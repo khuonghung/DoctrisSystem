@@ -133,6 +133,29 @@ public class UserController extends HttpServlet {
                     }
                 }
             }
+            if (action.equals("recover")) {
+               request.getRequestDispatcher("recover.jsp").forward(request, response);
+            }
+            if (action.equals("checkemail")) {
+                String email = request.getParameter("email");
+                if (Validate.checkEmail(email) == false) {
+                    request.setAttribute("error", "Email không hợp lệ !");
+                    request.getRequestDispatcher("user?action=recover").forward(request, response);
+                } else {
+                    Account account = userdao.checkAccByEmail(email);
+                    if (account == null) {
+                        request.setAttribute("error", "Email không tồn tại !");
+                        request.getRequestDispatcher("user?action=recover").forward(request, response);
+                    }else{
+                        String newpass = Password.getPassword(8);
+                        SendMail.setContentRecover(account.getUsername(), newpass, email);
+                        userdao.Recover(account.getUsername(), EncodeData.enCode(newpass));
+                        request.setAttribute("success", "Mật khẩu mới đã đươc gửi vào email của bạn.Nhấn đăng nhập để truy cập hệ thống.");
+                        request.getRequestDispatcher("user?action=recover").forward(request, response);
+                    }
+                }
+
+            }
             if (action.equals("capcha")) {
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
