@@ -95,7 +95,7 @@ public class UserController extends HttpServlet {
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
                 int role_id = 1;
-                String img = "";
+                String img = "assets/images/avata.png";
                 boolean status = true;
                 if (Validate.checkUsername(username) == false) {
                     request.setAttribute("error", "Tên người dùng không hợp lệ !");

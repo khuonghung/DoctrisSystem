@@ -39,11 +39,16 @@
 
                 <li class="list-inline-item mb-0 ms-1">
                     <div class="dropdown dropdown-primary">
-                        <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avata.png" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                        <c:if test="${sessionScope.user != null}">
+                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${sessionScope.user.img}" class="avatar avatar-ex-small rounded-circle" alt=""></button> 
+                        </c:if>
+                        <c:if test="${sessionScope.user == null}">
+                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avata.png" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                        </c:if>
                         <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                             <c:if test="${sessionScope.user.username != null}">
                                 <a class="dropdown-item d-flex align-items-center text-" href="#">
-                                    <img src="assets/images/avata.png" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                    <img src="${sessionScope.user.img}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
                                     <div class="flex-1 ms-2">
                                         <span class="d-block mb-1">${sessionScope.user.username}</span>
                                     </div>                     
