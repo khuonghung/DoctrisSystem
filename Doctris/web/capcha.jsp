@@ -41,7 +41,8 @@
                                             </div>
                                         </div>
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Vẫn chưa nhận được mã ?</small> <a href="user?action=generalcapcha" class="text-dark h6 mb-0">Nhấn vào đây</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Vẫn chưa nhận được mã ?</small></p>
+                                            <p class="mb-0 mt-3"><a href="user?action=generalcapcha" class="text-dark h6 mb-0">Gửi lại</a> Hoặc <a href="user?action=register" class="text-dark h6 mb-0">Chỉnh sửa thông tin</a></p>
                                         </div>
                                     </div>
                                 </form>
