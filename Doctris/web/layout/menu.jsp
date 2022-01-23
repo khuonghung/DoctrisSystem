@@ -12,7 +12,7 @@
         <div class="container">
 
             <div>
-                <a class="logo" href="index.html">
+                <a class="logo" href="home">
                     <img src="assets/images/logo-light.png" height="24" class="logo--mode" alt="">
                 </a>
             </div>
