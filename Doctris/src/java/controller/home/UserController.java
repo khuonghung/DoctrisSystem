@@ -156,6 +156,12 @@ public class UserController extends HttpServlet {
                 }
 
             }
+            
+            if (action.equals("profile")) {
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
+            }
+            
+            
             if (action.equals("capcha")) {
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();

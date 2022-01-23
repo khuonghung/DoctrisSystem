@@ -56,14 +56,17 @@
                             </c:if>
                             <div class="dropdown-divider border-top"></div>
                             <c:if test="${sessionScope.user != null}">
+                                <a class="dropdown-item text-" href="user?action=profile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Tài khoản của tôi</a>
+                            </c:if>
+                            <c:if test="${sessionScope.user != null}">
                                 <a class="dropdown-item text-" href="user?action=logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user == null}">
+                            </c:if>
+                            <c:if test="${sessionScope.user == null}">
                                 <a class="dropdown-item text-" href="user?action=login"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng Nhập</a>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user != null}">
+                            </c:if>
+                            <c:if test="${sessionScope.user != null}">
                                 <a class="dropdown-item text-" href="setting"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Setting</a>
-                                    </c:if>
+                            </c:if>
                         </div>
                     </div>
                 </li>
