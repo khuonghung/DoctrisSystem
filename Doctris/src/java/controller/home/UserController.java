@@ -39,6 +39,7 @@ public class UserController extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
         UserDAO userdao = new UserDAO();
+        Account user = (Account) session.getAttribute("user");
         String action = request.getParameter("action");
         try {
             if (action.equals("login")) {
@@ -161,6 +162,30 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
             
+            if (action.equals("changepassword")) {
+                String oldpassword = EncodeData.enCode(request.getParameter("oldpassword"));
+                String newpassword = request.getParameter("newpassword");
+                String renewpassword = request.getParameter("renewpassword");
+                if (!oldpassword.equals(user.getPassword())) {
+                    request.setAttribute("passerror", "Mật khẩu không đúng !");
+                    request.getRequestDispatcher("user?action=profile").forward(request, response);
+                } else {
+                    if (Validate.checkPassword(newpassword) == false) {
+                        request.setAttribute("passerror", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt) !");
+                        request.getRequestDispatcher("user?action=profile").forward(request, response);
+                    } else {
+                        if (!newpassword.equals(renewpassword)) {
+                            request.setAttribute("passerror", "Mật khẩu không khớp !");
+                            request.getRequestDispatcher("user?action=profile").forward(request, response);
+                        } else {
+                            newpassword = EncodeData.enCode(newpassword);
+                            userdao.Recover(user.getUsername(), newpassword);
+                            request.setAttribute("passsuccess", "Thay đổi mật khẩu thành công !");
+                            request.getRequestDispatcher("user?action=profile").forward(request, response);
+                        }
+                    }
+                }
+            }
             
             if (action.equals("capcha")) {
                 Account a = (Account) session.getAttribute("register");

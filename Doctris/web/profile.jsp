@@ -184,7 +184,7 @@
                             </div>
 
                             <div class="p-4">
-                                <form >
+                                <form action="user?action=changepassword" method="POST">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="mb-3">
