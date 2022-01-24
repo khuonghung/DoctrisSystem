@@ -158,6 +158,23 @@ public class UserDAO {
         return list;
 
     }
+    
+    public void UpdateAccount(String username, int role_id, boolean status) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`users` SET `role_id` = ?, `status` = ? WHERE (`username` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(3, username);
+            ps.setInt(1, role_id);
+            ps.setBoolean(2, status);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     public List<Account> getListByPage(List<Account> list,
             int start, int end) {

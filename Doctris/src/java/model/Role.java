@@ -23,6 +23,11 @@ public class Role {
         this.setting = setting;
     }
     
+    public Role(int role_id, String name) {
+        this.role_id = role_id;
+        this.name = name;
+    }
+    
     public Role(int role_id) {
         this.role_id = role_id;
     }

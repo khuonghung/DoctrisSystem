@@ -112,8 +112,7 @@
                                                         <td class="p-3">Disable</td>
                                                     </c:if>
                                                     <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit${sd.id}${sd.setting_id}">Chỉnh sửa</a>
-                                                        <a href="setting?action=delete&setting_id=${sd.setting_id}&id=${sd.id}" class="btn btn-danger">Xóa bỏ</a>
+                                                        <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit${a.username}">Chỉnh sửa</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -128,25 +127,69 @@
                                         <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                             <c:forEach begin="${1}" end="${num}" var="i">
                                                 <li class="page-item ${i==page?"active":""}"><a class="page-link" href="account?page=${i}">${i}</a></li>
-                                            </c:forEach>
+                                                </c:forEach>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <footer class="bg-white shadow py-3">
-                        <div class="container-fluid">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="text-sm-start text-center">
-                                        <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris.</p>
+                    <c:forEach items="${account}" var="a">
+                        <div class="modal fade" id="edit${a.username}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header border-bottom p-3">
+                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-3 pt-4">
+                                        <form action="account?action=update" method="POST">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tên người dùng</label>
+                                                        <input value="${a.username}" readonly name="username" id="name" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Quyền <span class="text-danger">*</span></label>
+                                                        <select name="role_id" class="form-select" aria-label="Default select example">
+                                                            <c:forEach items="${role}" var="r">
+                                                                <option <c:if test="${a.role.name == r.name}">selected</c:if> value="${r.role_id}">${r.name}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                                                    <select name="status" class="form-select" aria-label="Default select example">
+                                                        <option <c:if test="${a.status == true}">selected</c:if> value="true">Active</option>
+                                                        <option <c:if test="${a.status == false}">selected</c:if> value="false">Disable</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="d-grid">
+                                                    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </footer>
+                    </c:forEach>
                 </div>
+                <footer class="bg-white shadow py-3">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-sm-start text-center">
+                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </main>
         </div>
 
