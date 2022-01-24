@@ -232,6 +232,33 @@ public class UserDAO {
         return list;
     }
     
+    public List<Account> SearchALl(String text) throws SQLException {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
+                + "FROM doctris_system.users u "
+                + "inner join doctris_system.role r "
+                + "on u.role_id = r.id where u.name LIKE ? OR u.email LIKE ? OR u.phone LIKE ? OR u.username LIKE ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + text + "%");
+            ps.setString(2, "%" + text + "%");
+            ps.setString(3, "%" +text + "%");
+            ps.setString(4, "%" + text + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Role r = new Role(rs.getString(6));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
     public void UpdateAccount(String username, int role_id, boolean status) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `role_id` = ?, `status` = ? WHERE (`username` = ?)";
         try {

@@ -98,7 +98,7 @@ public class AccountController extends HttpServlet {
                     request.setAttribute("account", account);
                     request.setAttribute("role", rolelist);
                     request.getRequestDispatcher("admin/account.jsp").forward(request, response);
-                }else if (status.equals("all")) {
+                } else if (status.equals("all")) {
                     List<Account> accountlist = userdao.getFilterByRole(role_id);
                     List<Role> rolelist = roledao.getRole();
                     int page, numperpage = 8;
@@ -121,7 +121,7 @@ public class AccountController extends HttpServlet {
                     request.setAttribute("account", account);
                     request.setAttribute("role", rolelist);
                     request.getRequestDispatcher("admin/account.jsp").forward(request, response);
-                }else{
+                } else {
                     List<Account> accountlist = userdao.getFilter(status, role_id);
                     List<Role> rolelist = roledao.getRole();
                     int page, numperpage = 8;
@@ -145,6 +145,33 @@ public class AccountController extends HttpServlet {
                     request.setAttribute("role", rolelist);
                     request.getRequestDispatcher("admin/account.jsp").forward(request, response);
                 }
+            }
+
+            if (action.equals("search")) {
+                String text = request.getParameter("txt");
+                text = text.replaceFirst("^0+(?!$)", "");
+                List<Account> accountlist = userdao.SearchALl(text);
+                List<Role> rolelist = roledao.getRole();
+                int page, numperpage = 8;
+                int type = 0;
+                int size = accountlist.size();
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<Account> account = userdao.getListByPage(accountlist, start, end);
+                request.setAttribute("type", type);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("account", account);
+                request.setAttribute("role", rolelist);
+                request.getRequestDispatcher("admin/account.jsp").forward(request, response);
             }
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);
