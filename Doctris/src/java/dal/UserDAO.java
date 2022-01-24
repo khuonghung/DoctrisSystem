@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import model.Account;
 import context.DBContext;
 import java.sql.SQLException;
+import model.Role;
 /**
  *
  * @author Khuong Hung
@@ -38,7 +39,8 @@ public class UserDAO {
             ps.setString(2, password);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
+                Role r = new Role(rs.getInt(2));
+                return new Account(rs.getString(1),r,rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -59,7 +61,8 @@ public class UserDAO {
             ps.setString(2, username);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
+                Role r = new Role(rs.getInt(2));
+                return new Account(rs.getString(1),r,rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
             }
         } catch (Exception e) {
         } finally {
@@ -118,7 +121,8 @@ public class UserDAO {
             ps.setString(1, email);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
+                Role r = new Role(rs.getInt(2));
+                return new Account(rs.getString(1),r,rs.getString(3),rs.getString(4),rs.getBoolean(5),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getBoolean(9));
             }
         } catch (Exception e) {
         } finally {

@@ -12,7 +12,7 @@ package model;
 public class Account {
 
     private String username;
-    private int role_id;
+    Role role;
     private String password;
     private String name;
     private boolean gender;
@@ -24,9 +24,9 @@ public class Account {
     public Account() {
     }
 
-    public Account(String username, int role_id, String password, String name, boolean gender, int phone, String email, String img, boolean status) {
+    public Account(String username, Role role, String password, String name, boolean gender, int phone, String email, String img, boolean status) {
         this.username = username;
-        this.role_id = role_id;
+        this.role = role;
         this.password = password;
         this.name = name;
         this.gender = gender;
@@ -35,7 +35,7 @@ public class Account {
         this.img = img;
         this.status = status;
     }
-
+    
     public Account(String username) {
         this.username = username;
     }
@@ -48,14 +48,14 @@ public class Account {
         this.username = username;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
+    
     public String getPassword() {
         return password;
     }

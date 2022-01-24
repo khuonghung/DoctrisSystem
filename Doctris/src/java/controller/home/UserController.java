@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
+import model.Role;
 import dal.UserDAO;
 import configs.*;
 import java.sql.SQLException;
@@ -127,7 +128,8 @@ public class UserController extends HttpServlet {
                             request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                             request.getRequestDispatcher("user?action=register").forward(request, response);
                         } else {
-                            Account a = new Account(username, role_id, enpassword, fullname, gender, phone, email,img,status);
+                            Role r = new Role(role_id);
+                            Account a = new Account(username, r, enpassword, fullname, gender, phone, email,img,status);
                             session.setAttribute("register", a);
                             response.sendRedirect("user?action=generalcapcha");
                         }
@@ -213,7 +215,7 @@ public class UserController extends HttpServlet {
                     String name = a.getName();
                     int phone = a.getPhone();
                     boolean gender = a.isGender();
-                    int role_id = a.getRole_id();
+                    int role_id = a.getRole().getRole_id();
                     String img = a.getImg();
                     boolean status = a.isStatus();
                     userdao.Register(email, password, username, role_id, name, phone, gender,img,status);
