@@ -159,6 +159,79 @@ public class UserDAO {
 
     }
     
+    public List<Account> getFilterByRole(String role_id) throws SQLException {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
+                + "FROM doctris_system.users u "
+                + "inner join doctris_system.role r "
+                + "on u.role_id = r.id where u.role_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, role_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Role r = new Role(rs.getString(6));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
+    public List<Account> getFilterByStatus(String status) throws SQLException {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
+                + "FROM doctris_system.users u "
+                + "inner join doctris_system.role r "
+                + "on u.role_id = r.id where u.status = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Role r = new Role(rs.getString(6));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
+    public List<Account> getFilter(String status,String role_id) throws SQLException {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
+                + "FROM doctris_system.users u "
+                + "inner join doctris_system.role r "
+                + "on u.role_id = r.id where u.role_id = ? AND u.status = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, role_id);
+            ps.setString(2, status);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Role r = new Role(rs.getString(6));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
     public void UpdateAccount(String username, int role_id, boolean status) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `role_id` = ?, `status` = ? WHERE (`username` = ?)";
         try {

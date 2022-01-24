@@ -20,12 +20,12 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="row">
-                            <div class="col-md-8 row">
+                            <div class="col-md-11 row">
                                 <div class="col-md-4">
                                     <h5 class="mb-0">Account</h5>
                                     <h6>${requestScope.success}</h6>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <div class="search-bar p-0 d-lg-block ms-2">                                                        
                                         <div id="search" class="menu-search mb-0">
                                             <form action="#" method="POST" id="searchform" class="searchform">
@@ -38,38 +38,10 @@
                                     </div> 
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-1">
                                 <div class="justify-content-md-end row">
-                                    <div class="row justify-content-between align-items-center">
-                                        <div class="col-sm-12 col-md-4 mx-auto">
-                                            <div class="mb-0 position-relative">
-                                                <div class="dropdown">
-                                                    <button style="color: #000; background-color: #215AEE ;border:none; font-family: sans-serif; " class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Quyền
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><a class="dropdown-item" href="setting">Tất cả</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 mx-auto">
-                                            <div class="mb-0 position-relative">
-                                                <div class="dropdown">
-                                                    <button style="color: #000; background-color: #215AEE ;border:none; font-family: sans-serif; " class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Trạng thái
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><a class="dropdown-item" href="setting">Tất cả</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 mx-auto">
-                                            <div class="mb-0 position-relative">
-                                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addnew" tabindex="-1" role="button" aria-disabled="true">Thêm mới</a>
-                                            </div>
-                                        </div>
+                                    <div class="d-grid">
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filter">Lọc</a>
                                     </div>
                                 </div>
                             </div>
@@ -164,20 +136,61 @@
                                                     <select name="status" class="form-select" aria-label="Default select example">
                                                         <option <c:if test="${a.status == true}">selected</c:if> value="true">Active</option>
                                                         <option <c:if test="${a.status == false}">selected</c:if> value="false">Disable</option>
-                                                    </select>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="d-grid">
-                                                    <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                                <div class="col-lg-12">
+                                                    <div class="d-grid">
+                                                        <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </c:forEach>
+                    
+                    <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header border-bottom p-3">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-3 pt-4">
+                                    <form action="account?action=filter" method="POST">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Quyền <span class="text-danger">*</span></label>
+                                                    <select name="role_id" class="form-select" aria-label="Default select example">
+                                                        <option selected value="all">Tất cả</option>
+                                                        <c:forEach items="${role}" var="r">
+                                                            <option value="${r.role_id}">${r.name}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                                                <select name="status" class="form-select" aria-label="Default select example">
+                                                    <option selected value="all">Tất cả</option>
+                                                    <option value="1">Active</option>
+                                                    <option value="0">Disable</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary">Lọc</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <footer class="bg-white shadow py-3">
                     <div class="container-fluid">
