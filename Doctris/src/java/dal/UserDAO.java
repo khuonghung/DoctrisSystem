@@ -159,5 +159,13 @@ public class UserDAO {
 
     }
 
+    public List<Account> getListByPage(List<Account> list,
+            int start, int end) {
+        ArrayList<Account> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
 
 }

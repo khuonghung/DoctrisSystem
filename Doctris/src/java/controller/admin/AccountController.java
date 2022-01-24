@@ -36,7 +36,24 @@ public class AccountController extends HttpServlet {
         UserDAO userdao = new UserDAO();
         try {
             List<Account> accountlist = userdao.getAllAccount();
-            request.setAttribute("account", accountlist);
+            int page, numperpage = 8;
+            int type = 0;
+            int size = accountlist.size();
+            int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+            String xpage = request.getParameter("page");
+            if (xpage == null) {
+                page = 1;
+            } else {
+                page = Integer.parseInt(xpage);
+            }
+            int start, end;
+            start = (page - 1) * numperpage;
+            end = Math.min(page * numperpage, size);
+            List<Account> account = userdao.getListByPage(accountlist, start, end);
+            request.setAttribute("type", type);
+            request.setAttribute("page", page);
+            request.setAttribute("num", num);
+            request.setAttribute("account", account);
             request.getRequestDispatcher("admin/account.jsp").forward(request, response);
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);
