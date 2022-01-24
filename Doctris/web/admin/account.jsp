@@ -81,17 +81,42 @@
                                     <table class="table mb-0 table-center">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Tên tài khoản</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Họ tên</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Giới tính</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Email</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Số điện thoại</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Quyền</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Trạng thái</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;"></th>
+                                                <th class="border-bottom p-3" >Tên tài khoản</th>
+                                                <th class="border-bottom p-3" >Họ tên</th>
+                                                <th class="border-bottom p-3" >Giới tính</th>
+                                                <th class="border-bottom p-3" >Email</th>
+                                                <th class="border-bottom p-3" >Số điện thoại</th>
+                                                <th class="border-bottom p-3" >Quyền</th>
+                                                <th class="border-bottom p-3" >Trạng thái</th>
+                                                <th class="border-bottom p-3" ></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <c:forEach items="${account}" var="a">
+                                                <tr>
+                                                    <th class="p-3">${a.username}</th>
+                                                    <td class="p-3">${a.name}</td>
+                                                    <c:if test="${a.gender == true}">
+                                                        <td class="p-3">Nam</td>
+                                                    </c:if>
+                                                    <c:if test="${a.gender == false}">
+                                                        <td class="p-3">Nữ</td>
+                                                    </c:if>
+                                                    <td class="p-3">${a.email}</td>
+                                                    <td class="p-3">0${a.phone}</td>
+                                                    <td class="p-3">${a.role.name}</td>
+                                                    <c:if test="${a.status == true}">
+                                                        <td class="p-3">Active</td>
+                                                    </c:if>
+                                                    <c:if test="${a.status == false}">
+                                                        <td class="p-3">Disable</td>
+                                                    </c:if>
+                                                    <td class="text-end p-3">
+                                                        <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit${sd.id}${sd.setting_id}">Chỉnh sửa</a>
+                                                        <a href="setting?action=delete&setting_id=${sd.setting_id}&id=${sd.id}" class="btn btn-danger">Xóa bỏ</a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
