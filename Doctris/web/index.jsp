@@ -199,7 +199,8 @@
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
 
         <jsp:include page="layout/search.jsp"/>
-
+        
+        <jsp:include page="layout/facebookchat.jsp"/>
         <div class="modal fade" id="watchvideomodal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content video-modal rounded overflow-hidden">
