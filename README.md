@@ -6,7 +6,7 @@
 
 ## Production
 
-- Try it here : https://doctris.azurewebsites.net/
+- Try it here : https://doctriscare.ml/
 
 
 #### Config kết nối Azure Database
@@ -21,3 +21,4 @@
 - Nguyễn Văn Trung
 - Hà Hữu Việt
 - Trần Thành Lam
+- Đinh Thị Tươi
