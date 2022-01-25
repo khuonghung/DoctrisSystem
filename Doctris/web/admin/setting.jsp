@@ -72,11 +72,11 @@
                                     <table class="table mb-0 table-center">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 50px;">Setting ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Name</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Status</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;"></th>
+                                                <th class="border-bottom p-3" >Setting ID</th>
+                                                <th class="border-bottom p-3" >ID</th>
+                                                <th class="border-bottom p-3" >Name</th>
+                                                <th class="border-bottom p-3" >Status</th>
+                                                <th class="border-bottom p-3" ></th>
                                             </tr>
                                         </thead>
                                         <tbody>
