@@ -37,120 +37,47 @@ public class AccountController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         UserDAO userdao = new UserDAO();
         RoleDAO roledao = new RoleDAO();
+        List<Account> accountlist = null;
+        String url = null;
         String action = request.getParameter("action");
         try {
-            if (action == null) {
-                List<Account> accountlist = userdao.getAllAccount();
-                List<Role> rolelist = roledao.getRole();
-                int page, numperpage = 8;
-                int type = 0;
-                int size = accountlist.size();
-                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                List<Account> account = userdao.getListByPage(accountlist, start, end);
-                request.setAttribute("type", type);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("account", account);
-                request.setAttribute("role", rolelist);
-                request.getRequestDispatcher("admin/account.jsp").forward(request, response);
+            if (action.equals("all")) {
+                url = "account?action=all";
+                accountlist = userdao.getAllAccount();
             }
             if (action.equals("update")) {
                 String username = request.getParameter("username");
                 int role_id = Integer.parseInt(request.getParameter("role_id"));
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 userdao.UpdateAccount(username, role_id, status);
-                response.sendRedirect("account");
+                response.sendRedirect("account?action=all");
             }
+
             if (action.equals("filter")) {
                 String role_id = request.getParameter("role_id");
                 String status = request.getParameter("status");
                 if (role_id.equals("all") && status.equals("all")) {
-                    response.sendRedirect("account");
+                    response.sendRedirect("account?action=all");
                 } else if (role_id.equals("all")) {
-                    List<Account> accountlist = userdao.getFilterByStatus(status);
-                    List<Role> rolelist = roledao.getRole();
-                    int page, numperpage = 8;
-                    int type = 0;
-                    int size = accountlist.size();
-                    int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
-                    String xpage = request.getParameter("page");
-                    if (xpage == null) {
-                        page = 1;
-                    } else {
-                        page = Integer.parseInt(xpage);
-                    }
-                    int start, end;
-                    start = (page - 1) * numperpage;
-                    end = Math.min(page * numperpage, size);
-                    List<Account> account = userdao.getListByPage(accountlist, start, end);
-                    request.setAttribute("type", type);
-                    request.setAttribute("page", page);
-                    request.setAttribute("num", num);
-                    request.setAttribute("account", account);
-                    request.setAttribute("role", rolelist);
-                    request.getRequestDispatcher("admin/account.jsp").forward(request, response);
+                    url = "account?action=filter&role_id=" + role_id + "&status=" + status;
+                    accountlist = userdao.getFilterByStatus(status);
                 } else if (status.equals("all")) {
-                    List<Account> accountlist = userdao.getFilterByRole(role_id);
-                    List<Role> rolelist = roledao.getRole();
-                    int page, numperpage = 8;
-                    int type = 0;
-                    int size = accountlist.size();
-                    int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
-                    String xpage = request.getParameter("page");
-                    if (xpage == null) {
-                        page = 1;
-                    } else {
-                        page = Integer.parseInt(xpage);
-                    }
-                    int start, end;
-                    start = (page - 1) * numperpage;
-                    end = Math.min(page * numperpage, size);
-                    List<Account> account = userdao.getListByPage(accountlist, start, end);
-                    request.setAttribute("type", type);
-                    request.setAttribute("page", page);
-                    request.setAttribute("num", num);
-                    request.setAttribute("account", account);
-                    request.setAttribute("role", rolelist);
-                    request.getRequestDispatcher("admin/account.jsp").forward(request, response);
+                    url = "account?action=filter&status=" + status + "&role_id=" + role_id;
+                    accountlist = userdao.getFilterByRole(role_id);
                 } else {
-                    List<Account> accountlist = userdao.getFilter(status, role_id);
-                    List<Role> rolelist = roledao.getRole();
-                    int page, numperpage = 8;
-                    int type = 0;
-                    int size = accountlist.size();
-                    int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
-                    String xpage = request.getParameter("page");
-                    if (xpage == null) {
-                        page = 1;
-                    } else {
-                        page = Integer.parseInt(xpage);
-                    }
-                    int start, end;
-                    start = (page - 1) * numperpage;
-                    end = Math.min(page * numperpage, size);
-                    List<Account> account = userdao.getListByPage(accountlist, start, end);
-                    request.setAttribute("type", type);
-                    request.setAttribute("page", page);
-                    request.setAttribute("num", num);
-                    request.setAttribute("account", account);
-                    request.setAttribute("role", rolelist);
-                    request.getRequestDispatcher("admin/account.jsp").forward(request, response);
+                    url = "account?action=filter&status=" + status + "&role_id=" + role_id;
+                    accountlist = userdao.getFilter(status, role_id);
                 }
             }
 
             if (action.equals("search")) {
                 String text = request.getParameter("txt");
                 text = text.replaceFirst("^0+(?!$)", "");
-                List<Account> accountlist = userdao.SearchALl(text);
+                url = "account?action=search&txt=" + text;
+                accountlist = userdao.SearchALl(text);
+            }
+
+            if (accountlist != null) {
                 List<Role> rolelist = roledao.getRole();
                 int page, numperpage = 8;
                 int type = 0;
@@ -167,6 +94,7 @@ public class AccountController extends HttpServlet {
                 end = Math.min(page * numperpage, size);
                 List<Account> account = userdao.getListByPage(accountlist, start, end);
                 request.setAttribute("type", type);
+                request.setAttribute("url", url);
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
                 request.setAttribute("account", account);
