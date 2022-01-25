@@ -29,7 +29,7 @@
                                 <p style="color: blue; align-content: center;">
                                         ${requestScope.success}
                                 </p>
-                                <form action="user?action=checkemail" method="POST" class="login-form mt-4">
+                                <form action="user?action=checkemail" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <p class="text-muted">Hãy nhập email của bạn chúng tôi sẽ gửi mật khẩu mới vào email.</p>
@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Xác nhận</button>
+                                                <button id="submit" class="btn btn-primary">Xác nhận</button>
                                             </div>
                                         </div>
                                         <div class="mx-auto">

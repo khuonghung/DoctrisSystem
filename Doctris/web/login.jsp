@@ -27,7 +27,7 @@
                             <div class="card-body">
                                 <h4 class="text-center">Đăng nhập</h4> 
                                 <c:set var="cookie" value="${pageContext.request.cookies}"/>
-                                <form action="user?action=checklogin" method="POST" class="login-form mt-4">
+                                <form action="user?action=checklogin" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <p style="color: red; align-content: center;">
                                         ${requestScope.error}
                                     </p>
@@ -59,7 +59,7 @@
                                         </div>
                                         <div class="col-lg-12 mb-0">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Đăng nhập</button>
+                                                <button class="btn btn-primary" id="submit">Đăng nhập</button>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center">

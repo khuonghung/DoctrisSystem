@@ -24,7 +24,7 @@
                                 <p style="color: red; align-content: center;">
                                     ${requestScope.error}
                                 </p>
-                                <form action="user?action=checkregister" method="POST" class="login-form mt-4">
+                                <form action="user?action=checkregister" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
@@ -82,7 +82,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="d-grid">
-                                            <button class="btn btn-primary">Đăng ký</button>
+                                            <button class="btn btn-primary" id="submit">Đăng ký</button>
                                         </div>
                                     </div>
                                     <div class="mx-auto">

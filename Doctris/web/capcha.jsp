@@ -22,7 +22,7 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Xác thực tài khoản</h4>  
-                                <form action="user?action=checkcapcha" method="POST" class="login-form mt-4">
+                                <form action="user?action=checkcapcha" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <p class="text-muted">Chúng tôi đã gửi mã xác thực vào email <b>${requestScope.email}</b></p> 
@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Xác nhận</button>
+                                                <button class="btn btn-primary" id="submit">Xác nhận</button>
                                             </div>
                                         </div>
                                         <div class="mx-auto">
