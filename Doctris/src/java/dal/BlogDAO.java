@@ -32,7 +32,7 @@ public class BlogDAO {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog";
+            String sql = "SELECT * FROM blog ORDER BY date desc";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -56,7 +56,7 @@ public class BlogDAO {
     public Blog getBlog(int id) {
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog WHERE blog_id = ?";
+            String sql = "SELECT * FROM blog WHERE blog_id = ? ";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -105,7 +105,7 @@ public class BlogDAO {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog WHERE category_id = ?";
+            String sql = "SELECT * FROM blog WHERE category_id = ? ORDER BY date desc";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -131,7 +131,7 @@ public class BlogDAO {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog WHERE title LIKE ?";
+            String sql = "SELECT * FROM blog WHERE title LIKE ? ORDER BY date desc";
             String keyword = "%"+ content + "%";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, keyword);
