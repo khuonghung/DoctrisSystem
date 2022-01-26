@@ -40,7 +40,7 @@
                         <div class="features-absolute bg-white shadow rounded overflow-hidden card-group">
                             <div class="card border-0 bg-light p-4">
                                 <i class="ri-heart-pulse-fill text-primary h2 mb-0"></i>
-                                <h5 class="mt-1">Dịch vụ chức khỏe</h5>
+                                <h5 class="mt-1">Dịch vụ sức khỏe</h5>
                                 <p class="text-muted mt-2">Chúng tôi đem đến cho bạn những dịch vụ chất lượng tốt nhất trên thị trường.</p>
                                 <a href="#" class="text-primary">Tìm hiểu ngay <i class="ri-arrow-right-line align-middle"></i></a>
                             </div>
@@ -123,7 +123,7 @@
                         <div class="col-xl-4 col-lg-4 col-md-6 mt-4 pt-2">
                             <div class="card team border-0 rounded shadow overflow-hidden">
                                 <div class="team-img position-relative">
-                                    <img style="height: 219px;width: 100%"src="${s.img}" class="img-fluid" alt="">
+                                    <img style="height: 14rem;width: 100%"src="${s.img}" class="img-fluid" alt="">
                                 </div>
                                 <div class="card-body content text-center">
                                     <a href="#" class="title text- h5 d-block mb-0">${s.title}</a>
@@ -152,12 +152,12 @@
                     </div> 
                 </div>
 
-                <div class="row align-items-center">
+                <div class="row">
                     <c:forEach items="${doctor}" var="d">
                         <div class="col-xl-3 col-lg-3 col-md-6 mt-4 pt-2">
                             <div class="card team border-0 rounded shadow overflow-hidden">
                                 <div class="team-img position-relative">
-                                    <img style="height: 296px; width: 100%;" src="${d.img}" class="img-fluid" alt="">
+                                    <img src="${d.img}" style="display: block;margin-left: auto;margin-right: auto;" class="rounded img-fluid" alt="">
                                 </div>
                                 <div class="card-body content text-center">
                                     <a href="#" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
@@ -199,7 +199,7 @@
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
 
         <jsp:include page="layout/search.jsp"/>
-        
+
         <jsp:include page="layout/facebookchat.jsp"/>
         <div class="modal fade" id="watchvideomodal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
