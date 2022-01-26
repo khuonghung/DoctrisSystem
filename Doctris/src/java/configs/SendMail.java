@@ -79,7 +79,7 @@ public class SendMail {
                 + "    <div>Mật khẩu mới của bạn là : " + newpassword + "</div>\n"
                 + "    <div>Thư này được tạo ra tự động.</div>\n"
                 + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
-                + "    <div>Truy cập ngay http://doctris.azurewebsites.net/ để đăng nhập.</div>\n"
+                + "    <div>Truy cập ngay https://doctriscare.ml/ để đăng nhập.</div>\n"
                 + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"
                 + "\n"
                 + "</body>\n"
