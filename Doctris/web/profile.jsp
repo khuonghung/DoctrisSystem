@@ -97,9 +97,9 @@
                         <div class="rounded shadow overflow-hidden sticky-bar">
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
                                 <br><br><br><br>
-                                <img src="#">
-                                <h5 class="mt-3 mb-1">Dr. Calvin Carlo</h5>
-                                <p class="text-muted mb-0">Orthopedic</p>
+                                <img src="${sessionScope.user.img}">
+                                <h5 class="mt-3 mb-1">${sessionScope.user.name}</h5>
+                                <p class="text-muted mb-0">${sessionScope.user.username}</p>
                             </div>
 
                             <ul class="list-unstyled sidebar-nav mb-0">
@@ -113,55 +113,58 @@
                         <div class="rounded shadow mt-4">
                             <div class="p-4 border-bottom">
                                 <h5 class="mb-0">Thông tin tài khoản</h5>
+                                <p style="color: blue; align-content: center;">
+                                    ${requestScope.updatesuccess}
+                                </p>
                             </div>
                             <div class="p-4">
-                                <form>
+                                <form action="user?action=updateprofile" method="POST">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Tên người dùng</label>
-                                                <input name="name" id="name" type="text" class="form-control" placeholder="First Name :">
+                                                <input name="username" readonly value="${sessionScope.user.username}" id="name" type="text" class="form-control">
                                             </div>
-                                        </div><!--end col-->
-
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Họ tên</label>
-                                                <input name="name" id="name2" type="text" class="form-control" placeholder="Last Name :">
-                                            </div>
-                                        </div><!--end col-->
+                                        </div>
 
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Email</label>
-                                                <input name="email" id="email" type="email" class="form-control" placeholder="Your email :">
-                                            </div> 
-                                        </div><!--end col-->
+                                                <input name="email" readonly value="${sessionScope.user.email}" id="email" type="email" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Họ tên</label>
+                                                <input name="name" readonly value="${sessionScope.user.name}" id="name2" type="text" class="form-control" >
+                                            </div>
+                                        </div>
 
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Số điện thoại</label>
-                                                <input name="number" id="number" type="text" class="form-control" placeholder="Phone no. :">
+                                                <input name="phone" value="${sessionScope.user.phone}" id="number" type="text" class="form-control">
                                             </div>                                                                               
-                                        </div><!--end col-->
+                                        </div>
 
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Giới tính</label>
                                                 <div class="my-3">
                                                     <div class="form-check">
-                                                        <input id="credit" name="gender" value="true" type="radio" class="form-check-input"
-                                                               checked required>
+                                                        <input id="credit" name="gender" ${sessionScope.user.gender==true?"checked":""} value="true" type="radio" class="form-check-input"
+                                                               checked required >
                                                         <label class="form-check-label">Nam</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input id="debit" name="gender" value="false" type="radio" class="form-check-input"
+                                                        <input id="debit" name="gender" ${sessionScope.user.gender==false?"checked":""} value="false" type="radio" class="form-check-input"
                                                                required>
                                                         <label class="form-check-label">Nữ</label>
                                                     </div>
                                                 </div>
                                             </div>                                                                               
-                                        </div><!--end col-->
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">

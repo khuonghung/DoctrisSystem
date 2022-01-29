@@ -275,6 +275,24 @@ public class UserDAO {
             }
         }
     }
+    
+    public void UpdateProfile(String username, String name, int phone, boolean gender) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`users` SET `name` = ?, `phone` = ?, `gender` = ? WHERE (`username` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1,name);
+            ps.setInt(2, phone);
+            ps.setBoolean(3, gender);
+            ps.setString(4, username);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     public List<Account> getListByPage(List<Account> list,
             int start, int end) {

@@ -164,6 +164,18 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
             
+            if(action.equals("updateprofile")){
+                String username = request.getParameter("username");
+                String name = request.getParameter("name");
+                int phone = Integer.parseInt(request.getParameter("phone"));
+                boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                userdao.UpdateProfile(username,name,phone,gender);
+                Account a = new Account(username,user.getRole(),user.getPassword(),name,gender,phone,user.getEmail(),user.getImg(), user.isStatus());
+                session.setAttribute("user", a);
+                request.setAttribute("updatesuccess", "Thông tin đã được cập nhật !");
+                request.getRequestDispatcher("user?action=profile").forward(request, response);
+            }
+            
             if (action.equals("changepassword")) {
                 String oldpassword = EncodeData.enCode(request.getParameter("oldpassword"));
                 String newpassword = request.getParameter("newpassword");
