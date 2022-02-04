@@ -10,7 +10,6 @@
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
     <body>
-        <jsp:include page="layout/preloader.jsp"/>
         <header id="topnav" class="navigation sticky">
             <div class="container">
 

@@ -12,8 +12,6 @@
     <jsp:include page="layout/head.jsp"/>
 
     <body>
-        <jsp:include page="layout/preloader.jsp"/>
-
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
         </div>

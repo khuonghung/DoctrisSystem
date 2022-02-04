@@ -12,7 +12,6 @@
 <html lang="en">
     <jsp:include page="../admin/layout/adminhead.jsp"/>
     <body>
-        <jsp:include page="../layout/preloader.jsp"/>
         <div class="page-wrapper doctris-theme toggled">
             <jsp:include page="../admin/layout/menu.jsp"/>
             <main class="page-content bg-light">
