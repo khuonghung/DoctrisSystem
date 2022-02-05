@@ -13,12 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import dal.*;
 import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
 import model.*;
 
 /**
  *
  * @author Khuong Hung
  */
+@MultipartConfig(maxFileSize = 16177216)
 public class AccountController extends HttpServlet {
 
     /**
@@ -51,6 +54,35 @@ public class AccountController extends HttpServlet {
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 userdao.UpdateAccount(username, role_id, status);
                 response.sendRedirect("account?action=all");
+            }
+
+            if (action.equals("detail")) {
+                String username = request.getParameter("username");
+                Account account = new Account();
+                account = userdao.getAccountByUsername(username);
+                request.setAttribute("account", account);
+                request.getRequestDispatcher("admin/accountdetail.jsp").forward(request, response);
+            }
+
+            if (action.equals("update_image")) {
+                String username = request.getParameter("username");
+                Part image = request.getPart("image");
+                if (image != null) {
+                    try {
+                        userdao.UpdateImage(username, image);
+                    } catch (Exception e) {
+                    }
+                }
+                response.sendRedirect("account?action=detail&username=" + username);
+            }
+            
+            if (action.equals("update_account")) {
+                String username = request.getParameter("username");
+                String name = request.getParameter("name");
+                int phone = Integer.parseInt(request.getParameter("phone"));
+                boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                userdao.UpdateProfile(username,name,phone,gender);
+                response.sendRedirect("account?action=detail&username=" + username);
             }
 
             if (action.equals("filter")) {

@@ -83,6 +83,9 @@
                                                         <td class="p-3">Disable</td>
                                                     </c:if>
                                                     <td class="text-end p-3">
+                                                        <a href="account?action=detail&username=${a.username}" type="button"class="btn btn-info">Chi tiết</a>
+                                                    </td>
+                                                    <td class="text-end p-3">
                                                         <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit${a.username}">Chỉnh sửa</a>
                                                     </td>
                                                 </tr>

@@ -10,9 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.Account;
 import context.DBContext;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import javax.servlet.http.Part;
 import model.Role;
 
 /**
@@ -159,6 +165,57 @@ public class UserDAO {
 
     }
     
+    public Account getAccountByUsername(String username) throws SQLException, IOException{
+        String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
+                + "FROM doctris_system.users u "
+                + "inner join doctris_system.role r "
+                + "on u.role_id = r.id where u.username = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Blob blob = rs.getBlob(8);
+                InputStream inputStream = blob.getBinaryStream();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead = -1;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                byte[] imageBytes = outputStream.toByteArray();
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                inputStream.close();
+                outputStream.close();
+                Role r = new Role(rs.getString(6));
+                return new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
+    
+    public void UpdateImage(String username, Part img) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`users` SET `img` = ? WHERE (`username` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            InputStream image = img.getInputStream();
+            ps.setBlob(1, image);
+            ps.setString(2, username); 
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
     public List<Account> getFilterByRole(String role_id) throws SQLException {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
