@@ -65,7 +65,7 @@
                                 <a class="dropdown-item text-" href="user?action=login"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng Nhập</a>
                             </c:if>
                             <c:if test="${sessionScope.user != null}">
-                                <a class="dropdown-item text-" href="setting"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Setting</a>
+                                <a class="dropdown-item text-" href="setting?action=all"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Setting</a>
                             </c:if>
                         </div>
                     </div>
