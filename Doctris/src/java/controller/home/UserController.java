@@ -97,7 +97,7 @@ public class UserController extends HttpServlet {
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
                 int role_id = 1;
-                String img = "assets/images/avata.png";
+                String img = "default";
                 boolean status = true;
                 if (Validate.checkUsername(username) == false) {
                     request.setAttribute("error", "Tên người dùng không hợp lệ !");
@@ -228,9 +228,8 @@ public class UserController extends HttpServlet {
                     int phone = a.getPhone();
                     boolean gender = a.isGender();
                     int role_id = a.getRole().getRole_id();
-                    String img = a.getImg();
                     boolean status = a.isStatus();
-                    userdao.Register(email, password, username, role_id, name, phone, gender,img,status);
+                    userdao.Register(email, password, username, role_id, name, phone, gender,status);
                     session.removeAttribute("register");
                     request.setAttribute("error", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);

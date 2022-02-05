@@ -46,6 +46,16 @@ public class Account {
         this.status = status;
     }
     
+    public Account(String username, Role role, String name, boolean gender, int phone, String email, boolean status) {
+        this.username = username;
+        this.role = role;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.status = status;
+    }
+    
     public Account(String username) {
         this.username = username;
     }

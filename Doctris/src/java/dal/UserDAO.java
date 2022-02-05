@@ -39,7 +39,7 @@ public class UserDAO {
      * @return
      * @throws java.sql.SQLException
      */
-    public Account login(String email, String password) throws SQLException {
+    public Account login(String email, String password) throws SQLException, IOException {
         String sql = " select * from users where email=? and password=?";
         try {
             connection = dbc.getConnection();
@@ -48,8 +48,25 @@ public class UserDAO {
             ps.setString(2, password);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getInt(2));
-                return new Account(rs.getString(1), r, rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getBoolean(9));
+                return new Account(rs.getString(1), r, rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6), rs.getString(7), base64Image, rs.getBoolean(9));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -70,8 +87,25 @@ public class UserDAO {
             ps.setString(2, username);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getInt(2));
-                return new Account(rs.getString(1), r, rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getBoolean(9));
+                return new Account(rs.getString(1), r, rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6), rs.getString(7), base64Image, rs.getBoolean(9));
             }
         } catch (Exception e) {
         } finally {
@@ -82,8 +116,8 @@ public class UserDAO {
         return null;
     }
 
-    public void Register(String email, String password, String username, int role_id, String name, int phone, boolean gender, String img, boolean status) throws SQLException {
-        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `role_id`, `password`, `name`, `gender`, `phone`, `email`,`img`,`status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void Register(String email, String password, String username, int role_id, String name, int phone, boolean gender, boolean status) throws SQLException {
+        String sql = "INSERT INTO `doctris_system`.`users` (`username`, `role_id`, `password`, `name`, `gender`, `phone`, `email`,`status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -94,8 +128,7 @@ public class UserDAO {
             ps.setBoolean(5, gender);
             ps.setInt(6, phone);
             ps.setString(7, email);
-            ps.setString(8, img);
-            ps.setBoolean(9, status);
+            ps.setBoolean(8, status);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {
@@ -129,8 +162,25 @@ public class UserDAO {
             ps.setString(1, email);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getInt(2));
-                return new Account(rs.getString(1), r, rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getBoolean(9));
+                return new Account(rs.getString(1), r, rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6), rs.getString(7), base64Image, rs.getBoolean(9));
             }
         } catch (Exception e) {
         } finally {
@@ -154,19 +204,19 @@ public class UserDAO {
             while (rs.next()) {
                 String base64Image = null;
                 Blob blob = rs.getBlob(8);
-                if(blob != null){
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-                byte[] imageBytes = outputStream.toByteArray();
-                base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                inputStream.close();
-                outputStream.close();
-                }else{
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
                     base64Image = "default";
                 }
                 Role r = new Role(rs.getString(6));
@@ -181,8 +231,8 @@ public class UserDAO {
         return list;
 
     }
-    
-    public Account getAccountByUsername(String username) throws SQLException, IOException{
+
+    public Account getAccountByUsername(String username) throws SQLException, IOException {
         String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
                 + "FROM doctris_system.users u "
                 + "inner join doctris_system.role r "
@@ -195,19 +245,19 @@ public class UserDAO {
             while (rs.next()) {
                 String base64Image = null;
                 Blob blob = rs.getBlob(8);
-                if(blob != null){
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-                byte[] imageBytes = outputStream.toByteArray();
-                base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                inputStream.close();
-                outputStream.close();
-                }else{
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
                     base64Image = "default";
                 }
                 Role r = new Role(rs.getString(6));
@@ -221,7 +271,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     public void UpdateImage(String username, Part img) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `img` = ? WHERE (`username` = ?)";
         try {
@@ -229,7 +279,7 @@ public class UserDAO {
             ps = connection.prepareStatement(sql);
             InputStream image = img.getInputStream();
             ps.setBlob(1, image);
-            ps.setString(2, username); 
+            ps.setString(2, username);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {
@@ -238,7 +288,8 @@ public class UserDAO {
             }
         }
     }
-    public List<Account> getFilterByRole(String role_id) throws SQLException {
+
+    public List<Account> getFilterByRole(String role_id) throws SQLException, IOException {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
                 + "FROM doctris_system.users u "
@@ -250,8 +301,25 @@ public class UserDAO {
             ps.setString(1, role_id);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getString(6));
-                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7)));
             }
         } catch (SQLException e) {
         } finally {
@@ -261,8 +329,8 @@ public class UserDAO {
         }
         return list;
     }
-    
-    public List<Account> getFilterByStatus(String status) throws SQLException {
+
+    public List<Account> getFilterByStatus(String status) throws SQLException, IOException {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
                 + "FROM doctris_system.users u "
@@ -274,8 +342,25 @@ public class UserDAO {
             ps.setString(1, status);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getString(6));
-                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7)));
             }
         } catch (SQLException e) {
         } finally {
@@ -285,8 +370,8 @@ public class UserDAO {
         }
         return list;
     }
-    
-    public List<Account> getFilter(String status,String role_id) throws SQLException {
+
+    public List<Account> getFilter(String status, String role_id) throws SQLException, IOException {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
                 + "FROM doctris_system.users u "
@@ -299,8 +384,25 @@ public class UserDAO {
             ps.setString(2, status);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getString(6));
-                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7)));
             }
         } catch (SQLException e) {
         } finally {
@@ -310,8 +412,8 @@ public class UserDAO {
         }
         return list;
     }
-    
-    public List<Account> SearchALl(String text) throws SQLException {
+
+    public List<Account> SearchALl(String text) throws SQLException, IOException {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT DISTINCT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
                 + "FROM doctris_system.users u "
@@ -322,12 +424,29 @@ public class UserDAO {
             ps = connection.prepareStatement(sql);
             ps.setString(1, "%" + text + "%");
             ps.setString(2, "%" + text + "%");
-            ps.setString(3, "%" +text + "%");
+            ps.setString(3, "%" + text + "%");
             ps.setString(4, "%" + text + "%");
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getString(6));
-                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7)));
             }
         } catch (SQLException e) {
         } finally {
@@ -337,7 +456,7 @@ public class UserDAO {
         }
         return list;
     }
-    
+
     public void UpdateAccount(String username, int role_id, boolean status) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `role_id` = ?, `status` = ? WHERE (`username` = ?)";
         try {
@@ -354,13 +473,13 @@ public class UserDAO {
             }
         }
     }
-    
+
     public void UpdateProfile(String username, String name, int phone, boolean gender) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `name` = ?, `phone` = ?, `gender` = ? WHERE (`username` = ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
-            ps.setString(1,name);
+            ps.setString(1, name);
             ps.setInt(2, phone);
             ps.setBoolean(3, gender);
             ps.setString(4, username);
