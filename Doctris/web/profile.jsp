@@ -102,7 +102,7 @@
                             </div>
 
                             <ul class="list-unstyled sidebar-nav mb-0">
-                                <li class="navbar-item"><a href="doctor-dashboard.html" class="navbar-link"><i class="ri-airplay-line align-middle navbar-icon"></i> Dashboard</a></li>
+                                <li class="navbar-item"><a href="#" class="navbar-link"><i class="ri-airplay-line align-middle navbar-icon"></i> Dashboard</a></li>
                             </ul>
                         </div>
                     </div><!--end col-->
