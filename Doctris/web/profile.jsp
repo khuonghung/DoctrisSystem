@@ -42,15 +42,26 @@
                     <li class="list-inline-item mb-0 ms-1">
                         <div class="dropdown dropdown-primary">
                             <c:if test="${sessionScope.user != null}">
-                                <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="${sessionScope.user.img}" class="avatar avatar-ex-small rounded-circle" alt=""></button> 
+                                <c:if test="${sessionScope.user.img != 'default'}">
+                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="data:image/png;base64,${sessionScope.user.img}" class="avatar avatar-ex-small rounded-circle" alt=""></button> 
+                                    </c:if>
+                                    <c:if test="${sessionScope.user.img == 'default'}">
+                                    <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avata.png" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                                    </c:if>
                                 </c:if>
-                                <c:if test="${sessionScope.user == null}">
+
+                            <c:if test="${sessionScope.user == null}">
                                 <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avata.png" class="avatar avatar-ex-small rounded-circle" alt=""></button>
                                 </c:if>
                             <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                                 <c:if test="${sessionScope.user.username != null}">
                                     <a class="dropdown-item d-flex align-items-center text-" href="#">
-                                        <img src="${sessionScope.user.img}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        <c:if test="${sessionScope.user.img != 'default'}">
+                                            <img src="data:image/png;base64,${sessionScope.user.img}" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        </c:if>
+                                        <c:if test="${sessionScope.user.img == 'default'}">
+                                            <img src="assets/images/avata.png" class="avatar avatar-md-sm rounded-circle border shadow" alt="">
+                                        </c:if>
                                         <div class="flex-1 ms-2">
                                             <span class="d-block mb-1">${sessionScope.user.username}</span>
                                         </div>                     
@@ -59,16 +70,16 @@
                                 <div class="dropdown-divider border-top"></div>
                                 <c:if test="${sessionScope.user != null}">
                                     <a class="dropdown-item text-" href="user?action=profile"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Tài khoản của tôi</a>
-                                </c:if>
-                                <c:if test="${sessionScope.user != null}">
+                                        </c:if>
+                                        <c:if test="${sessionScope.user != null}">
                                     <a class="dropdown-item text-" href="user?action=logout"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng xuất</a>
-                                </c:if>
-                                <c:if test="${sessionScope.user == null}">
+                                        </c:if>
+                                        <c:if test="${sessionScope.user == null}">
                                     <a class="dropdown-item text-" href="user?action=login"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Đăng Nhập</a>
-                                </c:if>
-                                <c:if test="${sessionScope.user != null}">
+                                        </c:if>
+                                        <c:if test="${sessionScope.user != null}">
                                     <a class="dropdown-item text-" href="setting?action=all"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Setting</a>
-                                </c:if>
+                                        </c:if>
                             </div>
                         </div>
                     </li>
@@ -96,7 +107,13 @@
                         <div class="rounded shadow overflow-hidden sticky-bar">
                             <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
                                 <br><br><br><br>
-                                <img src="${sessionScope.user.img}">
+                                <c:if test="${sessionScope.user.img != 'default'}">
+                                    <img src="data:image/png;base64,${sessionScope.user.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                </c:if>
+                                <c:if test="${sessionScope.user.img == 'default'}">
+                                    <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                </c:if>
+                                
                                 <h5 class="mt-3 mb-1">${sessionScope.user.name}</h5>
                                 <p class="text-muted mb-0">${sessionScope.user.username}</p>
                             </div>
@@ -222,8 +239,8 @@
         </section>
         <jsp:include page="layout/footer.jsp"/>
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
-        <jsp:include page="layout/search.jsp"/>
-        <jsp:include page="layout/facebookchat.jsp"/>
+            <jsp:include page="layout/search.jsp"/>
+            <jsp:include page="layout/facebookchat.jsp"/>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/feather.min.js"></script>
