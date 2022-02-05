@@ -89,7 +89,12 @@
                                 <div class="bg-white rounded shadow overflow-hidden">
                                     <br><br><br><br><br>
                                     <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                        <img src="data:image/png;base64,${account.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                        <c:if test="${account.img == 'default'}">
+                                            <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                        </c:if>
+                                        <c:if test="${account.img != 'default'}">
+                                            <img src="data:image/png;base64,${account.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                        </c:if>
                                         <h5 class="mt-3 mb-1">${account.name}</h5>
                                         <p class="text-muted mb-0">${account.username}</p>
                                     </div>

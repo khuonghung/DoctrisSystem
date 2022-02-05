@@ -141,7 +141,7 @@ public class UserDAO {
         return null;
     }
 
-    public List<Account> getAllAccount() throws SQLException {
+    public List<Account> getAllAccount() throws SQLException, IOException {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT u.username,u.name,u.gender,u.email,u.phone,r.name,u.status,u.img "
                 + "FROM doctris_system.users u "
@@ -152,8 +152,25 @@ public class UserDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if(blob != null){
+                InputStream inputStream = blob.getBinaryStream();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead = -1;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                byte[] imageBytes = outputStream.toByteArray();
+                base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                inputStream.close();
+                outputStream.close();
+                }else{
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getString(6));
-                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), rs.getString(8), rs.getBoolean(7)));
+                list.add(new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7)));
             }
         } catch (SQLException e) {
         } finally {
@@ -176,7 +193,9 @@ public class UserDAO {
             ps.setString(1, username);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
                 Blob blob = rs.getBlob(8);
+                if(blob != null){
                 InputStream inputStream = blob.getBinaryStream();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 byte[] buffer = new byte[4096];
@@ -185,9 +204,12 @@ public class UserDAO {
                     outputStream.write(buffer, 0, bytesRead);
                 }
                 byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                base64Image = Base64.getEncoder().encodeToString(imageBytes);
                 inputStream.close();
                 outputStream.close();
+                }else{
+                    base64Image = "default";
+                }
                 Role r = new Role(rs.getString(6));
                 return new Account(rs.getString(1), r, rs.getString(2), rs.getBoolean(3), rs.getInt(5), rs.getString(4), base64Image, rs.getBoolean(7));
             }
