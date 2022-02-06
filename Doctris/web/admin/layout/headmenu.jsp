@@ -8,7 +8,7 @@
 <div class="top-header">
     <div class="header-bar d-flex justify-content-between border-bottom">
         <div class="d-flex align-items-center">
-            <a href="#" class="logo-icon">
+            <a href="home" class="logo-icon">
                 <img src="assets/images/logo-icon.png" height="30" class="small" alt="">
                 <span class="big">
                     <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
