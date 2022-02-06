@@ -267,7 +267,7 @@
                                                     $("#myfileupload").html('<input type="file" id="uploadfile"  onchange="readURL(this);" />');
                                                     $(".removeimg").hide();
                                                     $(".Choicefile").show();
-                                                    $(".Update").hide(s);
+                                                    $(".Update").hide();
                                                     $(".filename").text("");
                                                 });
                                             })
