@@ -255,12 +255,3 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 });
-
-//Switcher
-try {
-    function setTheme(theme) {
-        document.getElementById('theme-opt').href = '../assets/css/' + theme + '.min.css';
-    };
-} catch (error) {
-
-}
