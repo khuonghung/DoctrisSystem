@@ -15,13 +15,16 @@ import model.Role;
 import dal.UserDAO;
 import configs.*;
 import java.sql.SQLException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Khuong Hung
  */
+@MultipartConfig(maxFileSize = 16177216)
 public class UserController extends HttpServlet {
 
     /**
@@ -129,7 +132,7 @@ public class UserController extends HttpServlet {
                             request.getRequestDispatcher("user?action=register").forward(request, response);
                         } else {
                             Role r = new Role(role_id);
-                            Account a = new Account(username, r, enpassword, fullname, gender, phone, email,img,status);
+                            Account a = new Account(username, r, enpassword, fullname, gender, phone, email, img, status);
                             session.setAttribute("register", a);
                             response.sendRedirect("user?action=generalcapcha");
                         }
@@ -137,7 +140,7 @@ public class UserController extends HttpServlet {
                 }
             }
             if (action.equals("recover")) {
-               request.getRequestDispatcher("recover.jsp").forward(request, response);
+                request.getRequestDispatcher("recover.jsp").forward(request, response);
             }
             if (action.equals("checkemail")) {
                 String email = request.getParameter("email");
@@ -149,7 +152,7 @@ public class UserController extends HttpServlet {
                     if (account == null) {
                         request.setAttribute("error", "Email không tồn tại !");
                         request.getRequestDispatcher("user?action=recover").forward(request, response);
-                    }else{
+                    } else {
                         String newpass = Password.getPassword(8);
                         SendMail.setContentRecover(account.getUsername(), newpass, email);
                         userdao.Recover(account.getUsername(), EncodeData.enCode(newpass));
@@ -159,23 +162,37 @@ public class UserController extends HttpServlet {
                 }
 
             }
-            
+
             if (action.equals("profile")) {
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
-            
-            if(action.equals("updateprofile")){
+
+            if (action.equals("updateprofile")) {
                 String username = request.getParameter("username");
                 String name = request.getParameter("name");
                 int phone = Integer.parseInt(request.getParameter("phone"));
                 boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
-                userdao.UpdateProfile(username,name,phone,gender);
-                Account a = new Account(username,user.getRole(),user.getPassword(),name,gender,phone,user.getEmail(),user.getImg(), user.isStatus());
+                userdao.UpdateProfile(username, name, phone, gender);
+                Account a = new Account(username, user.getRole(), name, gender, phone, user.getEmail(), user.getImg(), user.isStatus());
                 session.setAttribute("user", a);
                 request.setAttribute("updatesuccess", "Thông tin đã được cập nhật !");
-                request.getRequestDispatcher("user?action=profile").forward(request, response);
+                response.sendRedirect("user?action=profile");
             }
-            
+
+            if (action.equals("update_image")) {
+                String username = user.getUsername();
+                Part image = request.getPart("image");
+                if (image != null) {
+                    try {
+                        Account acc = userdao.getAccountByUsername(username);
+                        userdao.UpdateImage(username, image);
+                        session.setAttribute("user", acc);
+                    } catch (Exception e) {
+                    }
+                }
+                response.sendRedirect("user?action=profile");
+            }
+
             if (action.equals("changepassword")) {
                 String oldpassword = EncodeData.enCode(request.getParameter("oldpassword"));
                 String newpassword = request.getParameter("newpassword");
@@ -200,7 +217,7 @@ public class UserController extends HttpServlet {
                     }
                 }
             }
-            
+
             if (action.equals("capcha")) {
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
@@ -229,7 +246,7 @@ public class UserController extends HttpServlet {
                     boolean gender = a.isGender();
                     int role_id = a.getRole().getRole_id();
                     boolean status = a.isStatus();
-                    userdao.Register(email, password, username, role_id, name, phone, gender,status);
+                    userdao.Register(email, password, username, role_id, name, phone, gender, status);
                     session.removeAttribute("register");
                     request.setAttribute("error", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
