@@ -22,7 +22,7 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Xác thực tài khoản</h4>  
-                                <form action="user?action=checkcapcha" method="POST" class="login-form mt-4">
+                                <form action="user?action=checkcapcha" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <p class="text-muted">Chúng tôi đã gửi mã xác thực vào email <b>${requestScope.email}</b></p> 
@@ -37,11 +37,12 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Xác nhận</button>
+                                                <button class="btn btn-primary" id="submit">Xác nhận</button>
                                             </div>
                                         </div>
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Vẫn chưa nhận được mã ?</small> <a href="user?action=generalcapcha" class="text-dark h6 mb-0">Nhấn vào đây</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Vẫn chưa nhận được mã ?</small></p>
+                                            <p class="mb-0 mt-3"><a href="user?action=generalcapcha" class="text-dark h6 mb-0">Gửi lại</a> Hoặc <a href="user?action=register" class="text-dark h6 mb-0">Chỉnh sửa thông tin</a></p>
                                         </div>
                                     </div>
                                 </form>

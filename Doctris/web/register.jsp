@@ -9,7 +9,6 @@
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
     <body>
-        <jsp:include page="layout/preloader.jsp"/>
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
         </div>
@@ -24,7 +23,7 @@
                                 <p style="color: red; align-content: center;">
                                     ${requestScope.error}
                                 </p>
-                                <form action="user?action=checkregister" method="POST" class="login-form mt-4">
+                                <form action="user?action=checkregister" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
@@ -82,7 +81,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="d-grid">
-                                            <button class="btn btn-primary">Đăng ký</button>
+                                            <button class="btn btn-primary" id="submit">Đăng ký</button>
                                         </div>
                                     </div>
                                     <div class="mx-auto">

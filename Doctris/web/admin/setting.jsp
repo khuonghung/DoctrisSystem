@@ -12,7 +12,6 @@
 <html lang="en">
     <jsp:include page="../admin/layout/adminhead.jsp"/>
     <body>
-        <jsp:include page="../layout/preloader.jsp"/>
         <div class="page-wrapper doctris-theme toggled">
             <jsp:include page="../admin/layout/menu.jsp"/>
             <main class="page-content bg-light">
@@ -47,7 +46,7 @@
                                                             Thể loại
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                            <li><a class="dropdown-item" href="setting">Tất cả</a></li>
+                                                            <li><a class="dropdown-item" href="setting?action=all">Tất cả</a></li>
                                                                 <c:forEach items="${setting}" var="s">
                                                                 <li><a class="dropdown-item" href="setting?action=${s.setting_name}">${s.description}</a></li>
                                                                 </c:forEach>
@@ -72,11 +71,11 @@
                                     <table class="table mb-0 table-center">
                                         <thead>
                                             <tr>
-                                                <th class="border-bottom p-3" style="min-width: 50px;">Setting ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">ID</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;">Name</th>
-                                                <th class="border-bottom p-3" style="min-width: 180px;">Status</th>
-                                                <th class="border-bottom p-3" style="min-width: 150px;"></th>
+                                                <th class="border-bottom p-3" >Setting ID</th>
+                                                <th class="border-bottom p-3" >ID</th>
+                                                <th class="border-bottom p-3" >Name</th>
+                                                <th class="border-bottom p-3" >Status</th>
+                                                <th class="border-bottom p-3" ></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -110,19 +109,8 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
 
                                         <c:forEach begin="${1}" end="${num}" var="i">
-                                            <c:if test="${requestScope.type == 1}">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?action=User&page=${i}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${requestScope.type == 2}">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?action=Category_blog&page=${i}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${requestScope.type == 3}">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?action=Category_service&page=${i}">${i}</a></li>
-                                                </c:if>
-                                                <c:if test="${requestScope.type == 0}">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="setting?page=${i}">${i}</a></li>
-                                                </c:if>
-                                            </c:forEach>
+                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
                             </div>
@@ -155,8 +143,8 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
                                                         <select name="status" class="form-select" aria-label="Default select example">
-                                                            <option <c:if test="${sd.status == true}">selected</c:if> value="1">Active</option>
-                                                            <option <c:if test="${sd.status == false}">selected</c:if> value="0">Disable</option>
+                                                            <option <c:if test="${sd.status == true}">selected</c:if> value="true">Active</option>
+                                                            <option <c:if test="${sd.status == false}">selected</c:if> value="false">Disable</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -215,8 +203,8 @@
                                 <div class="mb-3">
                                     <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
                                     <select name="status" class="form-select" aria-label="Default select example">
-                                        <option value="1">Active</option>
-                                        <option value="0">Disable</option>
+                                        <option value="true">Active</option>
+                                        <option value="false">Disable</option>
                                     </select>
                                 </div>
                             </div>

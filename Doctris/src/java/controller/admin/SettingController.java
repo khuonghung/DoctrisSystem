@@ -37,109 +37,36 @@ public class SettingController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
+        String url = null;
+        List<Setting> setting = null;
+        List<SettingDetails> settingdetailslist = null;
         SettingDAO settingdao = new SettingDAO();
         try {
-            if (action == null) {
-                List<Setting> setting = settingdao.getAllSetting();
-                List<SettingDetails> settingdetailslist = settingdao.getAll();
-                int page, numperpage = 6;
-                int type = 0;
-                int size = settingdetailslist.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                List<SettingDetails> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
-                request.setAttribute("type", type);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("setting", setting);
-                request.setAttribute("settingdetails", settingdetails);
-                request.getRequestDispatcher("admin/setting.jsp").forward(request, response);
+            if (action.equals("all")) {
+                url = "setting?action=all";
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.getAll();
             }
             if (action.equals("User")) {
-                List<Setting> setting = settingdao.getAllSetting();
-                List<SettingDetails> settingdetailslist = settingdao.getBySetting("role");
-                int page, numperpage = 6;
-                int type = 1;
-                int size = settingdetailslist.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                List<SettingDetails> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
-                request.setAttribute("type", type);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("setting", setting);
-                request.setAttribute("settingdetails", settingdetails);
-                request.getRequestDispatcher("admin/setting.jsp").forward(request, response);
+                url = "setting?action=User";
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.getBySetting("role");
             }
             if (action.equals("Category_blog")) {
-                List<Setting> setting = settingdao.getAllSetting();
-                List<SettingDetails> settingdetailslist = settingdao.getBySetting("category_blog");
-                int page, numperpage = 6;
-                int type = 2;
-                int size = settingdetailslist.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                List<SettingDetails> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
-                request.setAttribute("type", type);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("setting", setting);
-                request.setAttribute("settingdetails", settingdetails);
-                request.getRequestDispatcher("admin/setting.jsp").forward(request, response);
+                url = "setting?action=Category_blog";
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.getBySetting("category_blog");
             }
             if (action.equals("Category_service")) {
-                List<Setting> setting = settingdao.getAllSetting();
-                List<SettingDetails> settingdetailslist = settingdao.getBySetting("category_service");
-                int page, numperpage = 6;
-                int type = 3;
-                int size = settingdetailslist.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                List<SettingDetails> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
-                request.setAttribute("type", type);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("setting", setting);
-                request.setAttribute("settingdetails", settingdetails);
-                request.getRequestDispatcher("admin/setting.jsp").forward(request, response);
+                url = "setting?action=Category_service";
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.getBySetting("category_service");
             }
             if (action.equals("update")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 int id = Integer.parseInt(request.getParameter("id"));
                 String name = request.getParameter("name");
-                String status = request.getParameter("status");
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 String table = null;
                 if (setting_id == 1) {
                     table = "role";
@@ -150,14 +77,8 @@ public class SettingController extends HttpServlet {
                 if (setting_id == 3) {
                     table = "category_service";
                 }
-                if (status.equals("true")) {
-                    status.equals("1");
-                } else {
-                    status.equals("0");
-                }
-                int sstatus = Integer.parseInt(status);
-                settingdao.SettingUpdate(table, id, name, sstatus, setting_id);
-                response.sendRedirect("setting");
+                settingdao.SettingUpdate(table, id, name, status, setting_id);
+                response.sendRedirect("setting?action=all");
             }
             if (action.equals("delete")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
@@ -173,12 +94,12 @@ public class SettingController extends HttpServlet {
                     table = "category_service";
                 }
                 settingdao.SettingDelete(table, id);
-                response.sendRedirect("setting");
+                response.sendRedirect("setting?action=all");
             }
             if (action.equals("addnew")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 String name = request.getParameter("name");
-                String status = request.getParameter("status");
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 String table = null;
                 if (setting_id == 1) {
                     table = "role";
@@ -189,16 +110,33 @@ public class SettingController extends HttpServlet {
                 if (setting_id == 3) {
                     table = "category_service";
                 }
-                if (status.equals("true")) {
-                    status.equals("1");
-                } else {
-                    status.equals("0");
-                }
-                int sstatus = Integer.parseInt(status);
-                settingdao.SettingADD(table, name, sstatus, setting_id);
-                response.sendRedirect("setting");
+                settingdao.SettingADD(table, name, status, setting_id);
+                response.sendRedirect("setting?action=all");
             }
-            
+
+            if (setting != null && settingdetailslist != null) {
+                int page, numperpage = 6;
+                int type = 3;
+                int size = settingdetailslist.size();
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<SettingDetails> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
+                request.setAttribute("url", url);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("setting", setting);
+                request.setAttribute("settingdetails", settingdetails);
+                request.getRequestDispatcher("admin/setting.jsp").forward(request, response);
+            }
+
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);
         }

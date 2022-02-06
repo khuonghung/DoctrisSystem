@@ -8,7 +8,7 @@
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content" data-simplebar style="height: calc(100% - 60px);">
         <div class="sidebar-brand">
-            <a href="admin/index.jsp">
+            <a href="home">
                 <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
                 <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
             </a>
@@ -16,7 +16,8 @@
 
         <ul class="sidebar-menu pt-3">
             <li><a href="#"><i class="uil uil-dashboard me-2 d-inline-block"></i>Bảng điều khiển</a></li>
-            <li><a href="setting"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Setting</a></li>
+            <li><a href="setting?action=all"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Setting</a></li>
+            <li><a href="account?action=all"><i class="uil uil-user me-2 d-inline-block"></i>Quản lý Tài khoản</a></li>
         </ul>
     </div>
     <ul class="sidebar-footer list-unstyled mb-0">

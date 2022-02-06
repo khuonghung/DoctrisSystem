@@ -11,8 +11,6 @@
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
     <body>
-        <jsp:include page="layout/preloader.jsp"/>
-
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
         </div>
@@ -25,22 +23,28 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Khôi phục mật khẩu</h4>  
-                                <form class="login-form mt-4">
+                                <p style="color: red; align-content: center;">
+                                        ${requestScope.error}
+                                </p>
+                                <p style="color: blue; align-content: center;">
+                                        ${requestScope.success}
+                                </p>
+                                <form action="user?action=checkemail" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <p class="text-muted">Hãy nhập email của bạn chúng tôi sẽ gửi mật khẩu mới vào email.</p>
                                             <div class="mb-3">
                                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Enter Your Email Address" name="email" required="">
+                                                <input type="email" class="form-control" name="email" required="">
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Xác nhận</button>
+                                                <button id="submit" class="btn btn-primary">Xác nhận</button>
                                             </div>
                                         </div>
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Remember your password ?</small> <a href="login.html" class="text-dark h6 mb-0">Sign in</a></p>
+                                            <p class="mb-0 mt-3"><a href="user?action=login" class="text-dark h6 mb-0">Đăng nhập</a></p>
                                         </div>
                                     </div>
                                 </form>

@@ -12,8 +12,6 @@
     <jsp:include page="layout/head.jsp"/>
 
     <body>
-        <jsp:include page="layout/preloader.jsp"/>
-
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
         </div>
@@ -27,7 +25,7 @@
                             <div class="card-body">
                                 <h4 class="text-center">Đăng nhập</h4> 
                                 <c:set var="cookie" value="${pageContext.request.cookies}"/>
-                                <form action="user?action=checklogin" method="POST" class="login-form mt-4">
+                                <form action="user?action=checklogin" method="POST" class="login-form mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                     <p style="color: red; align-content: center;">
                                         ${requestScope.error}
                                     </p>
@@ -54,12 +52,12 @@
                                                         <label class="form-check-label" for="remember-check">Lưu tài khoản</label>
                                                     </div>
                                                 </div>
-                                                <a href="forgot-password.html" class="text-dark h6 mb-0">Quên mật khẩu ?</a>
+                                                <a href="user?action=recover" class="text-dark h6 mb-0">Quên mật khẩu ?</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-0">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary">Đăng nhập</button>
+                                                <button class="btn btn-primary" id="submit">Đăng nhập</button>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center">

@@ -97,14 +97,14 @@ public class SettingDAO {
         return list;
     }
 
-    public void SettingUpdate(String table, int ID, String name, int status, int setting_id) throws SQLException {
+    public void SettingUpdate(String table, int ID, String name, boolean status, int setting_id) throws SQLException {
         String sql = "UPDATE " + table + " SET name = ?, setting_id = ?, status = ? WHERE (id = ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, name);
             ps.setInt(2, setting_id);
-            ps.setInt(3, status);
+            ps.setBoolean(3, status);
             ps.setInt(4, ID);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -130,14 +130,14 @@ public class SettingDAO {
         }
     }
 
-    public void SettingADD(String table, String name, int status, int setting_id) throws SQLException {
+    public void SettingADD(String table, String name, boolean status, int setting_id) throws SQLException {
         String sql = "INSERT INTO " + table + " (`name`, `setting_id`, `status`) VALUES (?, ?, ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, name);
             ps.setInt(2, setting_id);
-            ps.setInt(3, status);
+            ps.setBoolean(3, status);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {

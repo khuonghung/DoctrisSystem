@@ -10,25 +10,50 @@ package model;
  * @author Khuong Hung
  */
 public class Account {
+
     private String username;
-    private int role_id;
+    Role role;
     private String password;
     private String name;
     private boolean gender;
     private int phone;
     private String email;
+    private String img;
+    private boolean status;
 
     public Account() {
     }
 
-    public Account(String username, int role_id, String password, String name, boolean gender, int phone, String email) {
+    public Account(String username, Role role, String password, String name, boolean gender, int phone, String email, String img, boolean status) {
         this.username = username;
-        this.role_id = role_id;
+        this.role = role;
         this.password = password;
         this.name = name;
         this.gender = gender;
         this.phone = phone;
         this.email = email;
+        this.img = img;
+        this.status = status;
+    }
+    public Account(String username, Role role, String name, boolean gender, int phone, String email, String img, boolean status) {
+        this.username = username;
+        this.role = role;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.img = img;
+        this.status = status;
+    }
+    
+    public Account(String username, Role role, String name, boolean gender, int phone, String email, boolean status) {
+        this.username = username;
+        this.role = role;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+        this.status = status;
     }
     
     public Account(String username) {
@@ -43,14 +68,14 @@ public class Account {
         this.username = username;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
+    
     public String getPassword() {
         return password;
     }
@@ -90,7 +115,21 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
-    
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

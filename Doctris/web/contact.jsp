@@ -151,7 +151,7 @@
 
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
         <jsp:include page="layout/search.jsp"/>
-
+        <jsp:include page="layout/facebookchat.jsp"/>
 
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/feather.min.js"></script>
