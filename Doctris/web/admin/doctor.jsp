@@ -26,7 +26,7 @@
                                 <div class="col-md-7">
                                     <div class="search-bar p-0 d-lg-block ms-2">                                                        
                                         <div id="search" class="menu-search mb-0">
-                                            <form action="#" method="POST" id="searchform" class="searchform">
+                                            <form action="doctormanage?action=search" method="POST" id="searchform" class="searchform">
                                                 <div>
                                                     <input type="text" class="form-control border rounded-pill" name="txt" id="s" placeholder="Tìm kiếm tài khoản...">
                                                     <input type="submit" id="searchsubmit" value="Search">

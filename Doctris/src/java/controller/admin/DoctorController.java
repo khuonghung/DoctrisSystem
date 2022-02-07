@@ -57,6 +57,10 @@ public class DoctorController extends HttpServlet {
                     doctorlist = doctordao.getAllDoctorByFilter(gender, speciality);
                 }
             }
+            if(action.equals("search")){
+                String text = request.getParameter("txt");
+                doctorlist = doctordao.Search(text);
+            }
             if (doctorlist != null) {
                 int page, numperpage = 8;
                 int type = 0;
