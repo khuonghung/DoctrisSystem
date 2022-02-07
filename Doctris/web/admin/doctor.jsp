@@ -80,9 +80,6 @@
                                                     <td class="text-end p-3">
                                                         <a href="#" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
-                                                    <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">Chỉnh sửa</a>
-                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
