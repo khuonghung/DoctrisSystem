@@ -6,17 +6,14 @@
 package controller.admin;
 
 import dal.DoctorDAO;
-import dal.ServiceDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Doctor;
-import model.Service;
+import model.*;
 
 /**
  *
@@ -41,9 +38,24 @@ public class DoctorController extends HttpServlet {
         DoctorDAO doctordao = new DoctorDAO();
         String action = request.getParameter("action");
         List<Doctor> doctorlist = null;
+        List<SettingDetails> specialitylist = null;
         try {
+            specialitylist = doctordao.getSpeciality();
             if (action.equals("all")) {
                 doctorlist = doctordao.getAllDoctor();
+            }
+            if(action.equals("filter")){
+                String gender = request.getParameter("gender");
+                String speciality = request.getParameter("speciality");
+                if(gender.equals("all") && speciality.equals("all")){
+                    response.sendRedirect("doctormanage?action=all");
+                }else if(gender.equals("all")){
+                    doctorlist = doctordao.getAllDoctorBySpeciality(speciality);
+                }else if(speciality.equals("all")){
+                    doctorlist = doctordao.getAllDoctorByGender(gender);
+                }else{
+                    doctorlist = doctordao.getAllDoctorByFilter(gender, speciality);
+                }
             }
             if (doctorlist != null) {
                 int page, numperpage = 8;
@@ -64,6 +76,7 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
                 request.setAttribute("doctor", doctors);
+                request.setAttribute("speciality", specialitylist);
                 request.getRequestDispatcher("admin/doctor.jsp").forward(request, response);
             }
         } catch (IOException | SQLException | ServletException e) {

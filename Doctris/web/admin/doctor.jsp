@@ -91,6 +91,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header border-bottom p-3">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-3 pt-4">
+                                    <form action="doctormanage?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                                    <select name="gender" class="form-select" aria-label="Default select example">
+                                                        <option selected value="all">Tất cả</option>
+                                                        <option value="true">Nam</option>
+                                                        <option value="false">Nữ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Chuyên môn<span class="text-danger">*</span></label>
+                                                <select name="speciality" class="form-select" aria-label="Default select example">
+                                                    <option selected value="all">Tất cả</option>
+                                                    <c:forEach items="${speciality}" var="s">
+                                                        <option value="${s.id}">${s.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="d-grid">
+                                                <button type="submit" id="submit" class="btn btn-primary">Lọc</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <footer class="bg-white shadow py-3">
                     <div class="container-fluid">
