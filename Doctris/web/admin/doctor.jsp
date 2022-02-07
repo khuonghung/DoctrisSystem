@@ -90,6 +90,18 @@
                                 </div>
                             </div>
                         </div>
+                        <c:set var="page" value="${page}"/>
+                            <div class="row text-center">
+                                <div class="col-12 mt-4">
+                                    <div class="d-md-flex align-items-center text-center justify-content-between">
+                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                            <c:forEach begin="${1}" end="${num}" var="i">
+                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                                </c:forEach>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

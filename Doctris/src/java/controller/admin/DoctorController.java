@@ -38,10 +38,12 @@ public class DoctorController extends HttpServlet {
         DoctorDAO doctordao = new DoctorDAO();
         String action = request.getParameter("action");
         List<Doctor> doctorlist = null;
+        String url = null;
         List<SettingDetails> specialitylist = null;
         try {
             specialitylist = doctordao.getSpeciality();
             if (action.equals("all")) {
+                url = "doctormanage?action=all";
                 doctorlist = doctordao.getAllDoctor();
             }
             if(action.equals("filter")){
@@ -56,10 +58,12 @@ public class DoctorController extends HttpServlet {
                 }else{
                     doctorlist = doctordao.getAllDoctorByFilter(gender, speciality);
                 }
+                url = "doctormanage?action=filter&gender=" + gender + "&speciality=" + speciality;
             }
             if(action.equals("search")){
                 String text = request.getParameter("txt");
                 doctorlist = doctordao.Search(text);
+                url = "doctormanage?action=search&txt=" + text;
             }
             if (doctorlist != null) {
                 int page, numperpage = 8;
@@ -79,6 +83,7 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("type", type);
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
+                request.setAttribute("url", url);
                 request.setAttribute("doctor", doctors);
                 request.setAttribute("speciality", specialitylist);
                 request.getRequestDispatcher("admin/doctor.jsp").forward(request, response);
