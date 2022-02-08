@@ -5,12 +5,16 @@
  */
 package controller.admin;
 
+import dal.PatientDao;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Patient;
 
 /**
  *
@@ -32,9 +36,23 @@ public class PatientController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        
-        
-        request.getRequestDispatcher("admin/patientdetail.jsp").forward(request, response);
+        PatientDao patientdao = new PatientDao();
+        List<Patient> patientlist = null;
+        String action = request.getParameter("action");
+
+        try {
+
+            if (action.equals("detail")) {
+                String username = request.getParameter("username");
+                Patient patient = new Patient();
+                patient = patientdao.getPatientByUsername(username);
+                request.setAttribute("patient", patient);
+                request.getRequestDispatcher("admin/patientdetail.jsp").forward(request, response);
+            }
+
+        } catch (IOException | SQLException | ServletException e) {
+            System.out.println(e);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
