@@ -69,4 +69,39 @@ public class PatientDao {
         return null;
     }
 
+    public void PatientUpdate(String username, String address, Date DOB, int patient_id, String name, boolean status, boolean gender, int phone) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`patient`\n"
+                + "SET\n"
+                + "`address` = ?,\n"
+                + "`DOB` = ?,\n"
+                + "`status` = ?\n"
+                + "WHERE `patient_id` = ?";
+        String sql2 = "UPDATE `doctris_system`.`users`\n"
+                + "SET\n"
+                + "`name` = ?,\n"
+                + "`gender` = ?,\n"
+                + "`phone` = ?\n"
+                + "WHERE `username` = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, address);
+            ps.setDate(2, DOB);
+            ps.setBoolean(3, status);
+            ps.setInt(4, patient_id);
+            ps.executeUpdate();
+            ps = connection.prepareStatement(sql2);
+            ps.setString(1, name);
+            ps.setBoolean(2, gender);
+            ps.setInt(3, phone);
+            ps.setString(4, username);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 }

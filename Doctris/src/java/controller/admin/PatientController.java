@@ -49,6 +49,19 @@ public class PatientController extends HttpServlet {
                 request.setAttribute("patient", patient);
                 request.getRequestDispatcher("admin/patientdetail.jsp").forward(request, response);
             }
+            
+            if (action.equals("update_patient")) {
+                int patient_id = Integer.parseInt(request.getParameter("patient_id"));
+                int phone = Integer.parseInt(request.getParameter("phone"));
+                String username = request.getParameter("username");
+                String name = request.getParameter("name");
+                String adress = request.getParameter("address");
+                boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                Date dob = Date.valueOf(request.getParameter("DOB"));
+                patientdao.PatientUpdate(username, adress, dob, patient_id, name, status, gender, phone);
+                response.sendRedirect("patientmanage?action=detail&username=" + username);
+            }
 
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);

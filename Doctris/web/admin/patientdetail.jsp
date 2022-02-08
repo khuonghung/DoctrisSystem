@@ -11,7 +11,7 @@
 <html lang="en">
     <jsp:include page="../admin/layout/adminhead.jsp"/>
     <body>
-        
+
         <div class="page-wrapper doctris-theme toggled">
             <jsp:include page="../admin/layout/menu.jsp"/>
             <main class="page-content bg-light">
@@ -86,7 +86,96 @@
                                     </div>
                                 </div>
                             </div>
-                                        <!--edit-->
+                            <div class="col-lg-7 col-md-7 mt-4">
+                                <div class="card border-0 shadow overflow-hidden">
+                                    <div class="tab-content p-4" id="pills-tabContent">
+                                        <form action="patientmanage?action=update_patient&username=${patient.account.username}" method="POST" class="mt-4" onSubmit="document.getElementById('submit').disabled = true;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Họ tên <span class="text-danger">* chỉnh sửa</span></label>
+                                                        <input name="name" id="name" type="text" class="form-control" value="${patient.account.name}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">id</label>
+                                                        <input readonly name="patient_id" id="name" type="text" class="form-control" value="${patient.patient_id}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Username</label>
+                                                        <input readonly name="username" id="name" type="text" class="form-control" value="${patient.account.username}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Giới tính <span class="text-danger">* chỉnh sửa</span></label>
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><input id="credit" name="gender" ${patient.account.gender==true?"checked":""} value="true" type="radio" class="form-check-input"
+                                                                               checked required ></td>
+                                                                    <td><label class="form-check-label">Nam</label></td>
+                                                                    <td></td>
+                                                                    <td><input id="debit" name="gender" ${patient.account.gender==false?"checked":""} value="false" type="radio" class="form-check-input"
+                                                                               required></td>
+                                                                    <td><label class="form-check-label">Nữ</label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Số điện thoại <span class="text-danger">* chỉnh sửa</span></label>
+                                                        <input name="phone" id="name" type="text" class="form-control" value="0${patient.account.phone}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Địa chỉ <span class="text-danger">* chỉnh sửa</span></label>
+                                                        <input name="address" id="name" type="text" class="form-control" value="${patient.address}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ngày sinh <span class="text-danger">* chỉnh sửa</span></label>
+                                                        <input name="DOB" id="name" type="date" class="form-control" value="${patient.DOB}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Trạng thái <span class="text-danger">* chỉnh sửa</span></label>
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><input id="credit" name="status" ${patient.status==true?"checked":""} value="true" type="radio" class="form-check-input"
+                                                                               checked required ></td>
+                                                                    <td><label class="form-check-label">Hoạt động</label></td>
+                                                                    <td></td>
+                                                                    <td><input id="debit" name="status" ${patient.status==false?"checked":""} value="false" type="radio" class="form-check-input"
+                                                                               required></td>
+                                                                    <td><label class="form-check-label">Khóa</label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>                                                  
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <input type="submit" id="submit" name="send" class="btn btn-primary"
+                                                           value="Cập nhật">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
