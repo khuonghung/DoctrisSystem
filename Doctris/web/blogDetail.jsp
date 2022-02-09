@@ -11,7 +11,6 @@
     <jsp:include page="layout/head.jsp"/>
     <body>
         <!-- Loader -->
-
         <!-- Loader -->
 
         <!-- Navbar STart -->
@@ -56,7 +55,6 @@
                             <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> Calvin Carlo</li>
                             <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> 1st January, 2021</li>
                         </ul> -->
-
                         <p class="text-muted mt-4">${requestScope.blog.describe}</p>
                     </div><!--end col-->
 
@@ -82,18 +80,7 @@
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Bài Đăng Nổi Bật</h5>
                                     <div class="mt-4">
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/07.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Consultant Business</a><span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/08.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Look On The Glorious Balance</a> <span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/01.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Research Financial.</a> <span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <!-- RECENT POST -->

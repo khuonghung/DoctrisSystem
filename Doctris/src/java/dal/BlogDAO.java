@@ -32,7 +32,9 @@ public class BlogDAO {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog ORDER BY date desc";
+            String sql = "SELECT blog.*, category_blog.name FROM blog \n"
+                    + "inner join category_blog on blog.category_id = category_blog.id \n"
+                    + "order by date desc";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -44,6 +46,7 @@ public class BlogDAO {
                 b.setDescribe("describe");
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
+                c.setName(rs.getString("name"));
                 b.setCategory(c);
                 blogs.add(b);
             }
@@ -52,11 +55,14 @@ public class BlogDAO {
         }
         return blogs;
     }
-    
+
     public Blog getBlog(int id) {
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog WHERE blog_id = ? ";
+            String sql = "SELECT b.*, c.name FROM blog as b\n"
+                    + "inner join category_blog as c on b.category_id = c.id\n"
+                    + "where blog_id = ? \n"
+                    + "order by date desc ";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -69,6 +75,7 @@ public class BlogDAO {
                 b.setDescribe(rs.getString("describe"));
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
+                c.setName(rs.getString("name"));
                 b.setCategory(c);
                 return b;
             }
@@ -77,15 +84,15 @@ public class BlogDAO {
         }
         return null;
     }
-    
-    public ArrayList<Category_Blog> getCategories(){
+
+    public ArrayList<Category_Blog> getCategories() {
         ArrayList<Category_Blog> categories = new ArrayList<>();
         try {
             connection = dbc.getConnection();
             String sql = "SELECT * FROM category_blog;";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("id"));
                 c.setName(rs.getString("name"));
@@ -100,12 +107,15 @@ public class BlogDAO {
         }
         return categories;
     }
-    
+
     public ArrayList<Blog> getBlogsByCategory(int id) {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
-            String sql = "SELECT * FROM blog WHERE category_id = ? ORDER BY date desc";
+            String sql = "SELECT b.*, c.name FROM blog as b\n"
+                    + "inner join category_blog as c on b.category_id = c.id\n"
+                    + "where category_id = ? \n"
+                    + "order by date desc ";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
@@ -115,7 +125,7 @@ public class BlogDAO {
                 b.setTitle(rs.getString("title"));
                 b.setImg(rs.getString("img"));
                 b.setDate(rs.getDate("date"));
-                b.setDescribe("describe");
+                b.setDescribe(rs.getString("describe"));
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
                 b.setCategory(c);
@@ -126,13 +136,13 @@ public class BlogDAO {
         }
         return blogs;
     }
-    
+
     public ArrayList<Blog> search(String content) {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
             String sql = "SELECT * FROM blog WHERE title LIKE ? ORDER BY date desc";
-            String keyword = "%"+ content + "%";
+            String keyword = "%" + content + "%";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, keyword);
             ResultSet rs = stm.executeQuery();
@@ -142,7 +152,7 @@ public class BlogDAO {
                 b.setTitle(rs.getString("title"));
                 b.setImg(rs.getString("img"));
                 b.setDate(rs.getDate("date"));
-                b.setDescribe("describe");
+                b.setDescribe(rs.getString("describe"));
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
                 b.setCategory(c);
@@ -153,7 +163,7 @@ public class BlogDAO {
         }
         return blogs;
     }
-    
+
     public ArrayList<Blog> getListByPage(ArrayList<Blog> list,
             int start, int end) {
         ArrayList<Blog> arr = new ArrayList<>();
@@ -162,5 +172,5 @@ public class BlogDAO {
         }
         return arr;
     }
-    
+
 }

@@ -8,15 +8,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
     <jsp:include page="layout/head.jsp"/>
     <body>
+        
         <jsp:include page="layout/menu.jsp"/>
-        <div>
+
+        
 
 
             <!-- Start Hero -->
-            <section class="bg-half-170 d-table w-100" style="background: url('assets/images/bg/02.jpg') center center;">
+            <section class="bg-half-170 d-table w-100" style="background: url('assets/images/bg/banner.jpg') center center;">
                 <div class="bg-overlay bg-overlay-dark"></div>
                 <div class="container">
                     <div class="row mt-5 justify-content-center">
@@ -36,7 +37,7 @@
                     </div><!--end row-->
                 </div><!--end container-->
             </section><!--end section-->
-        </div>
+        
         <div class="position-relative">
             <div class="shape overflow-hidden text-white">
                 <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,15 +62,12 @@
                                         <ul class="list-unstyled mb-2">
                                             <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>${b.date}</li>
                                         </ul>
-                                        <a href="blogs?action=detail&blog_id=${b.blog_id}" class="text-dark title h6">${b.title}</a>
+                                        <a href="blogs?action=detail&blog_id=${b.blog_id}" class="text-dark title h7">${b.title}</a>
                                         <div class="post-meta d-flex justify-content-between mt-3">
                                             <ul class="list-unstyled mb-0">
-                                                <li class="list-inline-item me-2 mb-0"><a href="#" class="text-muted like"><i class="mdi mdi-heart-outline me-1"></i>33</a></li>
-                                                <li class="list-inline-item"><a href="#" class="text-muted comments"><i class="mdi mdi-comment-outline me-1"></i>08</a></li>
+                                                <li class="list-inline-item me-2 mb-0" style="color:gray">${b.category.name}</li>
                                             </ul>
-                                            
                                         </div>
-                                        <a href="blogs?action=detail&blog_id=${b.blog_id}" class="link">Read More<i class="mdi mdi-chevron-right align-middle"></i></a>
                                     </div>
                                 </div>
 
@@ -99,18 +97,11 @@
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Bài Đăng Nổi Bật</h5>
                                     <div class="mt-4">
-                                        <div class="clearfix post-recent">
+<!--                                        <div class="clearfix post-recent">
                                             <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/07.jpg" class="img-fluid rounded"></a></div>
                                             <div class="post-recent-content float-start"><a href="jvascript:void(0)">Consultant Business</a><span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/08.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Look On The Glorious Balance</a> <span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
-                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/01.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Research Financial.</a> <span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>
+                                        </div>-->
+                                        
                                     </div>
                                 </div>
                                 <!-- RECENT POST -->
