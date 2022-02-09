@@ -60,7 +60,7 @@ public class UserController extends HttpServlet {
                 } else {
                     Account account = userdao.login(email, enpassword);
                     if (account == null) {
-                        request.setAttribute("error", "Tài khoản không tồn tại !");
+                        request.setAttribute("error", "Email hoặc mật khẩu không chính xác !");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
                     } else {
                         session.setAttribute("user", account);
