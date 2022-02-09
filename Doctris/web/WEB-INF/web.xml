@@ -28,6 +28,10 @@
         <servlet-name>DoctorController</servlet-name>
         <servlet-class>controller.admin.DoctorController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PatientController</servlet-name>
+        <servlet-class>controller.admin.PatientController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -51,6 +55,10 @@
     <servlet-mapping>
         <servlet-name>DoctorController</servlet-name>
         <url-pattern>/doctormanage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatientController</servlet-name>
+        <url-pattern>/patientmanage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
