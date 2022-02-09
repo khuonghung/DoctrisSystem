@@ -66,6 +66,7 @@ public class SettingController extends HttpServlet {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 int id = Integer.parseInt(request.getParameter("id"));
                 String name = request.getParameter("name");
+                String note = request.getParameter("note");
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 String table = null;
                 if (setting_id == 1) {
@@ -77,29 +78,14 @@ public class SettingController extends HttpServlet {
                 if (setting_id == 3) {
                     table = "category_service";
                 }
-                settingdao.SettingUpdate(table, id, name, status, setting_id);
-                response.sendRedirect("setting?action=all");
-            }
-            if (action.equals("delete")) {
-                int setting_id = Integer.parseInt(request.getParameter("setting_id"));
-                int id = Integer.parseInt(request.getParameter("id"));
-                String table = null;
-                if (setting_id == 1) {
-                    table = "role";
-                }
-                if (setting_id == 2) {
-                    table = "category_blog";
-                }
-                if (setting_id == 3) {
-                    table = "category_service";
-                }
-                settingdao.SettingDelete(table, id);
+                settingdao.SettingUpdate(table, id, name, status, setting_id, note);
                 response.sendRedirect("setting?action=all");
             }
             if (action.equals("addnew")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 String name = request.getParameter("name");
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                String note = request.getParameter("note");
                 String table = null;
                 if (setting_id == 1) {
                     table = "role";
@@ -110,7 +96,7 @@ public class SettingController extends HttpServlet {
                 if (setting_id == 3) {
                     table = "category_service";
                 }
-                settingdao.SettingADD(table, name, status, setting_id);
+                settingdao.SettingADD(table, name, status, setting_id, note);
                 response.sendRedirect("setting?action=all");
             }
 

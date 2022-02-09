@@ -46,17 +46,17 @@ public class SettingDAO {
 
     public List<SettingDetails> getAll() throws SQLException {
         List<SettingDetails> list = new ArrayList<>();
-        String sql = "SELECT se.id AS \"ID\", se.name AS \"Name\", se.setting_id AS \"Setting ID\", se.status AS \"Status\"\n"
+        String sql = "SELECT se.id AS \"ID\", se.name AS \"Name\", se.setting_id AS \"Setting ID\", se.status AS \"Status\", se.note AS \"Note\"\n"
                 + "FROM doctris_system.setting s\n"
                 + "inner join doctris_system.category_service se\n"
                 + "on se.setting_id = se.setting_id\n"
                 + "union\n"
-                + "SELECT se.id AS \"ID\", se.name AS \"Name\", se.setting_id AS \"Setting ID\", se.status AS \"Status\"\n"
+                + "SELECT se.id AS \"ID\", se.name AS \"Name\", se.setting_id AS \"Setting ID\", se.status AS \"Status\", se.note AS \"Note\"\n"
                 + "FROM doctris_system.setting s\n"
                 + "inner join doctris_system.role se\n"
                 + "on se.setting_id = se.setting_id\n"
                 + "union\n"
-                + "SELECT se.id AS \"ID\", se.name AS \"Name\", se.setting_id AS \"Setting ID\", se.status AS \"Status\"\n"
+                + "SELECT se.id AS \"ID\", se.name AS \"Name\", se.setting_id AS \"Setting ID\", se.status AS \"Status\", se.note AS \"Note\"\n"
                 + "FROM doctris_system.setting s\n"
                 + "inner join doctris_system.category_blog se\n"
                 + "on se.setting_id = se.setting_id";
@@ -65,7 +65,7 @@ public class SettingDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new SettingDetails(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4)));
+                list.add(new SettingDetails(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5)));
             }
 
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class SettingDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new SettingDetails(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4)));
+                list.add(new SettingDetails(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4),rs.getString(5)));
             }
 
         } catch (Exception e) {
@@ -97,15 +97,16 @@ public class SettingDAO {
         return list;
     }
 
-    public void SettingUpdate(String table, int ID, String name, boolean status, int setting_id) throws SQLException {
-        String sql = "UPDATE " + table + " SET name = ?, setting_id = ?, status = ? WHERE (id = ?)";
+    public void SettingUpdate(String table, int ID, String name, boolean status, int setting_id, String note) throws SQLException {
+        String sql = "UPDATE " + table + " SET name = ?, setting_id = ?, status = ?, note = ? WHERE (id = ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, name);
             ps.setInt(2, setting_id);
             ps.setBoolean(3, status);
-            ps.setInt(4, ID);
+            ps.setInt(5, ID);
+            ps.setString(4, note);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {
@@ -115,29 +116,15 @@ public class SettingDAO {
         }
     }
 
-    public void SettingDelete(String table, int ID) throws SQLException {
-        String sql = "DELETE FROM " + table + " WHERE (id = ?)";
-        try {
-            connection = dbc.getConnection();
-            ps = connection.prepareStatement(sql);
-            ps.setInt(1, ID);
-            ps.executeUpdate();
-        } catch (Exception e) {
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
-
-    public void SettingADD(String table, String name, boolean status, int setting_id) throws SQLException {
-        String sql = "INSERT INTO " + table + " (`name`, `setting_id`, `status`) VALUES (?, ?, ?)";
+    public void SettingADD(String table, String name, boolean status, int setting_id, String note) throws SQLException {
+        String sql = "INSERT INTO " + table + " (`name`, `setting_id`, `status`, `note`) VALUES (?, ?, ?, ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, name);
             ps.setInt(2, setting_id);
             ps.setBoolean(3, status);
+            ps.setString(4, note);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {

@@ -14,6 +14,7 @@ public class SettingDetails {
     private String name;
     private int setting_id;
     private boolean status;
+    private String note;
 
     public SettingDetails() {
     }
@@ -23,6 +24,14 @@ public class SettingDetails {
         this.name = name;
         this.setting_id = setting_id;
         this.status = status;
+    }
+
+    public SettingDetails(int id, String name, int setting_id, boolean status, String note) {
+        this.id = id;
+        this.name = name;
+        this.setting_id = setting_id;
+        this.status = status;
+        this.note = note;
     }
 
     public int getId() {
@@ -57,7 +66,11 @@ public class SettingDetails {
         this.status = status;
     }
 
-    
-    
-    
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }  
 }

@@ -72,8 +72,9 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" >Setting ID</th>
-                                                <th class="border-bottom p-3" >ID</th>
-                                                <th class="border-bottom p-3" >Name</th>
+                                                <th class="border-bottom p-3" >Type</th>
+                                                <th class="border-bottom p-3" >Value</th>
+                                                <th class="border-bottom p-3" >Note</th>
                                                 <th class="border-bottom p-3" >Status</th>
                                                 <th class="border-bottom p-3" ></th>
                                             </tr>
@@ -82,8 +83,13 @@
                                             <c:forEach items="${settingdetails}" var="sd">
                                                 <tr>
                                                     <th class="p-3">${sd.setting_id}</th>
-                                                    <td class="p-3">${sd.id}</td>
+                                                        <c:forEach items="${setting}" var="s">
+                                                            <c:if test="${sd.setting_id == s.setting_id}">
+                                                            <td class="p-3">${s.description}</td>
+                                                        </c:if>
+                                                    </c:forEach>
                                                     <td class="p-3">${sd.name}</td>
+                                                    <td class="p-3">${sd.note}</td>
                                                     <c:if test="${sd.status == true}">
                                                         <td class="p-3">Active</td>
                                                     </c:if>
@@ -92,7 +98,6 @@
                                                     </c:if>
                                                     <td class="text-end p-3">
                                                         <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit${sd.id}${sd.setting_id}">Chỉnh sửa</a>
-                                                        <a href="setting?action=delete&setting_id=${sd.setting_id}&id=${sd.id}" class="btn btn-danger">Xóa bỏ</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -109,8 +114,8 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
 
                                         <c:forEach begin="${1}" end="${num}" var="i">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
-                                        </c:forEach>
+                                            <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                            </c:forEach>
                                     </ul>
                                 </div>
                             </div>
@@ -139,6 +144,10 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">Tên <span class="text-danger">*</span></label>
                                                         <input value="${sd.name}" name="name" id="name" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ghi Chú <span class="text-danger">*</span></label>
+                                                        <input value="${sd.note}" name="note" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
@@ -198,7 +207,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Tên <span class="text-danger">*</span></label>
-                                    <input value="${sd.name}" name="name" id="name" type="text" class="form-control">
+                                    <input name="name" id="name" type="text" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi Chú <span class="text-danger">*</span></label>
+                                    <input name="note" id="name" type="text" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
