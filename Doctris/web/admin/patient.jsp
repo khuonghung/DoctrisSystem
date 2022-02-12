@@ -93,7 +93,7 @@
                                     <div class="d-md-flex align-items-center text-center justify-content-between">
                                         <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                             <c:forEach begin="${1}" end="${num}" var="i">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="patientmanage?action=all&page=${i}">${i}</a></li>
+                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
                                                 </c:forEach>
                                         </ul>
                                     </div>

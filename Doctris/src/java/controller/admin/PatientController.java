@@ -38,15 +38,18 @@ public class PatientController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PatientDao patientdao = new PatientDao();
         List<Patient> patientlist = null;
+        String url = null;
         String action = request.getParameter("action");
 
         try {
             if (action.equals("all")) {
+                url = "patientmanage?action=all";
                 patientlist = patientdao.getAllPatient();
             }
             
             if (action.equals("search")) {
                 String search = request.getParameter("search");
+                url = "patientmanage?action=search&search="+search;
                 patientlist = patientdao.getPatientByName(search);
             }
          
@@ -87,6 +90,7 @@ public class PatientController extends HttpServlet {
                 List<Patient> patientDetails = patientdao.getListByPage(patientlist, start, end);
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
+                request.setAttribute("url", url);
                 request.setAttribute("patientlist", patientlist);
                 request.setAttribute("patientDetails", patientDetails);
                 request.getRequestDispatcher("admin/patient.jsp").forward(request, response);
