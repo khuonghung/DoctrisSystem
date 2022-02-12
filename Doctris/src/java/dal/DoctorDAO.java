@@ -32,7 +32,7 @@ public class DoctorDAO {
     DBContext dbc = new DBContext();
     Connection connection = null;
 
-    public List<Doctor> getRandomTop6Doctor() throws SQLException {
+    public List<Doctor> getRandomTop6Doctor() throws SQLException, IOException {
         List<Doctor> list = new ArrayList<>();
         String sql = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
@@ -46,9 +46,26 @@ public class DoctorDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(14);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), rs.getString(14)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
             }
         } catch (SQLException e) {
         } finally {
