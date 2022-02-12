@@ -41,7 +41,10 @@ public class PatientController extends HttpServlet {
         String action = request.getParameter("action");
 
         try {
-
+            if (action.equals("all")) {
+                patientlist = patientdao.getAllPatient();
+            }
+         
             if (action.equals("detail")) {
                 String username = request.getParameter("username");
                 Patient patient = new Patient();
@@ -49,7 +52,7 @@ public class PatientController extends HttpServlet {
                 request.setAttribute("patient", patient);
                 request.getRequestDispatcher("admin/patientdetail.jsp").forward(request, response);
             }
-            
+
             if (action.equals("update_patient")) {
                 int patient_id = Integer.parseInt(request.getParameter("patient_id"));
                 int phone = Integer.parseInt(request.getParameter("phone"));
@@ -61,6 +64,28 @@ public class PatientController extends HttpServlet {
                 Date dob = Date.valueOf(request.getParameter("DOB"));
                 patientdao.PatientUpdate(username, adress, dob, patient_id, name, status, gender, phone);
                 response.sendRedirect("patientmanage?action=detail&username=" + username);
+            }
+            
+            if (patientlist != null) {
+                int page, numperpage = 6;
+                int type = 3;
+                int size = patientlist.size();
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<Patient> patientDetails = patientdao.getListByPage(patientlist, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("patientlist", patientlist);
+                request.setAttribute("patientDetails", patientDetails);
+                request.getRequestDispatcher("admin/patient.jsp").forward(request, response);
             }
 
         } catch (IOException | SQLException | ServletException e) {

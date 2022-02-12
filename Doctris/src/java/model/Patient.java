@@ -40,6 +40,13 @@ public class Patient {
         this.address = address;
         this.status = status;
     }
+    public Patient(Account account, int patient_id, Date DOB, boolean status) {
+        this.account = account;
+        this.patient_id = patient_id;
+        this.status = status;
+        this.DOB = DOB;
+    }
+
 
     public Account getAccount() {
         return account;

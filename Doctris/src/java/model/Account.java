@@ -63,6 +63,12 @@ public class Account {
         this.gender = gender;
         this.phone = phone;
     }
+    public Account(String username, String name, boolean gender) {
+        this.username = username;
+        this.name = name;
+        this.gender = gender;
+    }
+
     
     public Account(String username) {
         this.username = username;
