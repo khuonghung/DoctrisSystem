@@ -72,10 +72,9 @@ public class PatientController extends HttpServlet {
             }
             
             if (patientlist != null) {
-                int page, numperpage = 6;
-                int type = 3;
+                int page, numperpage = 8;
                 int size = patientlist.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);//so trang
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
