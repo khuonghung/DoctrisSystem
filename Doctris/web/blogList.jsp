@@ -11,13 +11,7 @@
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
     <body>
-
         <jsp:include page="layout/menu.jsp"/>
-
-
-
-
-        <!-- Start Hero -->
         <section class="bg-half-170 d-table w-100" style="background: url('assets/images/bg/banner.jpg') center center;">
             <div class="bg-overlay bg-overlay-dark"></div>
             <div class="container">
@@ -34,10 +28,10 @@
                                 </ul>
                             </nav>
                         </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </section><!--end section-->
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="position-relative">
             <div class="shape overflow-hidden text-white">
@@ -46,13 +40,9 @@
                 </svg>
             </div>
         </div>
-        <!-- End Hero -->
 
-        <!-- Start -->
         <section class="section">
             <div class="container">
-
-
                 <div class="row">
                     <div class="col-lg-8 col-lg-8 row">
                         <c:forEach items="${listblog}" var="b">
@@ -78,13 +68,11 @@
 
                             </div>
                         </c:forEach>
-                    </div><!--end col-->
+                    </div>
 
-                    <!-- right sider start --> 
                     <div class="col-lg-4 col-md-4 mt-4 mt-sm-0 pt-2 pt-sm-0">
                         <div class="card border-0 sidebar sticky-bar rounded shadow">
                             <div class="card-body">
-                                <!-- SEARCH -->
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Tìm Kiếm</h5>
                                     <div id="search2" class="widget-search mt-4 mb-0">
@@ -96,9 +84,6 @@
                                         </form>
                                     </div>
                                 </div>
-                                <!-- SEARCH -->
-
-                                <!-- RECENT POST -->
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Bài Đăng Nổi Bật</h5>
                                     <div class="mt-4">
@@ -110,9 +95,6 @@
                                         </c:forEach>
                                     </div>
                                 </div>
-                                <!-- RECENT POST -->
-
-                                <!-- TAG CLOUDS -->
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Danh Mục</h5>
                                     <div class="tagcloud mt-4">
@@ -121,16 +103,10 @@
                                         </c:forEach>
                                     </div>
                                 </div>
-                                <!-- TAG CLOUDS -->
-
                             </div>
                         </div>
                     </div>
-                    <!-- right sider end --> 
-
                 </div>
-
-                <!--end row-->
 
                 <c:set var="page" value="${page}"/>
                 <div class="row text-center">
@@ -151,31 +127,19 @@
                                         <c:if test="${requestScope.type == 0}">
                                         <li class="page-item ${i==page?"active":""}"><a class="page-link" href="blogs?page=${i}">${i}</a></li>
                                         </c:if>
-                                    </c:forEach>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-            </div><!--end container-->
-        </section><!--end section-->
-        <!-- End -->
-
-        <!-- Start -->
         <jsp:include page="layout/footer.jsp"/>
-        <!-- End -->
 
-        <!-- Back to top -->
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
-        <!-- Back to top -->
-
-        <!-- javascript -->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
-        <!-- Icons -->
-        <script src="../assets/js/feather.min.js"></script>
-        <!-- Main Js -->
-        <script src="../assets/js/app.js"></script>
-
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/js/app.js"></script>
     </body>
-
 </html>
