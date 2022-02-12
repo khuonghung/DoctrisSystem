@@ -41,7 +41,11 @@ public class Setting {
         this.note = note;
         this.order = order;
     }
-
+    
+    public Setting(String name) {
+        this.name = name;
+    }
+    
     public int getSetting_id() {
         return setting_id;
     }

@@ -39,7 +39,7 @@ public class DoctorController extends HttpServlet {
         String action = request.getParameter("action");
         List<Doctor> doctorlist = null;
         String url = null;
-        List<SettingDetails> specialitylist = null;
+        List<Setting> specialitylist = null;
         try {
             specialitylist = doctordao.getSpeciality();
             if (action.equals("all")) {

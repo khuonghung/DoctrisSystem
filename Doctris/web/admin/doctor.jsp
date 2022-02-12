@@ -70,7 +70,7 @@
                                                     <c:if test="${d.gender == false}">
                                                         <td class="p-3">Nữ</td>
                                                     </c:if>
-                                                    <td class="p-3">${d.settingdetails.name}</td>
+                                                    <td class="p-3">${d.setting.name}</td>
                                                     <c:if test="${d.status == true}">
                                                         <td class="p-3">Active</td>
                                                     </c:if>
