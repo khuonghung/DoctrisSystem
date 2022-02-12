@@ -62,7 +62,10 @@ public class UserController extends HttpServlet {
                     if (account == null) {
                         request.setAttribute("error", "Email hoặc mật khẩu không chính xác!");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
-                    } else {
+                    }else if(account.isStatus() == false){
+                        request.setAttribute("error", "Tài khoản đã bị khóa !");
+                        request.getRequestDispatcher("user?action=login").forward(request, response);
+                    }else {
                         session.setAttribute("user", account);
                         Cookie cemail = new Cookie("email", email);
                         Cookie cpass = new Cookie("pass", password);
