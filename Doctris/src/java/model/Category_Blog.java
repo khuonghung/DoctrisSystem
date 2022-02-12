@@ -12,7 +12,7 @@ package model;
 public class Category_Blog {
     private int id;
     private String name;
-    private SettingDetails settingDetails;
+    private Setting settingDetails;
     private boolean status;
 
     public int getId() {
@@ -31,11 +31,11 @@ public class Category_Blog {
         this.name = name;
     }
 
-    public SettingDetails getSettingDetails() {
+    public Setting getSetting() {
         return settingDetails;
     }
 
-    public void setSettingDetails(SettingDetails settingDetails) {
+    public void setSetting(Setting settingDetails) {
         this.settingDetails = settingDetails;
     }
 

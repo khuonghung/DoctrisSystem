@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Blog;
 import model.Category_Blog;
-import model.SettingDetails;
+import model.Setting;
 
 /**
  *
@@ -97,9 +97,9 @@ public class BlogDAO {
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("id"));
                 c.setName(rs.getString("name"));
-                SettingDetails s = new SettingDetails();
+                Setting s = new Setting();
                 s.setId(rs.getInt("setting_id"));
-                c.setSettingDetails(s);
+                c.setSetting(s);
                 c.setStatus(rs.getBoolean("status"));
                 categories.add(c);
             }
