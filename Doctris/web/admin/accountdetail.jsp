@@ -146,7 +146,7 @@
                             <div class="col-lg-7 col-md-7 mt-4">
                                 <div class="card border-0 shadow overflow-hidden">
                                     <div class="tab-content p-4" id="pills-tabContent">
-                                        <form action="account?action=update_image&username=${account.username}" method="POST" enctype="multipart/form-data">
+                                        <form action="account?action=update_image&username=${account.username}" method="POST" enctype="multipart/form-data" onSubmit="document.getElementById('submit').disabled=true;">
                                             <h5 class="mb-0">Chỉnh sửa thông tin :</h5>
                                             <div>
                                                 <p class="text-muted">Cập nhật ảnh đại diện.</p>
@@ -167,7 +167,7 @@
                                             </div>
                                         </form>
 
-                                        <form action="account?action=update_account&username=${account.username}" method="POST" class="mt-4">
+                                        <form action="account?action=update_account&username=${account.username}" method="POST" class="mt-4" onSubmit="document.getElementById('submit').disabled=true;">
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
