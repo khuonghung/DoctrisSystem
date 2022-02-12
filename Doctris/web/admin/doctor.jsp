@@ -70,7 +70,7 @@
                                                     <c:if test="${d.gender == false}">
                                                         <td class="p-3">Nữ</td>
                                                     </c:if>
-                                                    <td class="p-3">${d.settingdetails.name}</td>
+                                                    <td class="p-3">${d.setting.name}</td>
                                                     <c:if test="${d.status == true}">
                                                         <td class="p-3">Active</td>
                                                     </c:if>
@@ -78,7 +78,7 @@
                                                         <td class="p-3">Disable</td>
                                                     </c:if>
                                                     <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-info">Chi tiết</a>
+                                                        <a href="doctormanage?action=detail&id=${d.doctor_id}" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

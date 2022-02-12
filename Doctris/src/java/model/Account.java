@@ -67,6 +67,11 @@ public class Account {
     public Account(String username) {
         this.username = username;
     }
+    
+    public Account(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;

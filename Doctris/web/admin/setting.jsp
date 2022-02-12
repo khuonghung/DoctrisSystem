@@ -43,12 +43,12 @@
                                                 <div class="mb-0 position-relative">
                                                     <div class="dropdown">
                                                         <button style="color: #000; background-color: #215AEE ;border:none; font-family: sans-serif; " class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            Thể loại
+                                                            Type
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                             <li><a class="dropdown-item" href="setting?action=all">Tất cả</a></li>
                                                                 <c:forEach items="${setting}" var="s">
-                                                                <li><a class="dropdown-item" href="setting?action=${s.setting_name}">${s.description}</a></li>
+                                                                <li><a class="dropdown-item" href="setting?action=${s.setting_name}">${s.setting_name}</a></li>
                                                                 </c:forEach>
                                                         </ul>
                                                     </div>
@@ -74,6 +74,7 @@
                                                 <th class="border-bottom p-3" >Setting ID</th>
                                                 <th class="border-bottom p-3" >Type</th>
                                                 <th class="border-bottom p-3" >Value</th>
+                                                <th class="border-bottom p-3" >Order</th>
                                                 <th class="border-bottom p-3" >Note</th>
                                                 <th class="border-bottom p-3" >Status</th>
                                                 <th class="border-bottom p-3" ></th>
@@ -85,10 +86,11 @@
                                                     <th class="p-3">${sd.setting_id}</th>
                                                         <c:forEach items="${setting}" var="s">
                                                             <c:if test="${sd.setting_id == s.setting_id}">
-                                                            <td class="p-3">${s.description}</td>
+                                                            <td class="p-3">${s.setting_name}</td>
                                                         </c:if>
                                                     </c:forEach>
                                                     <td class="p-3">${sd.name}</td>
+                                                    <td class="p-3">${sd.order}</td>
                                                     <td class="p-3">${sd.note}</td>
                                                     <c:if test="${sd.status == true}">
                                                         <td class="p-3">Active</td>
@@ -142,11 +144,15 @@
                                                         <input value="${sd.id}" readonly name="id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Tên <span class="text-danger">*</span></label>
-                                                        <input value="${sd.name}" name="name" id="name" type="text" class="form-control">
+                                                        <label class="form-label">Value <span class="text-danger">*</span></label>
+                                                        <input value="${sd.name}" name="value" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Ghi Chú <span class="text-danger">*</span></label>
+                                                        <label class="form-label">Order <span class="text-danger">*</span></label>
+                                                        <input value="${sd.order}" name="order" id="name" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Note <span class="text-danger">*</span></label>
                                                         <input value="${sd.note}" name="note" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
@@ -197,20 +203,24 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Thể loại <span class="text-danger">*</span></label>
+                                        <label class="form-label">Type <span class="text-danger">*</span></label>
                                         <select name="setting_id" class="form-select" aria-label="Default select example">
                                             <c:forEach items="${setting}" var="s">
-                                                <option value="${s.setting_id}">${s.description}</option>
+                                                <option value="${s.setting_id}">${s.setting_name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Tên <span class="text-danger">*</span></label>
-                                    <input name="name" id="name" type="text" class="form-control">
+                                    <label class="form-label">Value <span class="text-danger">*</span></label>
+                                    <input name="value" id="name" type="text" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Ghi Chú <span class="text-danger">*</span></label>
+                                    <label class="form-label">Order <span class="text-danger">*</span></label>
+                                    <input name="order" id="name" type="text" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Note <span class="text-danger">*</span></label>
                                     <input name="note" id="name" type="text" class="form-control">
                                 </div>
                                 <div class="mb-3">

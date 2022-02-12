@@ -55,14 +55,17 @@ public class UserController extends HttpServlet {
                 String remember = request.getParameter("remember");
                 String enpassword = EncodeData.enCode(password);
                 if (Validate.checkEmail(email) == false) {
-                    request.setAttribute("error", "Email không hợp lệ !");
+                    request.setAttribute("error", "Email không hợp lệ!");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
                     Account account = userdao.login(email, enpassword);
                     if (account == null) {
-                        request.setAttribute("error", "Tài khoản không tồn tại !");
+                        request.setAttribute("error", "Email hoặc mật khẩu không chính xác!");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
-                    } else {
+                    }else if(account.isStatus() == false){
+                        request.setAttribute("error", "Tài khoản đã bị khóa !");
+                        request.getRequestDispatcher("user?action=login").forward(request, response);
+                    }else {
                         session.setAttribute("user", account);
                         Cookie cemail = new Cookie("email", email);
                         Cookie cpass = new Cookie("pass", password);
@@ -103,19 +106,19 @@ public class UserController extends HttpServlet {
                 String img = "default";
                 boolean status = true;
                 if (Validate.checkUsername(username) == false) {
-                    request.setAttribute("error", "Tên người dùng không hợp lệ !");
+                    request.setAttribute("error", "Tên người dùng không hợp lệ!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else if (Validate.checkFullName(name) == false) {
-                    request.setAttribute("error", "Thông tin Họ Tên không hợp lệ !");
+                    request.setAttribute("error", "Thông tin Họ Tên không hợp lệ!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else if (Validate.checkPhone(rphone) == false) {
-                    request.setAttribute("error", "Số điện thoại không hợp lệ !");
+                    request.setAttribute("error", "Số điện thoại không hợp lệ!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else if (Validate.checkEmail(email) == false) {
-                    request.setAttribute("error", "Email không hợp lệ !");
+                    request.setAttribute("error", "Email không hợp lệ!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else if (Validate.checkPassword(password) == false) {
-                    request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt) !");
+                    request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else {
                     if (!password.equals(repassword)) {
@@ -145,18 +148,18 @@ public class UserController extends HttpServlet {
             if (action.equals("checkemail")) {
                 String email = request.getParameter("email");
                 if (Validate.checkEmail(email) == false) {
-                    request.setAttribute("error", "Email không hợp lệ !");
+                    request.setAttribute("error", "Email không hợp lệ!");
                     request.getRequestDispatcher("user?action=recover").forward(request, response);
                 } else {
                     Account account = userdao.checkAccByEmail(email);
                     if (account == null) {
-                        request.setAttribute("error", "Email không tồn tại !");
+                        request.setAttribute("error", "Email không tồn tại!");
                         request.getRequestDispatcher("user?action=recover").forward(request, response);
                     } else {
                         String newpass = Password.getPassword(8);
                         SendMail.setContentRecover(account.getUsername(), newpass, email);
                         userdao.Recover(account.getUsername(), EncodeData.enCode(newpass));
-                        request.setAttribute("success", "Mật khẩu mới đã đươc gửi vào email của bạn.Nhấn đăng nhập để truy cập hệ thống.");
+                        request.setAttribute("success", "Mật khẩu mới đã đươc gửi vào email của bạn. Nhấn đăng nhập để truy cập hệ thống.");
                         request.getRequestDispatcher("user?action=recover").forward(request, response);
                     }
                 }
@@ -175,7 +178,7 @@ public class UserController extends HttpServlet {
                 userdao.UpdateProfile(username, name, phone, gender);
                 Account a = new Account(username, user.getRole(), name, gender, phone, user.getEmail(), user.getImg(), user.isStatus());
                 session.setAttribute("user", a);
-                request.setAttribute("updatesuccess", "Thông tin đã được cập nhật !");
+                request.setAttribute("updatesuccess", "Thông tin đã được cập nhật!");
                 response.sendRedirect("user?action=profile");
             }
 
@@ -198,20 +201,20 @@ public class UserController extends HttpServlet {
                 String newpassword = request.getParameter("newpassword");
                 String renewpassword = request.getParameter("renewpassword");
                 if (!oldpassword.equals(user.getPassword())) {
-                    request.setAttribute("passerror", "Mật khẩu không đúng !");
+                    request.setAttribute("passerror", "Mật khẩu không đúng!");
                     request.getRequestDispatcher("user?action=profile").forward(request, response);
                 } else {
                     if (Validate.checkPassword(newpassword) == false) {
-                        request.setAttribute("passerror", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt) !");
+                        request.setAttribute("passerror", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
                         request.getRequestDispatcher("user?action=profile").forward(request, response);
                     } else {
                         if (!newpassword.equals(renewpassword)) {
-                            request.setAttribute("passerror", "Mật khẩu không khớp !");
+                            request.setAttribute("passerror", "Mật khẩu không khớp!");
                             request.getRequestDispatcher("user?action=profile").forward(request, response);
                         } else {
                             newpassword = EncodeData.enCode(newpassword);
                             userdao.Recover(user.getUsername(), newpassword);
-                            request.setAttribute("passsuccess", "Thay đổi mật khẩu thành công !");
+                            request.setAttribute("passsuccess", "Thay đổi mật khẩu thành công!");
                             request.getRequestDispatcher("user?action=profile").forward(request, response);
                         }
                     }

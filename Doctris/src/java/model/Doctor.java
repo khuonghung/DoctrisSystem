@@ -12,7 +12,7 @@ import java.sql.Date;
  * @author Khuong Hung
  */
 public class Doctor {
-    SettingDetails settingdetails;
+    Setting setting;
     private int doctor_id;
     private int role_id;
     private String doctor_name;
@@ -27,8 +27,8 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(SettingDetails settingdetails, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img) {
-        this.settingdetails = settingdetails;
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img) {
+        this.setting = setting;
         this.doctor_id = doctor_id;
         this.role_id = role_id;
         this.doctor_name = doctor_name;
@@ -40,13 +40,21 @@ public class Doctor {
         this.status = status;
         this.img = img;
     }
-
-    public SettingDetails getSettingdetails() {
-        return settingdetails;
+    
+    public Doctor(Setting setting, int doctor_id, String doctor_name, boolean gender, boolean status) {
+        this.setting = setting;
+        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
+        this.gender = gender;
+        this.status = status;
     }
 
-    public void setSettingdetails(SettingDetails settingdetails) {
-        this.settingdetails = settingdetails;
+    public Setting getSetting() {
+        return setting;
+    }
+
+    public void setSettingdetails(Setting settingdetails) {
+        this.setting = setting;
     }
 
     public int getDoctor_id() {
