@@ -78,7 +78,7 @@
                                                         <td class="p-3">Disable</td>
                                                     </c:if>
                                                     <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-info">Chi tiết</a>
+                                                        <a href="doctormanage?action=detail&id=${d.doctor_id}" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

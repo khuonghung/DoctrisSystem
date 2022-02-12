@@ -7,18 +7,22 @@ package controller.admin;
 
 import dal.DoctorDAO;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import model.*;
 
 /**
  *
  * @author Khuong Hung
  */
+@MultipartConfig(maxFileSize = 16177216)
 public class DoctorController extends HttpServlet {
 
     /**
@@ -64,6 +68,37 @@ public class DoctorController extends HttpServlet {
                 String text = request.getParameter("txt");
                 doctorlist = doctordao.Search(text);
                 url = "doctormanage?action=search&txt=" + text;
+            }
+            if(action.equals("detail")){
+                int doctor_id = Integer.parseInt(request.getParameter("id"));
+                Doctor doctor = new Doctor();
+                doctor = doctordao.getDoctorByID(doctor_id);
+                request.setAttribute("speciality", specialitylist);
+                request.setAttribute("doctor", doctor);
+                request.getRequestDispatcher("admin/doctordetail.jsp").forward(request, response);
+            }
+            if (action.equals("update_image")) {
+                int doctor_id = Integer.parseInt(request.getParameter("id"));
+                Part image = request.getPart("image");
+                if (image != null) {
+                    try {
+                        doctordao.UpdateImage(doctor_id, image);
+                    } catch (Exception e) {
+                    }
+                }
+                response.sendRedirect("doctormanage?action=detail&id=" + doctor_id);
+            }
+            if(action.equals("update_info")){
+                int doctor_id = Integer.parseInt(request.getParameter("id"));
+                String name = request.getParameter("name");
+                boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                int phone = Integer.parseInt(request.getParameter("phone"));
+                Date DOB = Date.valueOf(request.getParameter("DOB"));
+                String description = request.getParameter("description");
+                int speciality = Integer.parseInt(request.getParameter("speciality"));
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                doctordao.DoctorUpdate(doctor_id, name, gender, phone, DOB, description, speciality, status);
+                response.sendRedirect("doctormanage?action=detail&id=" + doctor_id);
             }
             if (doctorlist != null) {
                 int page, numperpage = 8;
