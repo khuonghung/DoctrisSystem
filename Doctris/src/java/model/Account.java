@@ -55,9 +55,28 @@ public class Account {
         this.email = email;
         this.status = status;
     }
+    public Account(String img,String username, String name, String email, boolean gender, int phone) {
+        this.img = img;
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.phone = phone;
+    }
+    public Account(String username, String name, boolean gender) {
+        this.username = username;
+        this.name = name;
+        this.gender = gender;
+    }
+
     
     public Account(String username) {
         this.username = username;
+    }
+    
+    public Account(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
 
     public String getUsername() {

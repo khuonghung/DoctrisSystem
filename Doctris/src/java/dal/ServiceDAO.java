@@ -37,7 +37,7 @@ public class ServiceDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                SettingDetails s = new SettingDetails(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
+                Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
                 list.add(new Service(s,rs.getInt(5),rs.getString(6),rs.getDouble(7),rs.getString(8),rs.getString(9)));
             }
         } catch (SQLException e) {

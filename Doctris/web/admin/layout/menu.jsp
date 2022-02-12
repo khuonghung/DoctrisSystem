@@ -10,7 +10,6 @@
         <div class="sidebar-brand">
             <a href="home">
                 <img src="assets/images/logo-dark.png" height="24" class="logo-light-mode" alt="">
-                <img src="assets/images/logo-light.png" height="24" class="logo-dark-mode" alt="">
             </a>
         </div>
 
@@ -18,6 +17,8 @@
             <li><a href="#"><i class="uil uil-dashboard me-2 d-inline-block"></i>Bảng điều khiển</a></li>
             <li><a href="setting?action=all"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Setting</a></li>
             <li><a href="account?action=all"><i class="uil uil-user me-2 d-inline-block"></i>Quản lý Tài khoản</a></li>
+            <li><a href="doctormanage?action=all"><i class="uil uil-user me-2 d-inline-block"></i>Quản lý Bác sĩ</a></li>
+            <li><a href="patientmanage?action=all"><i class="uil uil-user me-2 d-inline-block"></i>Quản lý Bệnh nhân</a></li>
         </ul>
     </div>
     <ul class="sidebar-footer list-unstyled mb-0">
