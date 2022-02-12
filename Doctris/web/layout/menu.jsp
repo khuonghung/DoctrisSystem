@@ -92,7 +92,7 @@
                     <li><a href="#" class="sub-menu-item">Dịch vụ</a></li>
                     <li><a href="#" class="sub-menu-item">Chúng tôi</a></li>
                     <li><a href="contact" class="sub-menu-item">Liên hệ</a></li>
-                    <li><a href="#" class="sub-menu-item">Tin tức & chủ đề</a></li>
+                    <li><a href="blogs" class="sub-menu-item">Tin tức & chủ đề</a></li>
                 </ul>
 
             </div>
