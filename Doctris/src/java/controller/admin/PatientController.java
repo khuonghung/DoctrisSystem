@@ -44,6 +44,11 @@ public class PatientController extends HttpServlet {
             if (action.equals("all")) {
                 patientlist = patientdao.getAllPatient();
             }
+            
+            if (action.equals("search")) {
+                String search = request.getParameter("search");
+                patientlist = patientdao.getPatientByName(search);
+            }
          
             if (action.equals("detail")) {
                 String username = request.getParameter("username");

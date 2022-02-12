@@ -136,5 +136,30 @@ public class PatientDao {
             }
         }
     }
+    
+    public List<Patient> getPatientByName(String name) throws SQLException, IOException {
+        List<Patient> list = new ArrayList<>();
+        String sql = "select p.patient_id,u.username,u.name,u.gender,p.DOB,p.status from doctris_system.patient p\n" +
+"                inner join doctris_system.users u\n" +
+"                on p.username = u.username\n" +
+"                WHERE u.name LIKE N'%"+name+"%'";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+
+                list.add(new Patient(new Account(rs.getString(2), rs.getString(3), rs.getBoolean(4)), rs.getInt(1), rs.getDate(5), rs.getBoolean(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+
+    }
+
 
 }
