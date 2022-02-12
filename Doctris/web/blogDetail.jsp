@@ -27,7 +27,7 @@
                             <p class="para-desc mx-auto text-muted">Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.</p>
 
                             <ul class="list-unstyled mt-4">
-<!--                                <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> Calvin Carlo</li>-->
+                                <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${requestScope.blog.author}</li>
                                 <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${requestScope.blog.date}</li>
                             </ul>
                         </div>
@@ -80,7 +80,12 @@
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Bài Đăng Nổi Bật</h5>
                                     <div class="mt-4">
-                                        
+                                        <c:forEach items="${featured_blogs}" var="fb">
+                                            <div class="clearfix post-recent">
+                                                <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="${fb.img}" class="img-fluid rounded"></a></div>
+                                                <div class="post-recent-content float-start"><a href="blogs?action=detail&blog_id=${fb.blog_id}">${fb.title}</a></div>
+                                            </div>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <!-- RECENT POST -->

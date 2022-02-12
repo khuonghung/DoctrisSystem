@@ -19,14 +19,14 @@ public class Blog {
     private String img;
     private String describe;
     private Date date;
-    private boolean featured;
+    private String author;
 
-    public boolean isFeatured() {
-        return featured;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setFeatured(boolean featured) {
-        this.featured = featured;
+    public void setAuthor(String author) {
+        this.author = author;
     }
     
 

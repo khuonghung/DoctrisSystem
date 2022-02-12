@@ -105,7 +105,7 @@
                                         <c:forEach items="${featured_blogs}" var="fb">
                                             <div class="clearfix post-recent">
                                                 <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="${fb.img}" class="img-fluid rounded"></a></div>
-                                                <div class="post-recent-content float-start"><a href="jvascript:void(0)">${fb.title}</a></div>
+                                                <div class="post-recent-content float-start"><a href="blogs?action=detail&blog_id=${fb.blog_id}">${fb.title}</a></div>
                                             </div>
                                         </c:forEach>
                                     </div>

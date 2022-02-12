@@ -77,6 +77,7 @@ public class BlogDAO {
                 c.setId(rs.getInt("category_id"));
                 c.setName(rs.getString("name"));
                 b.setCategory(c);
+                b.setAuthor(rs.getString("author"));
                 return b;
             }
         } catch (SQLException ex) {
@@ -178,7 +179,6 @@ public class BlogDAO {
                 b.setImg(rs.getString("img"));
                 b.setDate(rs.getDate("date"));
                 b.setDescribe(rs.getString("describe"));
-                b.setFeatured(rs.getBoolean("featured"));
                 blogs.add(b);
             }
         } catch (SQLException ex) {

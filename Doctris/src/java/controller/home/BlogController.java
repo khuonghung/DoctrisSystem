@@ -81,6 +81,10 @@ public class BlogController extends HttpServlet {
                 
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
                 request.setAttribute("categories", categories);
+                
+                ArrayList<Blog> featured_blogs = blogDB.getBlogsByFeatured();
+                request.setAttribute("featured_blogs", featured_blogs);
+                
                 request.getRequestDispatcher("blogDetail.jsp").forward(request, response);
             }
             
