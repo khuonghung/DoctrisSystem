@@ -6,38 +6,39 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
     <body>
-        
+
         <jsp:include page="layout/menu.jsp"/>
 
-        
 
 
-            <!-- Start Hero -->
-            <section class="bg-half-170 d-table w-100" style="background: url('assets/images/bg/banner.jpg') center center;">
-                <div class="bg-overlay bg-overlay-dark"></div>
-                <div class="container">
-                    <div class="row mt-5 justify-content-center">
-                        <div class="col-12">
-                            <div class="section-title text-center">
-                                <h3 class="sub-title mb-4 text-white title-dark">Blogs & Tin Tức</h3>
-                                <p class="para-desc mx-auto text-white-50">Bạn có thể trở thành một bác sĩ bất đắc dĩ trong gia đình với những kiến thức tại doctris blog. Tại đây chúng tôi luôn cập nhập những thông tin bổ ích về sức khỏe, sinh lý, sơ cứu,...</p>
 
-                                <nav aria-label="breadcrumb" class="d-inline-block mt-3">
-                                    <ul class="breadcrumb bg-light rounded mb-0 py-1 px-2">
-                                        <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
-                                        <li class="breadcrumb-item active" aria-current="page">Blogs</li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div><!--end col-->
-                    </div><!--end row-->
-                </div><!--end container-->
-            </section><!--end section-->
-        
+        <!-- Start Hero -->
+        <section class="bg-half-170 d-table w-100" style="background: url('assets/images/bg/banner.jpg') center center;">
+            <div class="bg-overlay bg-overlay-dark"></div>
+            <div class="container">
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-12">
+                        <div class="section-title text-center">
+                            <h3 class="sub-title mb-4 text-white title-dark">Blogs & Tin Tức</h3>
+                            <p class="para-desc mx-auto text-white-50">Bạn có thể trở thành một bác sĩ bất đắc dĩ trong gia đình với những kiến thức tại doctris blog. Tại đây chúng tôi luôn cập nhập những thông tin bổ ích về sức khỏe, sinh lý, sơ cứu,...</p>
+
+                            <nav aria-label="breadcrumb" class="d-inline-block mt-3">
+                                <ul class="breadcrumb bg-light rounded mb-0 py-1 px-2">
+                                    <li class="breadcrumb-item"><a href="index.html">Doctris</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+
         <div class="position-relative">
             <div class="shape overflow-hidden text-white">
                 <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,10 +64,14 @@
                                             <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>${b.date}</li>
                                         </ul>
                                         <a href="blogs?action=detail&blog_id=${b.blog_id}" class="text-dark title h7">${b.title}</a>
+                                        <c:set var = "detail" value = "${b.describe}"/>
+                                        <c:set var = "brief_info" value = "${fn:substring(detail, 0, 50)}" />
+                                        <p style="font-size: 9">${brief_info}[...]</p>
                                         <div class="post-meta d-flex justify-content-between mt-3">
                                             <ul class="list-unstyled mb-0">
                                                 <li class="list-inline-item me-2 mb-0" style="color:gray">${b.category.name}</li>
                                             </ul>
+
                                         </div>
                                     </div>
                                 </div>
@@ -97,11 +102,12 @@
                                 <div class="widget mb-4 pb-2">
                                     <h5 class="widget-title">Bài Đăng Nổi Bật</h5>
                                     <div class="mt-4">
-<!--                                        <div class="clearfix post-recent">
-                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="../assets/images/blog/07.jpg" class="img-fluid rounded"></a></div>
-                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Consultant Business</a><span class="text-muted mt-2">15th June, 2019</span></div>
-                                        </div>-->
-                                        
+                                        <c:forEach items="${featured_blogs}" var="fb">
+                                            <div class="clearfix post-recent">
+                                                <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="${fb.img}" class="img-fluid rounded"></a></div>
+                                                <div class="post-recent-content float-start"><a href="jvascript:void(0)">${fb.title}</a></div>
+                                            </div>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <!-- RECENT POST -->

@@ -19,6 +19,16 @@ public class Blog {
     private String img;
     private String describe;
     private Date date;
+    private boolean featured;
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+    
 
     public int getBlog_id() {
         return blog_id;

@@ -46,7 +46,7 @@ public class BlogController extends HttpServlet {
                 
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
                 
-                
+                ArrayList<Blog> featured_blogs = blogDB.getBlogsByFeatured();
                 
                 //phân trang
                 int page, numperpage = 6;
@@ -68,6 +68,7 @@ public class BlogController extends HttpServlet {
                 request.setAttribute("num", num);
                 request.setAttribute("categories", categories);
                 request.setAttribute("blogs", blogs);
+                request.setAttribute("featured_blogs", featured_blogs);
                 request.setAttribute("listblog", listblog);
                 request.getRequestDispatcher("blogList.jsp").forward(request, response);
             }

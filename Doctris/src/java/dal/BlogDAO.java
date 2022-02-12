@@ -43,7 +43,7 @@ public class BlogDAO {
                 b.setTitle(rs.getString("title"));
                 b.setImg(rs.getString("img"));
                 b.setDate(rs.getDate("date"));
-                b.setDescribe("describe");
+                b.setDescribe(rs.getString("describe"));
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
                 c.setName(rs.getString("name"));
@@ -163,7 +163,30 @@ public class BlogDAO {
         }
         return blogs;
     }
-
+    
+    public ArrayList<Blog> getBlogsByFeatured() {
+        ArrayList<Blog> blogs = new ArrayList<>();
+        try {
+            connection = dbc.getConnection();
+            String sql = "Select * from blog where featured = 1 ;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog b = new Blog();
+                b.setBlog_id(rs.getInt("blog_id"));
+                b.setTitle(rs.getString("title"));
+                b.setImg(rs.getString("img"));
+                b.setDate(rs.getDate("date"));
+                b.setDescribe(rs.getString("describe"));
+                b.setFeatured(rs.getBoolean("featured"));
+                blogs.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blogs;
+    }
+    
     public ArrayList<Blog> getListByPage(ArrayList<Blog> list,
             int start, int end) {
         ArrayList<Blog> arr = new ArrayList<>();
