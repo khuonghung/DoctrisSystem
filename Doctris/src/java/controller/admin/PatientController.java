@@ -39,6 +39,8 @@ public class PatientController extends HttpServlet {
         PatientDao patientdao = new PatientDao();
         List<Patient> patientlist = null;
         String url = null;
+        String alert = null;
+        String message = null;
         String action = request.getParameter("action");
 
         try {
@@ -71,7 +73,11 @@ public class PatientController extends HttpServlet {
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 Date dob = Date.valueOf(request.getParameter("DOB"));
                 patientdao.PatientUpdate(username, adress, dob, patient_id, name, status, gender, phone);
-                response.sendRedirect("patientmanage?action=detail&username=" + username);
+                alert = "success";
+                message = "Cập nhật thôn tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("patientmanage?action=detail&username=" + username).forward(request, response);
             }
             
             if (patientlist != null) {

@@ -43,6 +43,8 @@ public class DoctorController extends HttpServlet {
         String action = request.getParameter("action");
         List<Doctor> doctorlist = null;
         String url = null;
+        String alert = null;
+        String message = null;
         List<Setting> specialitylist = null;
         try {
             specialitylist = doctordao.getSpeciality();
@@ -86,7 +88,11 @@ public class DoctorController extends HttpServlet {
                     } catch (Exception e) {
                     }
                 }
-                response.sendRedirect("doctormanage?action=detail&id=" + doctor_id);
+                alert = "success";
+                message = "Cập nhật ảnh thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("doctormanage?action=detail&id=" + doctor_id).forward(request, response);
             }
             if(action.equals("update_info")){
                 int doctor_id = Integer.parseInt(request.getParameter("id"));
@@ -98,7 +104,11 @@ public class DoctorController extends HttpServlet {
                 int speciality = Integer.parseInt(request.getParameter("speciality"));
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 doctordao.DoctorUpdate(doctor_id, name, gender, phone, DOB, description, speciality, status);
-                response.sendRedirect("doctormanage?action=detail&id=" + doctor_id);
+                alert = "success";
+                message = "Cập nhật thông tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("doctormanage?action=detail&id=" + doctor_id).forward(request, response);
             }
             if (doctorlist != null) {
                 int page, numperpage = 8;
