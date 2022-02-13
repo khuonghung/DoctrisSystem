@@ -82,7 +82,7 @@
 
                 <div>
                     <a class="logo" href="home">
-                        <img src="assets/images/logo-light.png" height="24" class="logo--mode" alt="">
+                        <img src="assets/images/logo-dark.png" height="24" class="logo--mode" alt="">
                     </a>
                 </div>
 

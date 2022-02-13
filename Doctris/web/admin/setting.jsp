@@ -26,9 +26,9 @@
                             <div class="col-xl-4 col-lg-6 col-md-2">
                                 <div class="search-bar p-0 d-none d-lg-block ms-2">
                                     <div id="search" class="menu-search mb-0">
-                                        <form action="#" method="POST" id="searchform" class="searchform">
+                                        <form action="setting?action=search" method="POST" id="searchform" class="searchform">
                                             <div>
-                                                <input type="text" class="form-control border rounded-pill" name="txt" id="s" placeholder="Tìm kiếm setting...">
+                                                <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm setting...">
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </div>
                                         </form>
@@ -43,12 +43,12 @@
                                                 <div class="mb-0 position-relative">
                                                     <div class="dropdown">
                                                         <button style="color: #000; background-color: #215AEE ;border:none; font-family: sans-serif; " class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            Thể loại
+                                                            Type
                                                         </button>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                             <li><a class="dropdown-item" href="setting?action=all">Tất cả</a></li>
                                                                 <c:forEach items="${setting}" var="s">
-                                                                <li><a class="dropdown-item" href="setting?action=${s.setting_name}">${s.description}</a></li>
+                                                                <li><a class="dropdown-item" href="setting?action=${s.setting_name}">${s.setting_name}</a></li>
                                                                 </c:forEach>
                                                         </ul>
                                                     </div>
@@ -72,8 +72,10 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-bottom p-3" >Setting ID</th>
-                                                <th class="border-bottom p-3" >ID</th>
-                                                <th class="border-bottom p-3" >Name</th>
+                                                <th class="border-bottom p-3" >Type</th>
+                                                <th class="border-bottom p-3" >Value</th>
+                                                <th class="border-bottom p-3" >Order</th>
+                                                <th class="border-bottom p-3" >Note</th>
                                                 <th class="border-bottom p-3" >Status</th>
                                                 <th class="border-bottom p-3" ></th>
                                             </tr>
@@ -82,8 +84,14 @@
                                             <c:forEach items="${settingdetails}" var="sd">
                                                 <tr>
                                                     <th class="p-3">${sd.setting_id}</th>
-                                                    <td class="p-3">${sd.id}</td>
+                                                        <c:forEach items="${setting}" var="s">
+                                                            <c:if test="${sd.setting_id == s.setting_id}">
+                                                            <td class="p-3">${s.setting_name}</td>
+                                                        </c:if>
+                                                    </c:forEach>
                                                     <td class="p-3">${sd.name}</td>
+                                                    <td class="p-3">${sd.order}</td>
+                                                    <td class="p-3">${sd.note}</td>
                                                     <c:if test="${sd.status == true}">
                                                         <td class="p-3">Active</td>
                                                     </c:if>
@@ -92,7 +100,6 @@
                                                     </c:if>
                                                     <td class="text-end p-3">
                                                         <a href="#" type="button"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit${sd.id}${sd.setting_id}">Chỉnh sửa</a>
-                                                        <a href="setting?action=delete&setting_id=${sd.setting_id}&id=${sd.id}" class="btn btn-danger">Xóa bỏ</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -109,8 +116,8 @@
                                     <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
 
                                         <c:forEach begin="${1}" end="${num}" var="i">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
-                                        </c:forEach>
+                                            <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                            </c:forEach>
                                     </ul>
                                 </div>
                             </div>
@@ -133,32 +140,48 @@
                                                         <input value="${sd.setting_id}" readonly name="setting_id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">ID <span class="text-danger">*</span></label>
-                                                        <input value="${sd.id}" readonly name="id" id="name" type="text" class="form-control">
+                                                        <input value="${sd.id}" hidden name="id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Tên <span class="text-danger">*</span></label>
-                                                        <input value="${sd.name}" name="name" id="name" type="text" class="form-control">
+                                                        <label class="form-label">Value <span class="text-danger">*</span></label>
+                                                        <input value="${sd.name}" name="value" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
-                                                        <select name="status" class="form-select" aria-label="Default select example">
-                                                            <option <c:if test="${sd.status == true}">selected</c:if> value="true">Active</option>
-                                                            <option <c:if test="${sd.status == false}">selected</c:if> value="false">Disable</option>
-                                                            </select>
-                                                        </div>
+                                                        <label class="form-label">Order <span class="text-danger">*</span></label>
+                                                        <input value="${sd.order}" name="order" id="name" type="text" class="form-control">
                                                     </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="d-grid">
-                                                            <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
-                                                        </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Note <span class="text-danger">*</span></label>
+                                                        <input value="${sd.note}" name="note" id="name" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Status <span class="text-danger"></span></label>
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><input id="credit" name="status" ${sd.status==true?"checked":""} value="true" type="radio" class="form-check-input"
+                                                                               checked required ></td>
+                                                                    <td><label class="form-check-label">Active</label></td>
+                                                                    <td></td>
+                                                                    <td><input id="debit" name="status" ${sd.status==false?"checked":""} value="false" type="radio" class="form-check-input"
+                                                                               required></td>
+                                                                    <td><label class="form-check-label">Disable</label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="col-lg-12">
+                                                    <div class="d-grid">
+                                                        <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </c:forEach>
 
                     <footer class="bg-white shadow py-3">
@@ -188,24 +211,42 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Thể loại <span class="text-danger">*</span></label>
+                                        <label class="form-label">Type <span class="text-danger">*</span></label>
                                         <select name="setting_id" class="form-select" aria-label="Default select example">
                                             <c:forEach items="${setting}" var="s">
-                                                <option value="${s.setting_id}">${s.description}</option>
+                                                <option value="${s.setting_id}">${s.setting_name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Tên <span class="text-danger">*</span></label>
-                                    <input value="${sd.name}" name="name" id="name" type="text" class="form-control">
+                                    <label class="form-label">Value <span class="text-danger">*</span></label>
+                                    <input name="value" id="name" type="text" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
-                                    <select name="status" class="form-select" aria-label="Default select example">
-                                        <option value="true">Active</option>
-                                        <option value="false">Disable</option>
-                                    </select>
+                                    <label class="form-label">Order <span class="text-danger">*</span></label>
+                                    <input name="order" id="name" type="text" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Note <span class="text-danger">*</span></label>
+                                    <input name="note" id="name" type="text" class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Status <span class="text-danger"></span></label>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><input id="credit" name="status" value="true" type="radio" class="form-check-input"
+                                                           checked required ></td>
+                                                <td><label class="form-check-label">Active</label></td>
+                                                <td></td>
+                                                <td><input id="debit" name="status" value="false" type="radio" class="form-check-input"
+                                                           required></td>
+                                                <td><label class="form-check-label">Disable</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="col-lg-12">

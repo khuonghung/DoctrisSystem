@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <head>
         <meta charset="utf-8" />
         <title>Doctris - Tìm bác sĩ chính xác - Đặt lịch khám dễ dàng</title>
@@ -16,5 +17,14 @@
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/tiny-slider.css" />
         <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
-        <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+        <script src="assets/js/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            <c:if test="${alert != null}">
+            toastr.${alert}('${message}.', 'Thông báo', {timeOut: 5000})
+            </c:if>
+        });
+    </script>
     </head>

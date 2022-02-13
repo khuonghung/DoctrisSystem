@@ -10,7 +10,7 @@ package model;
  * @author Khuong Hung
  */
 public class Service {
-    SettingDetails settingdetails;
+    Setting setting;
     private int service_id;
     private String title;
     private double fee;
@@ -20,8 +20,8 @@ public class Service {
     public Service() {
     }
 
-    public Service(SettingDetails settingdetails, int service_id, String title, double fee, String description, String img) {
-        this.settingdetails = settingdetails;
+    public Service(Setting setting, int service_id, String title, double fee, String description, String img) {
+        this.setting = setting;
         this.service_id = service_id;
         this.title = title;
         this.fee = fee;
@@ -29,12 +29,12 @@ public class Service {
         this.img = img;
     }
 
-    public SettingDetails getSettingdetails() {
-        return settingdetails;
+    public Setting getSetting() {
+        return setting;
     }
 
-    public void setSettingdetails(SettingDetails settingdetails) {
-        this.settingdetails = settingdetails;
+    public void setSettingdetails(Setting setting) {
+        this.setting = setting;
     }
 
     public int getService_id() {

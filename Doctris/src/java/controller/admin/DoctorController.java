@@ -5,15 +5,16 @@
  */
 package controller.admin;
 
+import dal.DoctorDAO;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dal.*;
-import java.sql.SQLException;
-import java.util.List;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import model.*;
 
@@ -22,7 +23,7 @@ import model.*;
  * @author Khuong Hung
  */
 @MultipartConfig(maxFileSize = 16177216)
-public class AccountController extends HttpServlet {
+public class DoctorController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,40 +39,52 @@ public class AccountController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        UserDAO userdao = new UserDAO();
-        RoleDAO roledao = new RoleDAO();
-        List<Account> accountlist = null;
+        DoctorDAO doctordao = new DoctorDAO();
+        String action = request.getParameter("action");
+        List<Doctor> doctorlist = null;
         String url = null;
         String alert = null;
         String message = null;
-        String action = request.getParameter("action");
+        List<Setting> specialitylist = null;
         try {
+            specialitylist = doctordao.getSpeciality();
             if (action.equals("all")) {
-                url = "account?action=all";
-                accountlist = userdao.getAllAccount();
+                url = "doctormanage?action=all";
+                doctorlist = doctordao.getAllDoctor();
             }
-            if (action.equals("update")) {
-                String username = request.getParameter("username");
-                int role_id = Integer.parseInt(request.getParameter("role_id"));
-                boolean status = Boolean.parseBoolean(request.getParameter("status"));
-                userdao.UpdateAccount(username, role_id, status);
-                response.sendRedirect("account?action=all");
+            if(action.equals("filter")){
+                String gender = request.getParameter("gender");
+                String speciality = request.getParameter("speciality");
+                if(gender.equals("all") && speciality.equals("all")){
+                    response.sendRedirect("doctormanage?action=all");
+                }else if(gender.equals("all")){
+                    doctorlist = doctordao.getAllDoctorBySpeciality(speciality);
+                }else if(speciality.equals("all")){
+                    doctorlist = doctordao.getAllDoctorByGender(gender);
+                }else{
+                    doctorlist = doctordao.getAllDoctorByFilter(gender, speciality);
+                }
+                url = "doctormanage?action=filter&gender=" + gender + "&speciality=" + speciality;
             }
-
-            if (action.equals("detail")) {
-                String username = request.getParameter("username");
-                Account account = new Account();
-                account = userdao.getAccountByUsername(username);
-                request.setAttribute("account", account);
-                request.getRequestDispatcher("admin/accountdetail.jsp").forward(request, response);
+            if(action.equals("search")){
+                String text = request.getParameter("txt");
+                doctorlist = doctordao.Search(text);
+                url = "doctormanage?action=search&txt=" + text;
             }
-
+            if(action.equals("detail")){
+                int doctor_id = Integer.parseInt(request.getParameter("id"));
+                Doctor doctor = new Doctor();
+                doctor = doctordao.getDoctorByID(doctor_id);
+                request.setAttribute("speciality", specialitylist);
+                request.setAttribute("doctor", doctor);
+                request.getRequestDispatcher("admin/doctordetail.jsp").forward(request, response);
+            }
             if (action.equals("update_image")) {
-                String username = request.getParameter("username");
+                int doctor_id = Integer.parseInt(request.getParameter("id"));
                 Part image = request.getPart("image");
                 if (image != null) {
                     try {
-                        userdao.UpdateImage(username, image);
+                        doctordao.UpdateImage(doctor_id, image);
                     } catch (Exception e) {
                     }
                 }
@@ -79,51 +92,28 @@ public class AccountController extends HttpServlet {
                 message = "Cập nhật ảnh thành công";
                 request.setAttribute("alert", alert);
                 request.setAttribute("message", message);
-                request.getRequestDispatcher("account?action=detail&username=" + username).forward(request, response);
+                request.getRequestDispatcher("doctormanage?action=detail&id=" + doctor_id).forward(request, response);
             }
-            
-            if (action.equals("update_account")) {
-                String username = request.getParameter("username");
+            if(action.equals("update_info")){
+                int doctor_id = Integer.parseInt(request.getParameter("id"));
                 String name = request.getParameter("name");
-                int phone = Integer.parseInt(request.getParameter("phone"));
                 boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
-                userdao.UpdateProfile(username,name,phone,gender);
+                int phone = Integer.parseInt(request.getParameter("phone"));
+                Date DOB = Date.valueOf(request.getParameter("DOB"));
+                String description = request.getParameter("description");
+                int speciality = Integer.parseInt(request.getParameter("speciality"));
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                doctordao.DoctorUpdate(doctor_id, name, gender, phone, DOB, description, speciality, status);
                 alert = "success";
                 message = "Cập nhật thông tin thành công";
                 request.setAttribute("alert", alert);
                 request.setAttribute("message", message);
-                request.getRequestDispatcher("account?action=detail&username=" + username).forward(request, response);
+                request.getRequestDispatcher("doctormanage?action=detail&id=" + doctor_id).forward(request, response);
             }
-
-            if (action.equals("filter")) {
-                String role_id = request.getParameter("role_id");
-                String status = request.getParameter("status");
-                if (role_id.equals("all") && status.equals("all")) {
-                    response.sendRedirect("account?action=all");
-                } else if (role_id.equals("all")) {
-                    url = "account?action=filter&role_id=" + role_id + "&status=" + status;
-                    accountlist = userdao.getFilterByStatus(status);
-                } else if (status.equals("all")) {
-                    url = "account?action=filter&status=" + status + "&role_id=" + role_id;
-                    accountlist = userdao.getFilterByRole(role_id);
-                } else {
-                    url = "account?action=filter&status=" + status + "&role_id=" + role_id;
-                    accountlist = userdao.getFilter(status, role_id);
-                }
-            }
-
-            if (action.equals("search")) {
-                String text = request.getParameter("txt");
-                text = text.replaceFirst("^0+(?!$)", "");
-                url = "account?action=search&txt=" + text;
-                accountlist = userdao.SearchALl(text);
-            }
-
-            if (accountlist != null) {
-                List<Role> rolelist = roledao.getRole();
+            if (doctorlist != null) {
                 int page, numperpage = 8;
                 int type = 0;
-                int size = accountlist.size();
+                int size = doctorlist.size();
                 int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
@@ -134,14 +124,14 @@ public class AccountController extends HttpServlet {
                 int start, end;
                 start = (page - 1) * numperpage;
                 end = Math.min(page * numperpage, size);
-                List<Account> account = userdao.getListByPage(accountlist, start, end);
+                List<Doctor> doctors = doctordao.getListByPage(doctorlist, start, end);
                 request.setAttribute("type", type);
-                request.setAttribute("url", url);
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
-                request.setAttribute("account", account);
-                request.setAttribute("role", rolelist);
-                request.getRequestDispatcher("admin/account.jsp").forward(request, response);
+                request.setAttribute("url", url);
+                request.setAttribute("doctor", doctors);
+                request.setAttribute("speciality", specialitylist);
+                request.getRequestDispatcher("admin/doctor.jsp").forward(request, response);
             }
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);

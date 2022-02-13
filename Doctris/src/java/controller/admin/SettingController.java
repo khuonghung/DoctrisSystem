@@ -38,8 +38,10 @@ public class SettingController extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
         String url = null;
+        String alert = null;
+        String message = null;
         List<Setting> setting = null;
-        List<SettingDetails> settingdetailslist = null;
+        List<Setting> settingdetailslist = null;
         SettingDAO settingdao = new SettingDAO();
         try {
             if (action.equals("all")) {
@@ -52,20 +54,22 @@ public class SettingController extends HttpServlet {
                 setting = settingdao.getAllSetting();
                 settingdetailslist = settingdao.getBySetting("role");
             }
-            if (action.equals("Category_blog")) {
-                url = "setting?action=Category_blog";
+            if (action.equals("Blog")) {
+                url = "setting?action=Blog";
                 setting = settingdao.getAllSetting();
                 settingdetailslist = settingdao.getBySetting("category_blog");
             }
-            if (action.equals("Category_service")) {
-                url = "setting?action=Category_service";
+            if (action.equals("Service")) {
+                url = "setting?action=Service";
                 setting = settingdao.getAllSetting();
                 settingdetailslist = settingdao.getBySetting("category_service");
             }
             if (action.equals("update")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
                 int id = Integer.parseInt(request.getParameter("id"));
-                String name = request.getParameter("name");
+                String value = request.getParameter("value");
+                int order = Integer.parseInt(request.getParameter("order"));
+                String note = request.getParameter("note");
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 String table = null;
                 if (setting_id == 1) {
@@ -77,29 +81,19 @@ public class SettingController extends HttpServlet {
                 if (setting_id == 3) {
                     table = "category_service";
                 }
-                settingdao.SettingUpdate(table, id, name, status, setting_id);
-                response.sendRedirect("setting?action=all");
-            }
-            if (action.equals("delete")) {
-                int setting_id = Integer.parseInt(request.getParameter("setting_id"));
-                int id = Integer.parseInt(request.getParameter("id"));
-                String table = null;
-                if (setting_id == 1) {
-                    table = "role";
-                }
-                if (setting_id == 2) {
-                    table = "category_blog";
-                }
-                if (setting_id == 3) {
-                    table = "category_service";
-                }
-                settingdao.SettingDelete(table, id);
-                response.sendRedirect("setting?action=all");
+                settingdao.SettingUpdate(table, id, value, status, setting_id, note, order);
+                alert = "success";
+                message = "Cập nhật thông tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("setting?action=all").forward(request, response);
             }
             if (action.equals("addnew")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
-                String name = request.getParameter("name");
+                String value = request.getParameter("value");
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                String note = request.getParameter("note");
+                int order = Integer.parseInt(request.getParameter("order"));
                 String table = null;
                 if (setting_id == 1) {
                     table = "role";
@@ -110,15 +104,24 @@ public class SettingController extends HttpServlet {
                 if (setting_id == 3) {
                     table = "category_service";
                 }
-                settingdao.SettingADD(table, name, status, setting_id);
-                response.sendRedirect("setting?action=all");
+                settingdao.SettingADD(table, value, status, setting_id, note, order);
+                alert = "success";
+                message = "Thêm mới thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("setting?action=all").forward(request, response);
+            }
+            if (action.equals("search")){
+                url = "setting?action=search";
+                String search = request.getParameter("search");
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.Search(search);
             }
 
             if (setting != null && settingdetailslist != null) {
-                int page, numperpage = 6;
-                int type = 3;
+                int page, numperpage = 8;
                 int size = settingdetailslist.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -128,7 +131,7 @@ public class SettingController extends HttpServlet {
                 int start, end;
                 start = (page - 1) * numperpage;
                 end = Math.min(page * numperpage, size);
-                List<SettingDetails> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
+                List<Setting> settingdetails = settingdao.getListByPage(settingdetailslist, start, end);
                 request.setAttribute("url", url);
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);

@@ -13,6 +13,7 @@ public class Role {
     private int role_id;
     private String name;
     Setting setting;
+    private String note;
 
     public Role() {
     }
@@ -21,6 +22,13 @@ public class Role {
         this.role_id = role_id;
         this.name = name;
         this.setting = setting;
+    }
+
+    public Role(int role_id, String name, Setting setting, String note) {
+        this.role_id = role_id;
+        this.name = name;
+        this.setting = setting;
+        this.note = note;
     }
     
     public Role(int role_id, String name) {
@@ -60,4 +68,11 @@ public class Role {
         this.setting = setting;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
