@@ -26,9 +26,9 @@
                             <div class="col-xl-4 col-lg-6 col-md-2">
                                 <div class="search-bar p-0 d-none d-lg-block ms-2">
                                     <div id="search" class="menu-search mb-0">
-                                        <form action="#" method="POST" id="searchform" class="searchform">
+                                        <form action="setting?action=search" method="POST" id="searchform" class="searchform">
                                             <div>
-                                                <input type="text" class="form-control border rounded-pill" name="txt" id="s" placeholder="Tìm kiếm setting...">
+                                                <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm setting...">
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </div>
                                         </form>

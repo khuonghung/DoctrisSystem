@@ -111,6 +111,12 @@ public class SettingController extends HttpServlet {
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("setting?action=all").forward(request, response);
             }
+            if (action.equals("search")){
+                url = "setting?action=search";
+                String search = request.getParameter("search");
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.Search(search);
+            }
 
             if (setting != null && settingdetailslist != null) {
                 int page, numperpage = 8;
