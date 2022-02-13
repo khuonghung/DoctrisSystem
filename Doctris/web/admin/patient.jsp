@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-11 row">
                                 <div class="col-md-4">
-                                    <h5 class="mb-0">Account</h5>
+                                    <h5 class="mb-0">Patients</h5>
                                     <h6>${requestScope.success}</h6>
                                 </div>
                                 <div class="col-md-7">
@@ -29,7 +29,7 @@
                                         <div id="search" class="menu-search mb-0">
                                             <form action="patientmanage?action=search" method="POST" id="searchform" class="searchform">
                                                 <div>
-                                                    <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm tài khoản...">
+                                                    <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm Bệnh nhân...">
                                                     <input type="submit" id="searchsubmit" value="Search">
                                                 </div>
                                             </form>

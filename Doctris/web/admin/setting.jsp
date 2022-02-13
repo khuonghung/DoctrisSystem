@@ -140,8 +140,7 @@
                                                         <input value="${sd.setting_id}" readonly name="setting_id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">ID <span class="text-danger">*</span></label>
-                                                        <input value="${sd.id}" readonly name="id" id="name" type="text" class="form-control">
+                                                        <input value="${sd.id}" hidden name="id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Value <span class="text-danger">*</span></label>
