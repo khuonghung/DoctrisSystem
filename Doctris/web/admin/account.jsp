@@ -117,7 +117,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body p-3 pt-4">
-                                        <form action="account?action=update" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                        <form action="account?action=update" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
@@ -134,31 +134,23 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Trạng thái <span class="text-danger"></span></label>
-                                                    <table>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><input id="credit" name="status" ${a.status==true?"checked":""} value="true" type="radio" class="form-check-input"
-                                                                           checked required ></td>
-                                                                <td><label class="form-check-label">Active</label></td>
-                                                                <td></td>
-                                                                <td><input id="debit" name="status" ${a.status==false?"checked":""} value="false" type="radio" class="form-check-input"
-                                                                           required></td>
-                                                                <td><label class="form-check-label">Disable</label></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                                                    <select name="status" class="form-select" aria-label="Default select example">
+                                                        <option <c:if test="${a.status == true}">selected</c:if> value="true">Active</option>
+                                                        <option <c:if test="${a.status == false}">selected</c:if> value="false">Disable</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="d-grid">
                                                         <button type="submit" id="submit" class="btn btn-primary">Chỉnh sửa</button>
                                                     </div>
                                                 </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </c:forEach>
 
                     <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -169,7 +161,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body p-3 pt-4">
-                                    <form action="account?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                    <form action="account?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
