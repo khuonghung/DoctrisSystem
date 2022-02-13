@@ -6,7 +6,8 @@
 package dal;
 
 import context.DBContext;
-import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,13 +33,14 @@ public class SettingDAO {
     DBContext dbc = new DBContext();
     Connection connection = null;
 
-    public List<Setting> getAllSetting() {
+    public List<Setting> getAllSetting() throws MalformedURLException {
         List<Setting> list = new ArrayList<>();
-        File file = new File("Setting.xml");
+        String pre_apiURL = "https://doctriscare.ml/XML/Setting.xml";
+        URL url = new URL(pre_apiURL);
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+            Document doc = db.parse(url.openStream());
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("setting");
             for (int itr = 0; itr < nodeList.getLength(); itr++) {
