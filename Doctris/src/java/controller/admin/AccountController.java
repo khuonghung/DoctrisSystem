@@ -42,6 +42,8 @@ public class AccountController extends HttpServlet {
         RoleDAO roledao = new RoleDAO();
         List<Account> accountlist = null;
         String url = null;
+        String alert = null;
+        String message = null;
         String action = request.getParameter("action");
         try {
             if (action.equals("all")) {
@@ -73,7 +75,11 @@ public class AccountController extends HttpServlet {
                     } catch (Exception e) {
                     }
                 }
-                response.sendRedirect("account?action=detail&username=" + username);
+                alert = "success";
+                message = "Cập nhật ảnh thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("account?action=detail&username=" + username).forward(request, response);
             }
             
             if (action.equals("update_account")) {
@@ -82,7 +88,11 @@ public class AccountController extends HttpServlet {
                 int phone = Integer.parseInt(request.getParameter("phone"));
                 boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
                 userdao.UpdateProfile(username,name,phone,gender);
-                response.sendRedirect("account?action=detail&username=" + username);
+                alert = "success";
+                message = "Cập nhật thông tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("account?action=detail&username=" + username).forward(request, response);
             }
 
             if (action.equals("filter")) {

@@ -26,9 +26,9 @@
                             <div class="col-xl-4 col-lg-6 col-md-2">
                                 <div class="search-bar p-0 d-none d-lg-block ms-2">
                                     <div id="search" class="menu-search mb-0">
-                                        <form action="#" method="POST" id="searchform" class="searchform">
+                                        <form action="setting?action=search" method="POST" id="searchform" class="searchform">
                                             <div>
-                                                <input type="text" class="form-control border rounded-pill" name="txt" id="s" placeholder="Tìm kiếm setting...">
+                                                <input type="text" class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm setting...">
                                                 <input type="submit" id="searchsubmit" value="Search">
                                             </div>
                                         </form>
@@ -140,8 +140,7 @@
                                                         <input value="${sd.setting_id}" readonly name="setting_id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">ID <span class="text-danger">*</span></label>
-                                                        <input value="${sd.id}" readonly name="id" id="name" type="text" class="form-control">
+                                                        <input value="${sd.id}" hidden name="id" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="form-label">Value <span class="text-danger">*</span></label>
@@ -156,24 +155,33 @@
                                                         <input value="${sd.note}" name="note" id="name" type="text" class="form-control">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
-                                                        <select name="status" class="form-select" aria-label="Default select example">
-                                                            <option <c:if test="${sd.status == true}">selected</c:if> value="true">Active</option>
-                                                            <option <c:if test="${sd.status == false}">selected</c:if> value="false">Disable</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="d-grid">
-                                                            <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
-                                                        </div>
+                                                        <label class="form-label">Status <span class="text-danger"></span></label>
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><input id="credit" name="status" ${sd.status==true?"checked":""} value="true" type="radio" class="form-check-input"
+                                                                               checked required ></td>
+                                                                    <td><label class="form-check-label">Active</label></td>
+                                                                    <td></td>
+                                                                    <td><input id="debit" name="status" ${sd.status==false?"checked":""} value="false" type="radio" class="form-check-input"
+                                                                               required></td>
+                                                                    <td><label class="form-check-label">Disable</label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="col-lg-12">
+                                                    <div class="d-grid">
+                                                        <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </c:forEach>
 
                     <footer class="bg-white shadow py-3">
@@ -223,12 +231,22 @@
                                     <label class="form-label">Note <span class="text-danger">*</span></label>
                                     <input name="note" id="name" type="text" class="form-control">
                                 </div>
+
                                 <div class="mb-3">
-                                    <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
-                                    <select name="status" class="form-select" aria-label="Default select example">
-                                        <option value="true">Active</option>
-                                        <option value="false">Disable</option>
-                                    </select>
+                                    <label class="form-label">Status <span class="text-danger"></span></label>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><input id="credit" name="status" value="true" type="radio" class="form-check-input"
+                                                           checked required ></td>
+                                                <td><label class="form-check-label">Active</label></td>
+                                                <td></td>
+                                                <td><input id="debit" name="status" value="false" type="radio" class="form-check-input"
+                                                           required></td>
+                                                <td><label class="form-check-label">Disable</label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="col-lg-12">

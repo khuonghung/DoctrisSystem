@@ -236,11 +236,20 @@
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Trạng thái</label>
-                                                        <select name="status" class="form-select">
-                                                            <option <c:if test="${doctor.status == true}">selected</c:if> value="true">Hoạt động</option>
-                                                            <option <c:if test="${doctor.status == false}">selected</c:if> value="false">Khóa</option>
-                                                        </select>
+                                                        <label class="form-label">Trạng thái <span class="text-danger"></span></label>
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><input id="credit" name="status" ${doctor.status==true?"checked":""} value="true" type="radio" class="form-check-input"
+                                                                               checked required ></td>
+                                                                    <td><label class="form-check-label">Hoạt động</label></td>
+                                                                    <td></td>
+                                                                    <td><input id="debit" name="status" ${doctor.status==false?"checked":""} value="false" type="radio" class="form-check-input"
+                                                                               required></td>
+                                                                    <td><label class="form-check-label">Khóa</label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>

@@ -43,6 +43,8 @@ public class UserController extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
         UserDAO userdao = new UserDAO();
+        String alert = null;
+        String message = null;
         Account user = (Account) session.getAttribute("user");
         String action = request.getParameter("action");
         try {
@@ -193,7 +195,11 @@ public class UserController extends HttpServlet {
                     } catch (Exception e) {
                     }
                 }
-                response.sendRedirect("user?action=profile");
+                alert = "success";
+                message = "Cập nhật ảnh thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("user?action=profile").forward(request, response);
             }
 
             if (action.equals("changepassword")) {

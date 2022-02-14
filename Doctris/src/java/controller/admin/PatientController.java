@@ -38,10 +38,23 @@ public class PatientController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PatientDao patientdao = new PatientDao();
         List<Patient> patientlist = null;
+        String url = null;
+        String alert = null;
+        String message = null;
         String action = request.getParameter("action");
 
         try {
-
+            if (action.equals("all")) {
+                url = "patientmanage?action=all";
+                patientlist = patientdao.getAllPatient();
+            }
+            
+            if (action.equals("search")) {
+                String search = request.getParameter("search");
+                url = "patientmanage?action=search&search="+search;
+                patientlist = patientdao.getPatientByName(search);
+            }
+         
             if (action.equals("detail")) {
                 String username = request.getParameter("username");
                 Patient patient = new Patient();
@@ -49,7 +62,7 @@ public class PatientController extends HttpServlet {
                 request.setAttribute("patient", patient);
                 request.getRequestDispatcher("admin/patientdetail.jsp").forward(request, response);
             }
-            
+
             if (action.equals("update_patient")) {
                 int patient_id = Integer.parseInt(request.getParameter("patient_id"));
                 int phone = Integer.parseInt(request.getParameter("phone"));
@@ -60,7 +73,33 @@ public class PatientController extends HttpServlet {
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
                 Date dob = Date.valueOf(request.getParameter("DOB"));
                 patientdao.PatientUpdate(username, adress, dob, patient_id, name, status, gender, phone);
-                response.sendRedirect("patientmanage?action=detail&username=" + username);
+                alert = "success";
+                message = "Cập nhật thôn tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("patientmanage?action=detail&username=" + username).forward(request, response);
+            }
+            
+            if (patientlist != null) {
+                int page, numperpage = 8;
+                int size = patientlist.size();
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<Patient> patientDetails = patientdao.getListByPage(patientlist, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("url", url);
+                request.setAttribute("patientlist", patientlist);
+                request.setAttribute("patientDetails", patientDetails);
+                request.getRequestDispatcher("admin/patient.jsp").forward(request, response);
             }
 
         } catch (IOException | SQLException | ServletException e) {

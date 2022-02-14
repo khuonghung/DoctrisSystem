@@ -25,6 +25,10 @@
         <servlet-class>controller.admin.AccountController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>BlogController</servlet-name>
+        <servlet-class>controller.home.BlogController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>DoctorController</servlet-name>
         <servlet-class>controller.admin.DoctorController</servlet-class>
     </servlet>
@@ -51,6 +55,10 @@
     <servlet-mapping>
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/account</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogController</servlet-name>
+        <url-pattern>/blogs</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DoctorController</servlet-name>

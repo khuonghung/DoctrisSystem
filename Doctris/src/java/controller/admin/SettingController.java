@@ -38,6 +38,8 @@ public class SettingController extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
         String url = null;
+        String alert = null;
+        String message = null;
         List<Setting> setting = null;
         List<Setting> settingdetailslist = null;
         SettingDAO settingdao = new SettingDAO();
@@ -80,7 +82,11 @@ public class SettingController extends HttpServlet {
                     table = "category_service";
                 }
                 settingdao.SettingUpdate(table, id, value, status, setting_id, note, order);
-                response.sendRedirect("setting?action=all");
+                alert = "success";
+                message = "Cập nhật thông tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("setting?action=all").forward(request, response);
             }
             if (action.equals("addnew")) {
                 int setting_id = Integer.parseInt(request.getParameter("setting_id"));
@@ -99,7 +105,17 @@ public class SettingController extends HttpServlet {
                     table = "category_service";
                 }
                 settingdao.SettingADD(table, value, status, setting_id, note, order);
-                response.sendRedirect("setting?action=all");
+                alert = "success";
+                message = "Thêm mới thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("setting?action=all").forward(request, response);
+            }
+            if (action.equals("search")){
+                url = "setting?action=search";
+                String search = request.getParameter("search");
+                setting = settingdao.getAllSetting();
+                settingdetailslist = settingdao.Search(search);
             }
 
             if (setting != null && settingdetailslist != null) {
