@@ -295,21 +295,21 @@
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Mật khẩu cũ :</label>
-                                                <input type="password" name="oldpassword" class="form-control" required="">
+                                                <input value="${oldpassword}" type="password" name="oldpassword" class="form-control" required="">
                                             </div>
                                         </div><!--end col-->
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Mật khẩu mới :</label>
-                                                <input type="password" name="newpassword" class="form-control" required="">
+                                                <input value="${newpassword}" type="password" name="newpassword" class="form-control" required="">
                                             </div>
                                         </div><!--end col-->
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Nhập lại mật khẩu :</label>
-                                                <input type="password" name="renewpassword" class="form-control" required="">
+                                                <input value="${renewpassword}" type="password" name="renewpassword" class="form-control" required="">
                                             </div>
                                         </div><!--end col-->
 

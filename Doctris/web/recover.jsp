@@ -58,11 +58,11 @@
                                                 <p class="text-muted">Hãy nhập mật khẩu mới của bạn.</p>
                                                 <div class="mb-3">
                                                     <label class="form-label">Mật khẩu mới : <span class="text-danger">*</span></label>
-                                                    <input type="password" class="form-control" name="password" required="">
+                                                    <input value="${password}" type="password" class="form-control" name="password" required="">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Nhập lại mật khẩu : <span class="text-danger">*</span></label>
-                                                    <input type="password" class="form-control" name="repassword" required="">
+                                                    <input value="${repassword}" type="password" class="form-control" name="repassword" required="">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">

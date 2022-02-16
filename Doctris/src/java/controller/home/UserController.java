@@ -158,9 +158,13 @@ public class UserController extends HttpServlet {
                 String password = request.getParameter("password");
                 String repassword = request.getParameter("repassword");
                 if (!repassword.equals(password)) {
+                    request.setAttribute("password", password);
+                    request.setAttribute("repassword", repassword);
                     request.setAttribute("error", "Mật khẩu không khớp!");
                     request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
                 } else if (Validate.checkPassword(password) == false) {
+                    request.setAttribute("password", password);
+                    request.setAttribute("repassword", repassword);
                     request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
                     request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
                 } else {
@@ -234,21 +238,30 @@ public class UserController extends HttpServlet {
                 String newpassword = request.getParameter("newpassword");
                 String renewpassword = request.getParameter("renewpassword");
                 if (!oldpassword.equals(user.getPassword())) {
+                    request.setAttribute("oldpassword", oldpassword);
+                    request.setAttribute("newpassword", newpassword);
+                    request.setAttribute("renewpassword", renewpassword);
                     request.setAttribute("passerror", "Mật khẩu hiện tại không đúng!");
                     request.getRequestDispatcher("user?action=profile").forward(request, response);
                 } else {
                     if (Validate.checkPassword(newpassword) == false) {
+                        request.setAttribute("oldpassword", oldpassword);
+                        request.setAttribute("newpassword", newpassword);
+                        request.setAttribute("renewpassword", renewpassword);
                         request.setAttribute("passerror", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
                         request.getRequestDispatcher("user?action=profile").forward(request, response);
                     } else {
                         if (!newpassword.equals(renewpassword)) {
+                            request.setAttribute("oldpassword", oldpassword);
+                            request.setAttribute("newpassword", newpassword);
+                            request.setAttribute("renewpassword", renewpassword);
                             request.setAttribute("passerror", "Mật khẩu mới không khớp!");
                             request.getRequestDispatcher("user?action=profile").forward(request, response);
                         } else {
                             newpassword = EncodeData.enCode(newpassword);
                             userdao.Recover(user.getUsername(), newpassword);
                             request.setAttribute("success", "Thay đổi mật khẩu thành công, mời bạn đăng nhập lại!");
-                             request.getRequestDispatcher("user?action=login").forward(request, response);
+                            request.getRequestDispatcher("user?action=login").forward(request, response);
                         }
                     }
                 }
