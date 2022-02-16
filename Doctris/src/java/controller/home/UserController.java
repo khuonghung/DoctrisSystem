@@ -241,21 +241,21 @@ public class UserController extends HttpServlet {
                 String newpassword = request.getParameter("newpassword");
                 String renewpassword = request.getParameter("renewpassword");
                 if (!oldpassword.equals(user.getPassword())) {
-                    request.setAttribute("oldpassword", oldpassword);
+                   request.setAttribute("oldpassword", EncodeData.deCode(oldpassword));
                     request.setAttribute("newpassword", newpassword);
                     request.setAttribute("renewpassword", renewpassword);
-                    request.setAttribute("passerror", "Mật khẩu hiện tại không đúng!");
+                    request.setAttribute("passerror", "Mật khẩu cũ không đúng!");
                     request.getRequestDispatcher("user?action=profile").forward(request, response);
                 } else {
                     if (Validate.checkPassword(newpassword) == false) {
-                        request.setAttribute("oldpassword", oldpassword);
+                        request.setAttribute("oldpassword", EncodeData.deCode(oldpassword));
                         request.setAttribute("newpassword", newpassword);
                         request.setAttribute("renewpassword", renewpassword);
                         request.setAttribute("passerror", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
                         request.getRequestDispatcher("user?action=profile").forward(request, response);
                     } else {
                         if (!newpassword.equals(renewpassword)) {
-                            request.setAttribute("oldpassword", oldpassword);
+                           request.setAttribute("oldpassword", EncodeData.deCode(oldpassword));
                             request.setAttribute("newpassword", newpassword);
                             request.setAttribute("renewpassword", renewpassword);
                             request.setAttribute("passerror", "Mật khẩu mới không khớp!");
