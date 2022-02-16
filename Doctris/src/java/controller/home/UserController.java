@@ -189,7 +189,7 @@ public class UserController extends HttpServlet {
                         String enContent = EncodeData.enCode(content);
                         SendMail.setContent(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
                         userdao.AddCaptcha(account.getUsername(), captcha);
-                        request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
+                        request.setAttribute("error", "Link đặt lại mật khẩu được gửi đến email của bạn!");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
                     }
                 }
@@ -234,7 +234,7 @@ public class UserController extends HttpServlet {
                 String newpassword = request.getParameter("newpassword");
                 String renewpassword = request.getParameter("renewpassword");
                 if (!oldpassword.equals(user.getPassword())) {
-                    request.setAttribute("passerror", "Mật khẩu không đúng!");
+                    request.setAttribute("passerror", "Mật khẩu hiện tại không đúng!");
                     request.getRequestDispatcher("user?action=profile").forward(request, response);
                 } else {
                     if (Validate.checkPassword(newpassword) == false) {
@@ -242,13 +242,13 @@ public class UserController extends HttpServlet {
                         request.getRequestDispatcher("user?action=profile").forward(request, response);
                     } else {
                         if (!newpassword.equals(renewpassword)) {
-                            request.setAttribute("passerror", "Mật khẩu không khớp!");
+                            request.setAttribute("passerror", "Mật khẩu mới không khớp!");
                             request.getRequestDispatcher("user?action=profile").forward(request, response);
                         } else {
                             newpassword = EncodeData.enCode(newpassword);
                             userdao.Recover(user.getUsername(), newpassword);
-                            request.setAttribute("passsuccess", "Thay đổi mật khẩu thành công!");
-                            request.getRequestDispatcher("user?action=profile").forward(request, response);
+                            request.setAttribute("success", "Thay đổi mật khẩu thành công, mời bạn đăng nhập lại!");
+                             request.getRequestDispatcher("user?action=login").forward(request, response);
                         }
                     }
                 }
