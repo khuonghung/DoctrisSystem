@@ -234,7 +234,7 @@ public class UserController extends HttpServlet {
                 String newpassword = request.getParameter("newpassword");
                 String renewpassword = request.getParameter("renewpassword");
                 if (!oldpassword.equals(user.getPassword())) {
-                    request.setAttribute("passerror", "Mật khẩu không đúng!");
+                    request.setAttribute("passerror", "Mật khẩu hiện tại không đúng!");
                     request.getRequestDispatcher("user?action=profile").forward(request, response);
                 } else {
                     if (Validate.checkPassword(newpassword) == false) {
@@ -242,7 +242,7 @@ public class UserController extends HttpServlet {
                         request.getRequestDispatcher("user?action=profile").forward(request, response);
                     } else {
                         if (!newpassword.equals(renewpassword)) {
-                            request.setAttribute("passerror", "Mật khẩu không khớp!");
+                            request.setAttribute("passerror", "Mật khẩu mới không khớp!");
                             request.getRequestDispatcher("user?action=profile").forward(request, response);
                         } else {
                             newpassword = EncodeData.enCode(newpassword);
