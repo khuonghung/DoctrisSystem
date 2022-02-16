@@ -85,68 +85,10 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="row">
-                            <div class="col-lg-4 col-md-5 mt-4">
-                                <div class="bg-white rounded shadow overflow-hidden">
-                                    <br><br><br><br><br>
-                                    <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                        <c:if test="${account.img == 'default'}">
-                                            <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                        </c:if>
-                                        <c:if test="${account.img != 'default'}">
-                                            <img src="data:image/png;base64,${account.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                        </c:if>
-                                        <h5 class="mt-3 mb-1">${account.name}</h5>
-                                        <p class="text-muted mb-0">${account.username}</p>
-                                    </div>
-
-                                    <div class="list-unstyled p-4">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Giới tính</h6>
-                                            <c:if test="${account.gender == true}">
-                                                <p class="text-muted mb-0 ms-2">Nam</p>
-                                            </c:if>
-                                            <c:if test="${account.gender == false}">
-                                                <p class="text-muted mb-0 ms-2">Nữ</p>
-                                            </c:if>     
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Số điện thoại</h6>
-                                            <p class="text-muted mb-0 ms-2">0${account.phone}</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Email</h6>
-                                            <p class="text-muted mb-0 ms-2">${account.email}</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Role</h6>
-                                            <p class="text-muted mb-0 ms-2">${account.role.name}</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Trạng thái</h6>
-                                            <c:if test="${account.status == true}">
-                                                <p class="text-muted mb-0 ms-2">Hoạt động</p>
-                                            </c:if>
-                                            <c:if test="${account.status == false}">
-                                                <p class="text-muted mb-0 ms-2">Khóa</p>
-                                            </c:if>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-7 col-md-7 mt-4">
+                            <div class="col-lg-12 col-md-12 mt-4">
                                 <div class="card border-0 shadow overflow-hidden">
                                     <div class="tab-content p-4" id="pills-tabContent">
-                                        <form action="account?action=update_image&username=${account.username}" method="POST" enctype="multipart/form-data" onSubmit="document.getElementById('submit').disabled=true;">
+                                        <form action="account?action=update_image&username=${account.username}" method="POST" enctype="multipart/form-data" onSubmit="document.getElementById('submit').disabled = true;">
                                             <h5 class="mb-0">Chỉnh sửa thông tin :</h5>
                                             <div>
                                                 <p class="text-muted">Cập nhật ảnh đại diện.</p>
@@ -167,8 +109,21 @@
                                             </div>
                                         </form>
 
-                                        <form action="account?action=update_account&username=${account.username}" method="POST" class="mt-4" onSubmit="document.getElementById('submit').disabled=true;">
+                                        <form action="account?action=update_account&username=${account.username}" method="POST" class="mt-4" onSubmit="document.getElementById('submit').disabled = true;">
                                             <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tên đăng nhập</label>
+                                                        <input readonly="" id="name" type="text" class="form-control" value="${account.username}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Email</label>
+                                                        <input readonly="" id="name" type="text" class="form-control" value="${account.email}">
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Họ tên</label>
@@ -194,15 +149,34 @@
                                                         </table>
                                                     </div>
                                                 </div>
-
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Số điện thoại</label>
-                                                        <input name="phone" id="number" type="text" class="form-control" value="0${account.phone}">
+                                                        <label class="form-label">Quyền <span class="text-danger">*</span></label>
+                                                        <select name="role_id" class="form-select" aria-label="Default select example">
+                                                            <c:forEach items="${role}" var="r">
+                                                                <option <c:if test="${account.role.name == r.name}">selected</c:if> value="${r.role_id}">${r.name}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                                                        <select name="status" class="form-select" aria-label="Default select example">
+                                                            <option <c:if test="${account.status == true}">selected</c:if> value="true">Active</option>
+                                                            <option <c:if test="${account.status == false}">selected</c:if> value="false">Disable</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Số điện thoại</label>
+                                                            <input name="phone" id="number" type="text" class="form-control" value="0${account.phone}">
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <input type="submit" id="submit" name="send" class="btn btn-primary"

@@ -457,7 +457,7 @@ public class UserDAO {
         return list;
     }
 
-    public void UpdateAccount(String username, int role_id, boolean status) throws SQLException {
+    public void UpdateRoleStatus(String username, int role_id, boolean status) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `role_id` = ?, `status` = ? WHERE (`username` = ?)";
         try {
             connection = dbc.getConnection();
@@ -483,6 +483,26 @@ public class UserDAO {
             ps.setInt(2, phone);
             ps.setBoolean(3, gender);
             ps.setString(4, username);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+    public void UpdateAccount(String username, String name, int phone, boolean gender, int role_id, boolean status) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`users` SET `name` = ?, `phone` = ?, `gender` = ?, `role_id` = ?, `status` = ?  WHERE (`username` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setInt(2, phone);
+            ps.setBoolean(3, gender);
+            ps.setInt(4, role_id);
+            ps.setBoolean(5, status);
+            ps.setString(6, username);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {

@@ -19,10 +19,9 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="row">
-                            <div class="col-md-11 row">
+                            <div class="col-md-5 row">
                                 <div class="col-md-4">
                                     <h5 class="mb-0">Account</h5>
-                                    <h6>${requestScope.success}</h6>
                                 </div>
                                 <div class="col-md-7">
                                     <div class="search-bar p-0 d-lg-block ms-2">                                                        
@@ -37,32 +36,60 @@
                                     </div> 
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <div class="justify-content-md-end row">
-                                    <div class="d-grid">
-                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filter">Lọc</a>
-                                    </div>
+                            <div class="col-md-7">
+                                <form action="account?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                    <div class="justify-content-md-end row">
+                                        <div class="col-md-5 row align-items-center">
+                                            <div class="col-md-3">
+                                                <label class="form-label">Quyền</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select name="role_id" class="form-select" aria-label="Default select example">
+                                                    <option <c:if test="${role_id == 'all'}">selected</c:if> value="all">Tất cả</option>
+                                                    <c:forEach items="${role}" var="r">
+                                                        <option <c:if test="${role_id == r.role_id}">selected</c:if> value="${r.role_id}">${r.name}</option>
+                                                    </c:forEach>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 row align-items-center">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Trạng thái</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select name="status" class="form-select" aria-label="Default select example">
+                                                    <option <c:if test="${status == 'all'}">selected</c:if> value="all">Tất cả</option>
+                                                    <option <c:if test="${status == '1'}">selected</c:if> value="1">Active</option>
+                                                    <option <c:if test="${status == '0'}">selected</c:if> value="0">Disable</option>
+                                                    </select>
+                                                </div>  
+                                            </div>
+                                            <div class="col-md-1 md-0">
+                                                <button type="submit" class="btn btn-primary">Lọc</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <div class="table-responsive bg-white shadow rounded">
-                                    <table class="table mb-0 table-center">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-bottom p-3" >Tên tài khoản</th>
-                                                <th class="border-bottom p-3" >Họ tên</th>
-                                                <th class="border-bottom p-3" >Giới tính</th>
-                                                <th class="border-bottom p-3" >Email</th>
-                                                <th class="border-bottom p-3" >Số điện thoại</th>
-                                                <th class="border-bottom p-3" >Quyền</th>
-                                                <th class="border-bottom p-3" >Trạng thái</th>
-                                                <th class="border-bottom p-3" ></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="table-responsive bg-white shadow rounded">
+                                        <table class="table mb-0 table-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom p-3" >Tên tài khoản</th>
+                                                    <th class="border-bottom p-3" >Họ tên</th>
+                                                    <th class="border-bottom p-3" >Giới tính</th>
+                                                    <th class="border-bottom p-3" >Email</th>
+                                                    <th class="border-bottom p-3" >Số điện thoại</th>
+                                                    <th class="border-bottom p-3" >Quyền</th>
+                                                    <th class="border-bottom p-3" >Trạng thái</th>
+                                                    <th class="border-bottom p-3" ></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                             <c:forEach items="${account}" var="a">
                                                 <tr>
                                                     <th class="p-3">${a.username}</th>
@@ -108,52 +135,10 @@
                             </div>
                         </div>
                     </div>
-                    <c:forEach items="${account}" var="a">
-                        <div class="modal fade" id="edit${a.username}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header border-bottom p-3">
-                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-3 pt-4">
-                                        <form action="account?action=update" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Tên người dùng</label>
-                                                        <input value="${a.username}" readonly name="username" id="name" type="text" class="form-control">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Quyền <span class="text-danger">*</span></label>
-                                                        <select name="role_id" class="form-select" aria-label="Default select example">
-                                                            <c:forEach items="${role}" var="r">
-                                                                <option <c:if test="${a.role.name == r.name}">selected</c:if> value="${r.role_id}">${r.name}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
-                                                    <select name="status" class="form-select" aria-label="Default select example">
-                                                        <option <c:if test="${a.status == true}">selected</c:if> value="true">Active</option>
-                                                        <option <c:if test="${a.status == false}">selected</c:if> value="false">Disable</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="d-grid">
-                                                        <button type="submit" id="submit" class="btn btn-primary">Chỉnh sửa</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </c:forEach>
+                </div>
 
-                    <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <c:forEach items="${account}" var="a">
+                    <div class="modal fade" id="edit${a.username}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header border-bottom p-3">
@@ -161,15 +146,18 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body p-3 pt-4">
-                                    <form action="account?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled=true;">
+                                    <form action="account?action=update" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
+                                                    <label class="form-label">Tên người dùng</label>
+                                                    <input value="${a.username}" readonly name="username" id="name" type="text" class="form-control">
+                                                </div>
+                                                <div class="mb-3">
                                                     <label class="form-label">Quyền <span class="text-danger">*</span></label>
                                                     <select name="role_id" class="form-select" aria-label="Default select example">
-                                                        <option selected value="all">Tất cả</option>
                                                         <c:forEach items="${role}" var="r">
-                                                            <option value="${r.role_id}">${r.name}</option>
+                                                            <option <c:if test="${a.role.name == r.name}">selected</c:if> value="${r.role_id}">${r.name}</option>
                                                         </c:forEach>
                                                     </select>
                                                 </div>
@@ -177,23 +165,24 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
                                                 <select name="status" class="form-select" aria-label="Default select example">
-                                                    <option selected value="all">Tất cả</option>
-                                                    <option value="1">Active</option>
-                                                    <option value="0">Disable</option>
-                                                </select>
+                                                    <option <c:if test="${a.status == true}">selected</c:if> value="true">Active</option>
+                                                    <option <c:if test="${a.status == false}">selected</c:if> value="false">Disable</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="d-grid">
+                                                        <button type="submit" id="submit" class="btn btn-primary">Chỉnh sửa</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="d-grid">
-                                                <button type="submit" id="submit" class="btn btn-primary">Lọc</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                </c:forEach>
+
+
                 <footer class="bg-white shadow py-3">
                     <div class="container-fluid">
                         <div class="row align-items-center">
