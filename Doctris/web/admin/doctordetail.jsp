@@ -85,7 +85,28 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="row">
-                            <div class="col-lg-5 col-md-6 mt-4">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-pills nav-justified flex-column flex-sm-row rounded" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded active" id="pills-cloud-tab" data-bs-toggle="pill" href="#info" role="tab" aria-controls="infor" aria-selected="false">
+                                            <div class="text-center pt-1 pb-1">
+                                                <h4 class="title font-weight-normal mb-0">Thông tin</h4>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link rounded" id="pills-smart-tab" data-bs-toggle="pill" href="#edit" role="tab" aria-controls="edit" aria-selected="false">
+                                            <div class="text-center pt-1 pb-1">
+                                                <h4 class="title font-weight-normal mb-0">Chỉnh sửa</h4>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                                 <div class="bg-white rounded shadow overflow-hidden">
                                     <br><br><br><br><br>
                                     <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
@@ -153,7 +174,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-7 col-md-7 mt-4">
+                            <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit">
                                 <div class="card border-0 shadow overflow-hidden">
                                     <div class="tab-content p-4" id="pills-tabContent">
                                         <form action="doctormanage?action=update_image&id=${doctor.doctor_id}" method="POST" enctype="multipart/form-data" onSubmit="document.getElementById('submit').disabled = true;">
