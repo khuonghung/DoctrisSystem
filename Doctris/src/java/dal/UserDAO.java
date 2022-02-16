@@ -502,7 +502,7 @@ public class UserDAO {
     }
     
     public void AddCaptcha(String username, String captcha) throws SQLException {
-        String sql = "INSERT INTO `doctris_system`.`verification` (`username`, `captcha`) VALUES (?, ?)";
+        String sql = "INSERT INTO `doctris_system`.`verification` (`username`, `captcha`, `lifetime`) VALUES (?, ?, UNIX_TIMESTAMP(now() + INTERVAL 180 SECOND))";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);

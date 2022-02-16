@@ -167,6 +167,7 @@ public class UserController extends HttpServlet {
                     String username = (String) session.getAttribute("username");
                     password = EncodeData.enCode(password);
                     userdao.Recover(username, password);
+                    userdao.RemoveCaptcha(username);
                     request.setAttribute("success", "Thay đổi mật khẩu thành công!");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 }
@@ -187,7 +188,6 @@ public class UserController extends HttpServlet {
                         String content = "&username=" + account.getUsername() + "&captcha=" + captcha + "&type=recover";
                         String enContent = EncodeData.enCode(content);
                         SendMail.setContent(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
-                        userdao.RemoveCaptcha(account.getUsername());
                         userdao.AddCaptcha(account.getUsername(), captcha);
                         request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
@@ -300,7 +300,6 @@ public class UserController extends HttpServlet {
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else if (type.equals("recover") && acc != null) {
                     session.setAttribute("username", username);
-                    userdao.RemoveCaptcha(username);
                     request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
                 } else {
                     request.getRequestDispatcher("404.jsp").forward(request, response);
