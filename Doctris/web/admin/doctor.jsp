@@ -19,7 +19,7 @@
                 <div class="container-fluid">
                     <div class="layout-specing">
                         <div class="row">
-                            <div class="col-md-11 row">
+                            <div class="col-md-5 row">
                                 <div class="col-md-4">
                                     <h5 class="mb-0">Doctor</h5>
                                 </div>
@@ -36,12 +36,39 @@
                                     </div> 
                                 </div>
                             </div>
-                            <div class="col-md-1">
-                                <div class="justify-content-md-end row">
-                                    <div class="d-grid">
-                                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filter">Lọc</a>
+                            <div class="col-md-7">
+                                <form action="doctormanage?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                    <div class="justify-content-md-end row">
+                                        <div class="col-md-5 row align-items-center">
+                                            <div class="col-md-3">
+                                                <label class="form-label">Giới tính</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select name="gender" class="form-select">
+                                                    <option <c:if test="${gender == 'all'}"> selected </c:if> value="all">Tất cả</option>
+                                                    <option <c:if test="${gender == 'true'}"> selected </c:if> value="true">Nam</option>
+                                                    <option <c:if test="${gender == 'false'}"> selected </c:if> value="false">Nữ</option>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 row align-items-center">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Chuyên môn</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select name="speciality" class="form-select">
+                                                    <option <c:if test="${speciality == 'all'}"> selected </c:if> value="all">Tất cả</option>
+                                                    <c:forEach items="${speciality}" var="s">
+                                                        <option <c:if test="${speciality1 == s.id}"> selected </c:if> value="${s.id}">${s.name}</option>
+                                                    </c:forEach>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 md-0">
+                                            <button type="submit" class="btn btn-primary">Lọc</button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
 
@@ -88,55 +115,14 @@
                             </div>
                         </div>
                         <c:set var="page" value="${page}"/>
-                            <div class="row text-center">
-                                <div class="col-12 mt-4">
-                                    <div class="d-md-flex align-items-center text-center justify-content-between">
-                                        <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
-                                            <c:forEach begin="${1}" end="${num}" var="i">
-                                                <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
-                                                </c:forEach>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-                    <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header border-bottom p-3">
-                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body p-3 pt-4">
-                                    <form action="doctormanage?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Giới tính <span class="text-danger">*</span></label>
-                                                    <select name="gender" class="form-select" aria-label="Default select example">
-                                                        <option selected value="all">Tất cả</option>
-                                                        <option value="true">Nam</option>
-                                                        <option value="false">Nữ</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Chuyên môn<span class="text-danger">*</span></label>
-                                                <select name="speciality" class="form-select" aria-label="Default select example">
-                                                    <option selected value="all">Tất cả</option>
-                                                    <c:forEach items="${speciality}" var="s">
-                                                        <option value="${s.id}">${s.name}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="d-grid">
-                                                <button type="submit" id="submit" class="btn btn-primary">Lọc</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                        <div class="row text-center">
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <c:forEach begin="${1}" end="${num}" var="i">
+                                            <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

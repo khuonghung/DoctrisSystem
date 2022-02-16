@@ -55,6 +55,8 @@ public class DoctorController extends HttpServlet {
             if(action.equals("filter")){
                 String gender = request.getParameter("gender");
                 String speciality = request.getParameter("speciality");
+                request.setAttribute("gender",gender);
+                request.setAttribute("speciality1",speciality);
                 if(gender.equals("all") && speciality.equals("all")){
                     response.sendRedirect("doctormanage?action=all");
                 }else if(gender.equals("all")){
