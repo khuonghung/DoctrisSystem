@@ -108,7 +108,7 @@ public class DoctorDAO {
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
-            ps.setString(1, gender);
+            ps.setBoolean(1, Boolean.parseBoolean(gender));
             rs = ps.executeQuery();
             while (rs.next()) {
                 Setting s = new Setting(rs.getString(1));
