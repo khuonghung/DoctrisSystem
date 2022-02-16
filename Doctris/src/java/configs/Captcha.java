@@ -11,11 +11,11 @@ import java.util.Random;
  *
  * @author Khuong Hung
  */
-public class Capcha {
+public class Captcha {
     public static final char[] CHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     static Random random = new Random();
 
-    public static String getCapcha() {
+    public static String getCaptcha() {
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < 6; i++) { 
             buffer.append(CHARS[random.nextInt(CHARS.length)]);

@@ -5,8 +5,8 @@
  */
 package configs;
 
-import static configs.Capcha.CHARS;
-import static configs.Capcha.random;
+import static configs.Captcha.CHARS;
+import static configs.Captcha.random;
 import java.security.SecureRandom;
 import java.util.Random;
 

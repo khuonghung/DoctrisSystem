@@ -227,11 +227,8 @@ public class UserController extends HttpServlet {
                 }
             }
 
-            if (action.equals("capcha")) {
-                request.getRequestDispatcher("capcha.jsp").forward(request, response);
-            }
-            if (action.equals("generalcapcha")) {
-                String captcha = Capcha.getCapcha();
+            if (action.equals("generalcaptcha")) {
+                String captcha = Captcha.getCaptcha();
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
                 String password = a.getPassword();
@@ -254,9 +251,9 @@ public class UserController extends HttpServlet {
             if(action.equals("verification")){
                 String id = request.getParameter("id");
                 String deID = EncodeData.deCode(id);
-                request.getRequestDispatcher("user?action=checkcapcha" + deID).forward(request, response);
+                request.getRequestDispatcher("user?action=checkcaptcha" + deID).forward(request, response);
             }
-            if (action.equals("checkcapcha")) {
+            if (action.equals("checkcaptcha")) {
                 String captcha = request.getParameter("captcha");
                 String username = request.getParameter("username");
                 Account a = userdao.checkCaptcha(captcha, username);
