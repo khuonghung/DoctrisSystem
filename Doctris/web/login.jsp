@@ -29,6 +29,9 @@
                                     <p style="color: red; align-content: center;">
                                         ${requestScope.error}
                                     </p>
+                                    <p style="color: blue; align-content: center;">
+                                        ${requestScope.success}
+                                    </p>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="mb-3">

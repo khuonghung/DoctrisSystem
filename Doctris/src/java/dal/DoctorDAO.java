@@ -245,7 +245,7 @@ public class DoctorDAO {
                 } else {
                     base64Image = "default";
                 }
-                Account a = new Account(rs.getString(5),rs.getString(12));
+                Account a = new Account(rs.getString(5),rs.getString(12),null);
                 Setting s = new Setting(rs.getString(1));
                 return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), rs.getDate(7), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image);
             }

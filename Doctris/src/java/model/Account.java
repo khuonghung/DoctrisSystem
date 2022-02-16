@@ -20,6 +20,7 @@ public class Account {
     private String email;
     private String img;
     private boolean status;
+    private String captcha;
 
     public Account() {
     }
@@ -68,15 +69,19 @@ public class Account {
         this.name = name;
         this.gender = gender;
     }
-
     
     public Account(String username) {
         this.username = username;
     }
     
-    public Account(String username, String email) {
+    public Account(String username, String email, String captcha) {
         this.username = username;
-        this.email = email;
+        if(email != null){
+            this.email = email;
+        }
+        if(captcha != null){
+            this.captcha = captcha;
+        }
     }
 
     public String getUsername() {
@@ -149,6 +154,14 @@ public class Account {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 
 }

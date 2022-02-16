@@ -55,7 +55,7 @@ public class SendMail {
                 + "\n"
                 + "<body>\n"
                 + "    <h3 style=\"color: blue;\">Xin chào " + username + " !</h3>\n"
-                + "    <div>Mã xác minh Tài khoản Doctris của bạn là : " + code + "</div>\n"
+                + "    <div>Link xác minh tài khoản của bạn là : <a href=\""+ code +"\">Nhấn vào đây!</a></div>\n"
                 + "    <div>Thư này được tạo ra tự động.</div>\n"
                 + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
                 + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"

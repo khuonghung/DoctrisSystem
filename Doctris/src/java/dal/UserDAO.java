@@ -500,5 +500,56 @@ public class UserDAO {
         }
         return arr;
     }
+    
+    public void AddCaptcha(String username, String captcha) throws SQLException {
+        String sql = "INSERT INTO `doctris_system`.`verification` (`username`, `captcha`) VALUES (?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, captcha);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+    public void RemoveCaptcha(String username) throws SQLException {
+        String sql = "DELETE FROM `doctris_system`.`verification` WHERE (`username` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+    public Account checkCaptcha(String captcha, String username) throws SQLException {
+        String sql = "SELECT * FROM doctris_system.verification where username = ? and captcha = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, captcha);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getString(1), null, rs.getString(2));
+            }
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
 
 }

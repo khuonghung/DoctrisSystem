@@ -64,10 +64,10 @@ public class UserController extends HttpServlet {
                     if (account == null) {
                         request.setAttribute("error", "Email hoặc mật khẩu không chính xác!");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
-                    }else if(account.isStatus() == false){
+                    } else if (account.isStatus() == false) {
                         request.setAttribute("error", "Tài khoản đã bị khóa !");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
-                    }else {
+                    } else {
                         session.setAttribute("user", account);
                         Cookie cemail = new Cookie("email", email);
                         Cookie cpass = new Cookie("pass", password);
@@ -139,7 +139,7 @@ public class UserController extends HttpServlet {
                             Role r = new Role(role_id);
                             Account a = new Account(username, r, enpassword, fullname, gender, phone, email, img, status);
                             session.setAttribute("register", a);
-                            response.sendRedirect("user?action=generalcapcha");
+                            request.getRequestDispatcher("user?action=generalcapcha").forward(request, response);
                         }
                     }
                 }
@@ -228,40 +228,53 @@ public class UserController extends HttpServlet {
             }
 
             if (action.equals("capcha")) {
-                Account a = (Account) session.getAttribute("register");
-                String email = a.getEmail();
-                request.setAttribute("email", email);
                 request.getRequestDispatcher("capcha.jsp").forward(request, response);
             }
             if (action.equals("generalcapcha")) {
-                String capcha = Capcha.getCapcha();
+                String captcha = Capcha.getCapcha();
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
+                String password = a.getPassword();
                 String username = a.getUsername();
-                SendMail.setContent(username, capcha, email);
-                session.setAttribute("capcha", capcha);
-                request.getRequestDispatcher("user?action=capcha").forward(request, response);
+                String name = a.getName();
+                int phone = a.getPhone();
+                boolean gender = a.isGender();
+                int role_id = a.getRole().getRole_id();
+                boolean status = a.isStatus();
+                String content = "&email=" + email + "&password=" + password +
+                        "&username=" +username+ "&role_id="+ role_id +""
+                        + "&name="+ name +"&gender=" + gender +"&status="+ status+ "&phone=" + phone + "&captcha=" + captcha;
+                String enContent = "https://doctriscare.ml/user?action=verification&id=" + EncodeData.enCode(content);
+                SendMail.setContent(username, enContent , email);
+                userdao.AddCaptcha(username, captcha);
+                request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
+                request.getRequestDispatcher("user?action=login").forward(request, response);
+            }
+            
+            if(action.equals("verification")){
+                String id = request.getParameter("id");
+                String deID = EncodeData.deCode(id);
+                request.getRequestDispatcher("user?action=checkcapcha" + deID).forward(request, response);
             }
             if (action.equals("checkcapcha")) {
-                String capcha = request.getParameter("capcha");
-                String scapcha = (String) session.getAttribute("capcha");
-                if (capcha.equals(scapcha)) {
-                    Account a = (Account) session.getAttribute("register");
-                    String email = a.getEmail();
-                    String password = a.getPassword();
-                    String username = a.getUsername();
-                    String name = a.getName();
-                    int phone = a.getPhone();
-                    boolean gender = a.isGender();
-                    int role_id = a.getRole().getRole_id();
-                    boolean status = a.isStatus();
+                String captcha = request.getParameter("captcha");
+                String username = request.getParameter("username");
+                Account a = userdao.checkCaptcha(captcha, username);
+                if (a != null) {
+                    String email = request.getParameter("email");
+                    String password = request.getParameter("password");
+                    String name = request.getParameter("name");
+                    int phone = Integer.parseInt(request.getParameter("phone"));
+                    boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                    int role_id = Integer.parseInt(request.getParameter("role_id"));
+                    boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     userdao.Register(email, password, username, role_id, name, phone, gender, status);
                     session.removeAttribute("register");
-                    request.setAttribute("error", "Đăng ký thành công...");
+                    userdao.RemoveCaptcha(username);
+                    request.setAttribute("success", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
-                    request.setAttribute("error", "Xác thực không thành công, Hãy thử lại mã xác nhận!");
-                    request.getRequestDispatcher("user?action=capcha").forward(request, response);
+                    request.getRequestDispatcher("404.jsp").forward(request, response);
                 }
             }
 
