@@ -139,7 +139,7 @@ public class UserController extends HttpServlet {
                             Role r = new Role(role_id);
                             Account a = new Account(username, r, enpassword, fullname, gender, phone, email, img, status);
                             session.setAttribute("register", a);
-                            request.getRequestDispatcher("user?action=generalcapcha").forward(request, response);
+                            request.getRequestDispatcher("user?action=generalcaptcha").forward(request, response);
                         }
                     }
                 }
@@ -147,6 +147,31 @@ public class UserController extends HttpServlet {
             if (action.equals("recover")) {
                 request.getRequestDispatcher("recover.jsp").forward(request, response);
             }
+
+            if (action.equals("recoverpass")) {
+                String type = request.getParameter("type");
+                request.setAttribute("type", type);
+                request.getRequestDispatcher("recover.jsp").forward(request, response);
+            }
+
+            if (action.equals("forgot")) {
+                String password = request.getParameter("password");
+                String repassword = request.getParameter("repassword");
+                if (!repassword.equals(password)) {
+                    request.setAttribute("error", "Mật khẩu không khớp!");
+                    request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
+                } else if (Validate.checkPassword(password) == false) {
+                    request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
+                    request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
+                } else {
+                    String username = (String) session.getAttribute("username");
+                    password = EncodeData.enCode(password);
+                    userdao.Recover(username, password);
+                    request.setAttribute("success", "Thay đổi mật khẩu thành công!");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
+                }
+            }
+
             if (action.equals("checkemail")) {
                 String email = request.getParameter("email");
                 if (Validate.checkEmail(email) == false) {
@@ -158,14 +183,16 @@ public class UserController extends HttpServlet {
                         request.setAttribute("error", "Email không tồn tại!");
                         request.getRequestDispatcher("user?action=recover").forward(request, response);
                     } else {
-                        String newpass = Password.getPassword(8);
-                        SendMail.setContentRecover(account.getUsername(), newpass, email);
-                        userdao.Recover(account.getUsername(), EncodeData.enCode(newpass));
-                        request.setAttribute("success", "Mật khẩu mới đã đươc gửi vào email của bạn. Nhấn đăng nhập để truy cập hệ thống.");
-                        request.getRequestDispatcher("user?action=recover").forward(request, response);
+                        String captcha = Captcha.getCaptcha();
+                        String content = "&username=" + account.getUsername() + "&captcha=" + captcha + "&type=recover";
+                        String enContent = EncodeData.enCode(content);
+                        SendMail.setContent(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
+                        userdao.RemoveCaptcha(account.getUsername());
+                        userdao.AddCaptcha(account.getUsername(), captcha);
+                        request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
+                        request.getRequestDispatcher("user?action=login").forward(request, response);
                     }
                 }
-
             }
 
             if (action.equals("profile")) {
@@ -238,17 +265,17 @@ public class UserController extends HttpServlet {
                 boolean gender = a.isGender();
                 int role_id = a.getRole().getRole_id();
                 boolean status = a.isStatus();
-                String content = "&email=" + email + "&password=" + password +
-                        "&username=" +username+ "&role_id="+ role_id +""
-                        + "&name="+ name +"&gender=" + gender +"&status="+ status+ "&phone=" + phone + "&captcha=" + captcha;
+                String content = "&email=" + email + "&password=" + password
+                        + "&username=" + username + "&role_id=" + role_id + ""
+                        + "&name=" + name + "&gender=" + gender + "&status=" + status + "&phone=" + phone + "&captcha=" + captcha + "&type=register";
                 String enContent = "https://doctriscare.ml/user?action=verification&id=" + EncodeData.enCode(content);
-                SendMail.setContent(username, enContent , email);
+                SendMail.setContent(username, enContent, email);
                 userdao.AddCaptcha(username, captcha);
                 request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
                 request.getRequestDispatcher("user?action=login").forward(request, response);
             }
-            
-            if(action.equals("verification")){
+
+            if (action.equals("verification")) {
                 String id = request.getParameter("id");
                 String deID = EncodeData.deCode(id);
                 request.getRequestDispatcher("user?action=checkcaptcha" + deID).forward(request, response);
@@ -256,8 +283,9 @@ public class UserController extends HttpServlet {
             if (action.equals("checkcaptcha")) {
                 String captcha = request.getParameter("captcha");
                 String username = request.getParameter("username");
-                Account a = userdao.checkCaptcha(captcha, username);
-                if (a != null) {
+                String type = request.getParameter("type");
+                Account acc = userdao.checkCaptcha(captcha, username);
+                if (type.equals("register") && acc != null) {
                     String email = request.getParameter("email");
                     String password = request.getParameter("password");
                     String name = request.getParameter("name");
@@ -270,6 +298,10 @@ public class UserController extends HttpServlet {
                     userdao.RemoveCaptcha(username);
                     request.setAttribute("success", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
+                } else if (type.equals("recover") && acc != null) {
+                    session.setAttribute("username", username);
+                    userdao.RemoveCaptcha(username);
+                    request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
                 } else {
                     request.getRequestDispatcher("404.jsp").forward(request, response);
                 }
