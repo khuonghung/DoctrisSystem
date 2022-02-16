@@ -37,7 +37,8 @@
                                                 <p class="text-muted">Hãy nhập email của bạn chúng tôi sẽ gửi mật khẩu mới vào email.</p>
                                                 <div class="mb-3">
                                                     <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                    <input type="email" class="form-control" name="email" required="">
+                                                    <input value="${email}" type="email" class="form-control" name="email" required="">
+                                                   
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">

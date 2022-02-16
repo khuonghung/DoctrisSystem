@@ -180,11 +180,13 @@ public class UserController extends HttpServlet {
             if (action.equals("checkemail")) {
                 String email = request.getParameter("email");
                 if (Validate.checkEmail(email) == false) {
+                    request.setAttribute("email", email);
                     request.setAttribute("error", "Email không hợp lệ!");
                     request.getRequestDispatcher("user?action=recover").forward(request, response);
                 } else {
                     Account account = userdao.checkAccByEmail(email);
                     if (account == null) {
+                        request.setAttribute("email", email);
                         request.setAttribute("error", "Email không tồn tại!");
                         request.getRequestDispatcher("user?action=recover").forward(request, response);
                     } else {
