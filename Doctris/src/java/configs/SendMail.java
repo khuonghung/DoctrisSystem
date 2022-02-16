@@ -65,5 +65,25 @@ public class SendMail {
                 + "</html>";
         SendMail.send(email, subject, message, "doctris.care@gmail.com", "doctriscareg3");
     }
+     public static void setContentRecover(String username, String code, String email) {
+        String subject = "[Doctris] Please verify your email.";
+        String message = "<!DOCTYPE html>\n"
+                + "<html lang=\"en\">\n "
+                + "\n"
+                + "<head>\n "
+                + "</head>\n"
+                + "\n"
+                + "<body>\n"
+                + "    <h3 style=\"color: blue;\">Xin chào " + username + " !</h3>\n"
+                + "    <div>Link đặt lại mật khẩu của bạn là : <a href=\""+ code +"\">Nhấn vào đây!</a></div>\n"
+                + "    <div>Thư này được tạo ra tự động.</div>\n"
+                + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
+                + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"
+                + "\n"
+                + "</body>\n"
+                + "\n"
+                + "</html>";
+        SendMail.send(email, subject, message, "doctris.care@gmail.com", "doctriscareg3");
+    }
     
 }

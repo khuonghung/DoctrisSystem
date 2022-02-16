@@ -186,10 +186,10 @@ public class UserController extends HttpServlet {
                         String captcha = Captcha.getCaptcha();
                         String content = "&username=" + account.getUsername() + "&captcha=" + captcha + "&type=recover";
                         String enContent = EncodeData.enCode(content);
-                        SendMail.setContent(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
+                        SendMail.setContentRecover(account.getUsername(), "http://localhost:8080/doctris/user?action=verification&id=" + enContent, email);
                         userdao.RemoveCaptcha(account.getUsername());
                         userdao.AddCaptcha(account.getUsername(), captcha);
-                        request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
+                        request.setAttribute("error", "Link đặt lại mật khẩu được gửi đến email của bạn!");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
                     }
                 }
@@ -247,8 +247,8 @@ public class UserController extends HttpServlet {
                         } else {
                             newpassword = EncodeData.enCode(newpassword);
                             userdao.Recover(user.getUsername(), newpassword);
-                            request.setAttribute("passsuccess", "Thay đổi mật khẩu thành công!");
-                            request.getRequestDispatcher("user?action=profile").forward(request, response);
+                            request.setAttribute("success", "Thay đổi mật khẩu thành công, mời bạn đăng nhập lại!");
+                             request.getRequestDispatcher("user?action=login").forward(request, response);
                         }
                     }
                 }
