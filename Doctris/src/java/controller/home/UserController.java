@@ -187,7 +187,7 @@ public class UserController extends HttpServlet {
                         String captcha = Captcha.getCaptcha();
                         String content = "&username=" + account.getUsername() + "&captcha=" + captcha + "&type=recover";
                         String enContent = EncodeData.enCode(content);
-                        SendMail.setContent(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
+                        SendMail.setContentRecover(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
                         userdao.AddCaptcha(account.getUsername(), captcha);
                         request.setAttribute("error", "Link đặt lại mật khẩu được gửi đến email của bạn!");
                         request.getRequestDispatcher("user?action=login").forward(request, response);
