@@ -106,69 +106,81 @@
                             </div>
                         </div>
                         <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
-                                <div class="bg-white rounded shadow overflow-hidden">
-                                    <br><br><br><br><br>
-                                    <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                        <c:if test="${doctor.img == 'default'}">
-                                            <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                        </c:if>
-                                        <c:if test="${doctor.img != 'default'}">
-                                            <img src="data:image/png;base64,${doctor.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                        </c:if>
-                                        <h5 class="mt-3 mb-1">${doctor.doctor_name}</h5>
-                                        <p class="text-muted mb-0">${doctor.setting.name}</p>
+                            <div class="tab-pane show active row" id="info" role="tabpanel" aria-labelledby="info">
+                                <div class="col-lg-12 col-md-12 mt-4">
+                                    <div class="bg-white rounded shadow overflow-hidden">
+                                        <div class="p-4 border-bottom">
+                                            <h5 class="mb-0">Thông tin cá nhân</h5>
+                                        </div>
+                                        <br><br><br><br><br>
+                                        <div class="text-center margin-nagative mt-n5 position-relative pb-4 border-bottom">
+                                            <c:if test="${doctor.img == 'default'}">
+                                                <img src="assets/images/avata.png" class="img-fluid avatar avatar-large rounded" alt="">
+                                            </c:if>
+                                            <c:if test="${doctor.img != 'default'}">
+                                                <img src="data:image/png;base64,${doctor.img}" class="img-fluid avatar avatar-large rounded" alt="">
+                                            </c:if>
+                                            <h5 class="mt-3 mb-1">${doctor.doctor_name}</h5>
+                                            <p class="text-muted mb-0">${doctor.setting.name}</p>
+                                        </div>
+
+                                        <div class="p-4">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Giới tính</h6>
+                                                <c:if test="${doctor.gender == true}">
+                                                    <p class="text-muted mb-0 ms-2">Nam</p>
+                                                </c:if>
+                                                <c:if test="${doctor.gender == false}">
+                                                    <p class="text-muted mb-0 ms-2">Nữ</p>
+                                                </c:if>     
+                                            </div>
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Ngày sinh</h6>
+                                                <p class="text-muted mb-0 ms-2">${doctor.DOB}</p>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Số điện thoại</h6>
+                                                <p class="text-muted mb-0 ms-2">0${doctor.phone}</p>
+                                            </div>
+
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Email</h6>
+                                                <p class="text-muted mb-0 ms-2">${doctor.account.email}</p>
+                                            </div>
+
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Mô tả</h6>
+                                                <p class="text-muted mb-0 ms-2">${doctor.description}</p>
+                                            </div>
+
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Role</h6>
+                                                <p class="text-muted mb-0 ms-2">Doctor</p>
+                                            </div>
+
+                                            <div class="d-flex align-items-center mt-2">
+                                                <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
+                                                <h6 class="mb-0">Trạng thái</h6>
+                                                <c:if test="${doctor.status == true}">
+                                                    <p class="text-muted mb-0 ms-2">Hoạt động</p>
+                                                </c:if>
+                                                <c:if test="${doctor.status == false}">
+                                                    <p class="text-muted mb-0 ms-2">Khóa</p>
+                                                </c:if>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <div class="list-unstyled p-4">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-user align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Giới tính</h6>
-                                            <c:if test="${doctor.gender == true}">
-                                                <p class="text-muted mb-0 ms-2">Nam</p>
-                                            </c:if>
-                                            <c:if test="${doctor.gender == false}">
-                                                <p class="text-muted mb-0 ms-2">Nữ</p>
-                                            </c:if>     
-                                        </div>
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-envelope align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Ngày sinh</h6>
-                                            <p class="text-muted mb-0 ms-2">${doctor.DOB}</p>
-                                        </div>
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-book-open align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Số điện thoại</h6>
-                                            <p class="text-muted mb-0 ms-2">0${doctor.phone}</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Email</h6>
-                                            <p class="text-muted mb-0 ms-2">${doctor.account.email}</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-italic align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Mô tả</h6>
-                                            <p class="text-muted mb-0 ms-2">${doctor.description}</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Role</h6>
-                                            <p class="text-muted mb-0 ms-2">Doctor</p>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-2">
-                                            <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
-                                            <h6 class="mb-0">Trạng thái</h6>
-                                            <c:if test="${doctor.status == true}">
-                                                <p class="text-muted mb-0 ms-2">Hoạt động</p>
-                                            </c:if>
-                                            <c:if test="${doctor.status == false}">
-                                                <p class="text-muted mb-0 ms-2">Khóa</p>
-                                            </c:if>
+                                </div>
+                                <div class="col-lg-12 col-md-12 mt-4">
+                                    <div class="bg-white rounded shadow overflow-hidden">
+                                        <div class="p-4 border-bottom">
+                                            <h5 class="mb-0">Danh sách cuộc hẹn</h5>
                                         </div>
                                     </div>
                                 </div>
