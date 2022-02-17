@@ -146,7 +146,7 @@ public class UserController extends HttpServlet {
                     request.setAttribute("error", "Email không tồn tại!");
                     request.getRequestDispatcher("user?action=recover").forward(request, response);
                 } else {
-                    String captcha = Captcha.getCaptcha();
+                    String captcha = Captcha.getCaptcha(16);
                     String content = "&username=" + account.getUsername() + "&captcha=" + captcha + "&type=recover";
                     String enContent = EncodeData.enCode(content);
                     SendMail.setContentRecover(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
@@ -210,7 +210,7 @@ public class UserController extends HttpServlet {
             }
 
             if (action.equals("generalcaptcha")) {
-                String captcha = Captcha.getCaptcha();
+                String captcha = Captcha.getCaptcha(16);
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
                 String password = a.getPassword();
