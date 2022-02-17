@@ -270,3 +270,69 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 });
+
+function CheckFullName(text) {
+    var fullname = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]{4,}(?:[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+){0,2}$/;
+    if(!fullname.test(text.value)){
+        text.setCustomValidity('Họ tên không hợp lệ');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
+function CheckPhone(text) {
+    var phone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+    if(!phone.test(text.value)){
+        text.setCustomValidity('Số điện thoại không hợp lệ');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
+function CheckUserName(text) {
+    var username = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
+    if(!username.test(text.value)){
+        text.setCustomValidity('Tên đăng nhập không hợp lệ');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
+function CheckEmail(text) {
+    var email = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if(!email.test(text.value)){
+        text.setCustomValidity('Email không hợp lệ');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
+function CheckPassword(text) {
+    var pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    if(!pass.test(text.value)){
+        text.setCustomValidity('Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
+function CheckRePassword(text) {
+    var password = document.getElementById('password').value;
+    if(password != text.value){
+        text.setCustomValidity('Mật khẩu không khớp!');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}

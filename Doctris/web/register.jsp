@@ -28,13 +28,13 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
                                                 <label class="form-label">Tên tài khoản <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="username" required="">
+                                                <input type="text" oninvalid="CheckUserName(this);" oninput="CheckUserName(this);" class="form-control" name="username" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
                                                 <label class="form-label">Họ Tên <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="name" required="">
+                                                <input type="text" oninvalid="CheckFullName(this);" oninput="CheckFullName(this);" class="form-control" name="name" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -58,25 +58,25 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">                                               
                                             <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="phone" required="">
+                                            <input type="text" oninvalid="CheckPhone(this);" oninput="CheckPhone(this);" class="form-control" name="phone" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" name="email" required="">
+                                            <input type="email" oninvalid="CheckEmail(this);" oninput="CheckEmail(this);" class="form-control" name="email" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" name="password" required="">
+                                            <input type="password" id="password" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" class="form-control" name="password" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nhập lại mật khẩu <span class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" name="repassword" required="">
+                                            <input type="password" oninvalid="CheckRePassword(this);" oninput="CheckRePassword(this);" class="form-control" name="repassword" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">

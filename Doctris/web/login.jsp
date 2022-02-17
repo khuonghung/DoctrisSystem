@@ -29,18 +29,21 @@
                                     <p style="color: red; align-content: center;">
                                         ${requestScope.error}
                                     </p>
+                                    <p style="color: blue; align-content: center;">
+                                        ${requestScope.success}
+                                    </p>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                <input type="email" value="${cookie.email.value}" class="form-control" placeholder="Email" name="email" required="">
+                                                <input type="email" oninvalid="CheckEmail(this);" oninput="CheckEmail(this);" value="${cookie.email.value}" class="form-control" placeholder="Email" name="email" required="">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                                <input type="password" value="${cookie.pass.value}" class="form-control" name="password" placeholder="Password" required="">
+                                                <input type="password" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" value="${cookie.pass.value}" class="form-control" name="password" placeholder="Password" required="">
                                             </div>
                                         </div>
 

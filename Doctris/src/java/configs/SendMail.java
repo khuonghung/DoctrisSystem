@@ -55,7 +55,7 @@ public class SendMail {
                 + "\n"
                 + "<body>\n"
                 + "    <h3 style=\"color: blue;\">Xin chào " + username + " !</h3>\n"
-                + "    <div>Mã xác minh Tài khoản Doctris của bạn là : " + code + "</div>\n"
+                + "    <div>Link xác minh tài khoản của bạn là : <a href=\""+ code +"\">Nhấn vào đây!</a></div>\n"
                 + "    <div>Thư này được tạo ra tự động.</div>\n"
                 + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
                 + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"
@@ -65,9 +65,8 @@ public class SendMail {
                 + "</html>";
         SendMail.send(email, subject, message, "doctris.care@gmail.com", "doctriscareg3");
     }
-    
-    public static void setContentRecover(String username, String newpassword, String email) {
-        String subject = "[Doctris] Request to reset password.";
+     public static void setContentRecover(String username, String code, String email) {
+        String subject = "[Doctris] Please verify your email.";
         String message = "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n "
                 + "\n"
@@ -76,10 +75,9 @@ public class SendMail {
                 + "\n"
                 + "<body>\n"
                 + "    <h3 style=\"color: blue;\">Xin chào " + username + " !</h3>\n"
-                + "    <div>Mật khẩu mới của bạn là : " + newpassword + "</div>\n"
+                + "    <div>Link đặt lại mật khẩu của bạn là : <a href=\""+ code +"\">Nhấn vào đây!</a></div>\n"
                 + "    <div>Thư này được tạo ra tự động.</div>\n"
                 + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
-                + "    <div>Truy cập ngay https://doctriscare.ml/ để đăng nhập.</div>\n"
                 + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"
                 + "\n"
                 + "</body>\n"

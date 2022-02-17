@@ -46,6 +46,7 @@ public class AccountController extends HttpServlet {
         String message = null;
         String action = request.getParameter("action");
         try {
+            List<Role> rolelist = roledao.getRole();
             if (action.equals("all")) {
                 url = "account?action=all";
                 accountlist = userdao.getAllAccount();
@@ -54,7 +55,7 @@ public class AccountController extends HttpServlet {
                 String username = request.getParameter("username");
                 int role_id = Integer.parseInt(request.getParameter("role_id"));
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
-                userdao.UpdateAccount(username, role_id, status);
+                userdao.UpdateRoleStatus(username, role_id, status);
                 response.sendRedirect("account?action=all");
             }
 
@@ -62,6 +63,7 @@ public class AccountController extends HttpServlet {
                 String username = request.getParameter("username");
                 Account account = new Account();
                 account = userdao.getAccountByUsername(username);
+                request.setAttribute("role", rolelist);
                 request.setAttribute("account", account);
                 request.getRequestDispatcher("admin/accountdetail.jsp").forward(request, response);
             }
@@ -81,13 +83,15 @@ public class AccountController extends HttpServlet {
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("account?action=detail&username=" + username).forward(request, response);
             }
-            
+
             if (action.equals("update_account")) {
                 String username = request.getParameter("username");
                 String name = request.getParameter("name");
                 int phone = Integer.parseInt(request.getParameter("phone"));
                 boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
-                userdao.UpdateProfile(username,name,phone,gender);
+                int role_id = Integer.parseInt(request.getParameter("role_id"));
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                userdao.UpdateAccount(username, name, phone, gender, role_id, status);
                 alert = "success";
                 message = "Cập nhật thông tin thành công";
                 request.setAttribute("alert", alert);
@@ -98,6 +102,8 @@ public class AccountController extends HttpServlet {
             if (action.equals("filter")) {
                 String role_id = request.getParameter("role_id");
                 String status = request.getParameter("status");
+                request.setAttribute("role_id", role_id);
+                request.setAttribute("status", status);
                 if (role_id.equals("all") && status.equals("all")) {
                     response.sendRedirect("account?action=all");
                 } else if (role_id.equals("all")) {
@@ -120,7 +126,6 @@ public class AccountController extends HttpServlet {
             }
 
             if (accountlist != null) {
-                List<Role> rolelist = roledao.getRole();
                 int page, numperpage = 8;
                 int type = 0;
                 int size = accountlist.size();

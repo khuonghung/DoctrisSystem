@@ -56,36 +56,31 @@ public class UserController extends HttpServlet {
                 String password = request.getParameter("password");
                 String remember = request.getParameter("remember");
                 String enpassword = EncodeData.enCode(password);
-                if (Validate.checkEmail(email) == false) {
-                    request.setAttribute("error", "Email không hợp lệ!");
+                Account account = userdao.login(email, enpassword);
+                if (account == null) {
+                    request.setAttribute("error", "Email hoặc mật khẩu không chính xác!");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
+                } else if (account.isStatus() == false) {
+                    request.setAttribute("error", "Tài khoản đã bị khóa !");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
                 } else {
-                    Account account = userdao.login(email, enpassword);
-                    if (account == null) {
-                        request.setAttribute("error", "Email hoặc mật khẩu không chính xác!");
-                        request.getRequestDispatcher("user?action=login").forward(request, response);
-                    }else if(account.isStatus() == false){
-                        request.setAttribute("error", "Tài khoản đã bị khóa !");
-                        request.getRequestDispatcher("user?action=login").forward(request, response);
-                    }else {
-                        session.setAttribute("user", account);
-                        Cookie cemail = new Cookie("email", email);
-                        Cookie cpass = new Cookie("pass", password);
-                        Cookie rem = new Cookie("remember", remember);
-                        if (remember != null) {
-                            cemail.setMaxAge(60 * 60 * 24 * 30);
-                            cpass.setMaxAge(60 * 60 * 24 * 3);
-                            rem.setMaxAge(60 * 60 * 24 * 30);
-                        } else {
-                            cemail.setMaxAge(0);
-                            cpass.setMaxAge(0);
-                            rem.setMaxAge(0);
-                        }
-                        response.addCookie(cemail);
-                        response.addCookie(cpass);
-                        response.addCookie(rem);
-                        response.sendRedirect("home");
+                    session.setAttribute("user", account);
+                    Cookie cemail = new Cookie("email", email);
+                    Cookie cpass = new Cookie("pass", password);
+                    Cookie rem = new Cookie("remember", remember);
+                    if (remember != null) {
+                        cemail.setMaxAge(60 * 60 * 24 * 30);
+                        cpass.setMaxAge(60 * 60 * 24 * 3);
+                        rem.setMaxAge(60 * 60 * 24 * 30);
+                    } else {
+                        cemail.setMaxAge(0);
+                        cpass.setMaxAge(0);
+                        rem.setMaxAge(0);
                     }
+                    response.addCookie(cemail);
+                    response.addCookie(cpass);
+                    response.addCookie(rem);
+                    response.sendRedirect("home");
                 }
             }
 
@@ -107,65 +102,59 @@ public class UserController extends HttpServlet {
                 int role_id = 1;
                 String img = "default";
                 boolean status = true;
-                if (Validate.checkUsername(username) == false) {
-                    request.setAttribute("error", "Tên người dùng không hợp lệ!");
-                    request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (Validate.checkFullName(name) == false) {
-                    request.setAttribute("error", "Thông tin Họ Tên không hợp lệ!");
-                    request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (Validate.checkPhone(rphone) == false) {
-                    request.setAttribute("error", "Số điện thoại không hợp lệ!");
-                    request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (Validate.checkEmail(email) == false) {
-                    request.setAttribute("error", "Email không hợp lệ!");
-                    request.getRequestDispatcher("user?action=register").forward(request, response);
-                } else if (Validate.checkPassword(password) == false) {
-                    request.setAttribute("error", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
+                String enpassword = EncodeData.enCode(password);
+                boolean gender = Boolean.parseBoolean(rgender);
+                int phone = Integer.parseInt(rphone);
+                String fullname = Validate.capitalizeFirstLetter(name);
+                Account account = userdao.checkAcc(email, username);
+                if (account != null) {
+                    request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else {
-                    if (!password.equals(repassword)) {
-                        request.setAttribute("error", "Mật khẩu không trùng khớp. Hãy nhập lại...");
-                        request.getRequestDispatcher("user?action=register").forward(request, response);
-                    } else {
-                        String enpassword = EncodeData.enCode(password);
-                        boolean gender = Boolean.parseBoolean(rgender);
-                        int phone = Integer.parseInt(rphone);
-                        String fullname = Validate.capitalizeFirstLetter(name);
-                        Account account = userdao.checkAcc(email, username);
-                        if (account != null) {
-                            request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
-                            request.getRequestDispatcher("user?action=register").forward(request, response);
-                        } else {
-                            Role r = new Role(role_id);
-                            Account a = new Account(username, r, enpassword, fullname, gender, phone, email, img, status);
-                            session.setAttribute("register", a);
-                            response.sendRedirect("user?action=generalcapcha");
-                        }
-                    }
+                    Role r = new Role(role_id);
+                    Account a = new Account(username, r, enpassword, fullname, gender, phone, email, img, status);
+                    session.setAttribute("register", a);
+                    request.getRequestDispatcher("user?action=generalcaptcha").forward(request, response);
                 }
             }
             if (action.equals("recover")) {
                 request.getRequestDispatcher("recover.jsp").forward(request, response);
             }
+
+            if (action.equals("recoverpass")) {
+                String type = request.getParameter("type");
+                request.setAttribute("type", type);
+                request.getRequestDispatcher("recover.jsp").forward(request, response);
+            }
+
+            if (action.equals("forgot")) {
+                String password = request.getParameter("password");
+                String repassword = request.getParameter("repassword");
+                String username = (String) session.getAttribute("username");
+                password = EncodeData.enCode(password);
+                userdao.Recover(username, password);
+                userdao.RemoveCaptcha(username);
+                request.setAttribute("success", "Thay đổi mật khẩu thành công!");
+                request.getRequestDispatcher("user?action=login").forward(request, response);
+            }
+
             if (action.equals("checkemail")) {
                 String email = request.getParameter("email");
-                if (Validate.checkEmail(email) == false) {
-                    request.setAttribute("error", "Email không hợp lệ!");
+                Account account = userdao.checkAccByEmail(email);
+                if (account == null) {
+                    request.setAttribute("email", email);
+                    request.setAttribute("error", "Email không tồn tại!");
                     request.getRequestDispatcher("user?action=recover").forward(request, response);
                 } else {
-                    Account account = userdao.checkAccByEmail(email);
-                    if (account == null) {
-                        request.setAttribute("error", "Email không tồn tại!");
-                        request.getRequestDispatcher("user?action=recover").forward(request, response);
-                    } else {
-                        String newpass = Password.getPassword(8);
-                        SendMail.setContentRecover(account.getUsername(), newpass, email);
-                        userdao.Recover(account.getUsername(), EncodeData.enCode(newpass));
-                        request.setAttribute("success", "Mật khẩu mới đã đươc gửi vào email của bạn. Nhấn đăng nhập để truy cập hệ thống.");
-                        request.getRequestDispatcher("user?action=recover").forward(request, response);
-                    }
+                    String captcha = Captcha.getCaptcha(16);
+                    String content = "&username=" + account.getUsername() + "&captcha=" + captcha + "&type=recover";
+                    String enContent = EncodeData.enCode(content);
+                    SendMail.setContentRecover(account.getUsername(), "https://doctriscare.ml/user?action=verification&id=" + enContent, email);
+                    userdao.RemoveCaptcha(account.getUsername());
+                    userdao.AddCaptcha(account.getUsername(), captcha);
+                    request.setAttribute("error", "Link đặt lại mật khẩu được gửi đến email của bạn!");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
                 }
-
             }
 
             if (action.equals("profile")) {
@@ -207,61 +196,68 @@ public class UserController extends HttpServlet {
                 String newpassword = request.getParameter("newpassword");
                 String renewpassword = request.getParameter("renewpassword");
                 if (!oldpassword.equals(user.getPassword())) {
-                    request.setAttribute("passerror", "Mật khẩu không đúng!");
+                    request.setAttribute("oldpassword", EncodeData.deCode(oldpassword));
+                    request.setAttribute("newpassword", newpassword);
+                    request.setAttribute("renewpassword", renewpassword);
+                    request.setAttribute("passerror", "Mật khẩu cũ không đúng!");
                     request.getRequestDispatcher("user?action=profile").forward(request, response);
                 } else {
-                    if (Validate.checkPassword(newpassword) == false) {
-                        request.setAttribute("passerror", "Mật khẩu không hợp lệ (Cần có ít nhất 8 ký tự bao gồm viết hoa và ký tự đặc biệt)!");
-                        request.getRequestDispatcher("user?action=profile").forward(request, response);
-                    } else {
-                        if (!newpassword.equals(renewpassword)) {
-                            request.setAttribute("passerror", "Mật khẩu không khớp!");
-                            request.getRequestDispatcher("user?action=profile").forward(request, response);
-                        } else {
-                            newpassword = EncodeData.enCode(newpassword);
-                            userdao.Recover(user.getUsername(), newpassword);
-                            request.setAttribute("passsuccess", "Thay đổi mật khẩu thành công!");
-                            request.getRequestDispatcher("user?action=profile").forward(request, response);
-                        }
-                    }
+                    newpassword = EncodeData.enCode(newpassword);
+                    userdao.Recover(user.getUsername(), newpassword);
+                    request.setAttribute("success", "Thay đổi mật khẩu thành công, mời bạn đăng nhập lại!");
+                    request.getRequestDispatcher("user?action=login").forward(request, response);
                 }
             }
 
-            if (action.equals("capcha")) {
+            if (action.equals("generalcaptcha")) {
+                String captcha = Captcha.getCaptcha(16);
                 Account a = (Account) session.getAttribute("register");
                 String email = a.getEmail();
-                request.setAttribute("email", email);
-                request.getRequestDispatcher("capcha.jsp").forward(request, response);
-            }
-            if (action.equals("generalcapcha")) {
-                String capcha = Capcha.getCapcha();
-                Account a = (Account) session.getAttribute("register");
-                String email = a.getEmail();
+                String password = a.getPassword();
                 String username = a.getUsername();
-                SendMail.setContent(username, capcha, email);
-                session.setAttribute("capcha", capcha);
-                request.getRequestDispatcher("user?action=capcha").forward(request, response);
+                String name = a.getName();
+                int phone = a.getPhone();
+                boolean gender = a.isGender();
+                int role_id = a.getRole().getRole_id();
+                boolean status = a.isStatus();
+                String content = "&email=" + email + "&password=" + password
+                        + "&username=" + username + "&role_id=" + role_id + ""
+                        + "&name=" + name + "&gender=" + gender + "&status=" + status + "&phone=" + phone + "&captcha=" + captcha + "&type=register";
+                String enContent = "https://doctriscare.ml/user?action=verification&id=" + EncodeData.enCode(content);
+                SendMail.setContent(username, enContent, email);
+                userdao.AddCaptcha(username, captcha);
+                request.setAttribute("error", "Link xác thực đã được gửi đến bạn");
+                request.getRequestDispatcher("user?action=login").forward(request, response);
             }
-            if (action.equals("checkcapcha")) {
-                String capcha = request.getParameter("capcha");
-                String scapcha = (String) session.getAttribute("capcha");
-                if (capcha.equals(scapcha)) {
-                    Account a = (Account) session.getAttribute("register");
-                    String email = a.getEmail();
-                    String password = a.getPassword();
-                    String username = a.getUsername();
-                    String name = a.getName();
-                    int phone = a.getPhone();
-                    boolean gender = a.isGender();
-                    int role_id = a.getRole().getRole_id();
-                    boolean status = a.isStatus();
+
+            if (action.equals("verification")) {
+                String id = request.getParameter("id");
+                String deID = EncodeData.deCode(id);
+                request.getRequestDispatcher("user?action=checkcaptcha" + deID).forward(request, response);
+            }
+            if (action.equals("checkcaptcha")) {
+                String captcha = request.getParameter("captcha");
+                String username = request.getParameter("username");
+                String type = request.getParameter("type");
+                Account acc = userdao.checkCaptcha(captcha, username);
+                if (type.equals("register") && acc != null) {
+                    String email = request.getParameter("email");
+                    String password = request.getParameter("password");
+                    String name = request.getParameter("name");
+                    int phone = Integer.parseInt(request.getParameter("phone"));
+                    boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                    int role_id = Integer.parseInt(request.getParameter("role_id"));
+                    boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     userdao.Register(email, password, username, role_id, name, phone, gender, status);
                     session.removeAttribute("register");
-                    request.setAttribute("error", "Đăng ký thành công...");
+                    userdao.RemoveCaptcha(username);
+                    request.setAttribute("success", "Đăng ký thành công...");
                     request.getRequestDispatcher("user?action=login").forward(request, response);
+                } else if (type.equals("recover") && acc != null) {
+                    session.setAttribute("username", username);
+                    request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
                 } else {
-                    request.setAttribute("error", "Xác thực không thành công, Hãy thử lại mã xác nhận!");
-                    request.getRequestDispatcher("user?action=capcha").forward(request, response);
+                    request.getRequestDispatcher("404.jsp").forward(request, response);
                 }
             }
 

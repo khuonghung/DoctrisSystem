@@ -49,7 +49,7 @@
                         </c:if>
 
                         <c:if test="${sessionScope.user == null}">
-                            <button type="button" class="btn btn-pills btn-soft-primary dropdown-toggle p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avata.png" class="avatar avatar-ex-small rounded-circle" alt=""></button>
+                            <button class="btn btn-primary p-1" onclick="window.location.href='user?action=login'">Login</button>
                             </c:if>
                         <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3" style="min-width: 200px;">
                             <c:if test="${sessionScope.user.username != null}">

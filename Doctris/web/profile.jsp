@@ -240,14 +240,14 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Họ tên</label>
-                                                <input name="name" readonly value="${sessionScope.user.name}" id="name2" type="text" class="form-control" >
+                                                <input name="name" oninvalid="CheckFullName(this);" oninput="CheckFullName(this);"  value="${sessionScope.user.name}" id="name2" type="text" class="form-control" >
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Số điện thoại</label>
-                                                <input name="phone" value="${sessionScope.user.phone}" id="number" type="text" class="form-control">
+                                                <input name="phone" oninvalid="CheckPhone(this);" oninput="CheckPhone(this);" value="0${sessionScope.user.phone}" id="number" type="text" class="form-control">
                                             </div>                                                                               
                                         </div>
 
@@ -295,21 +295,21 @@
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Mật khẩu cũ :</label>
-                                                <input type="password" name="oldpassword" class="form-control" required="">
+                                                <input value="${oldpassword}" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" type="password"  name="oldpassword" class="form-control" required="">
                                             </div>
                                         </div><!--end col-->
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Mật khẩu mới :</label>
-                                                <input type="password" name="newpassword" class="form-control" required="">
+                                                <input value="${newpassword}" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" id="password" type="password" name="newpassword" class="form-control" required="">
                                             </div>
                                         </div><!--end col-->
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Nhập lại mật khẩu :</label>
-                                                <input type="password" name="renewpassword" class="form-control" required="">
+                                                <input value="${renewpassword}" oninvalid="CheckRePassword(this);" oninput="CheckRePassword(this);"type="password" name="renewpassword" class="form-control" required="">
                                             </div>
                                         </div><!--end col-->
 
