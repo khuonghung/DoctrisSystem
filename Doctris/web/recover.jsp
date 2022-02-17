@@ -37,7 +37,7 @@
                                                 <p class="text-muted">Hãy nhập email của bạn chúng tôi sẽ gửi mật khẩu mới vào email.</p>
                                                 <div class="mb-3">
                                                     <label class="form-label">Email <span class="text-danger">*</span></label>
-                                                    <input value="${email}" type="email" class="form-control" name="email" required="">
+                                                    <input value="${email}" oninvalid="CheckEmail(this);" oninput="CheckEmail(this);" type="email" class="form-control" name="email" required="">
                                                    
                                                 </div>
                                             </div>
@@ -59,11 +59,11 @@
                                                 <p class="text-muted">Hãy nhập mật khẩu mới của bạn.</p>
                                                 <div class="mb-3">
                                                     <label class="form-label">Mật khẩu mới : <span class="text-danger">*</span></label>
-                                                    <input value="${password}" type="password" class="form-control" name="password" required="">
+                                                    <input value="${password}" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" type="password" id="password" class="form-control" name="password" required="">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Nhập lại mật khẩu : <span class="text-danger">*</span></label>
-                                                    <input value="${repassword}" type="password" class="form-control" name="repassword" required="">
+                                                    <input value="${repassword}" oninvalid="CheckRePassword(this);" oninput="CheckRePassword(this);" type="password" class="form-control" name="repassword" required="">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">

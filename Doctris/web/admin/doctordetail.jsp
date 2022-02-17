@@ -215,7 +215,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Họ tên</label>
-                                                        <input name="name" id="name" type="text" class="form-control" value="${doctor.doctor_name}">
+                                                        <input name="name" oninvalid="CheckFullName(this);" oninput="CheckFullName(this);" id="name" type="text" class="form-control" value="${doctor.doctor_name}">
                                                     </div>
                                                 </div>
 
@@ -241,7 +241,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Số điện thoại</label>
-                                                        <input name="phone" id="number" type="text" class="form-control" value="0${doctor.phone}">
+                                                        <input name="phone" oninvalid="CheckPhone(this);" oninput="CheckPhone(this);" id="number" type="text" class="form-control" value="0${doctor.phone}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
