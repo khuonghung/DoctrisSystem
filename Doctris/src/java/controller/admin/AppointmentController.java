@@ -47,6 +47,7 @@ public class AppointmentController extends HttpServlet {
             List<Doctor> doctorlist = doctordao.getDoctorNameAndID();
             if (action.equals("all")) {
                 appointmentlist = appointmentdao.getAppointmentList();
+                url = "appointmentmanage?action=all";
             }
             if (action.equals("filter")) {
                 String doctor_id = request.getParameter("doctor_id");

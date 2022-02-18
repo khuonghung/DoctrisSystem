@@ -49,7 +49,7 @@
                                                     <option <c:if test="${status == 'all'}">selected</c:if> value="all">Tất cả</option>
                                                     <option <c:if test="${status == 'Assigned'}">selected</c:if> value="Assigned">Assigned</option>
                                                     <option <c:if test="${status == 'Pending'}">selected</c:if> value="Pending">Pending</option>
-                                                     <option <c:if test="${status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>
+                                                    <option <c:if test="${status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>
                                                     </select>
                                                 </div>  
                                             </div>
@@ -92,6 +92,18 @@
                                             </c:forEach>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <c:set var="page" value="${page}"/>
+                        <div class="row text-center">
+                            <div class="col-12 mt-4">
+                                <div class="d-md-flex align-items-center text-center justify-content-between">
+                                    <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                        <c:forEach begin="${1}" end="${num}" var="i">
+                                            <li class="page-item ${i==page?"active":""}"><a class="page-link" href="${url}&page=${i}">${i}</a></li>
+                                            </c:forEach>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
