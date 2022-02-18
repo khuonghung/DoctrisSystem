@@ -297,6 +297,25 @@ public class DoctorDAO {
         }
     }
     
+    public List<Doctor> getDoctorNameAndID() throws SQLException, IOException {
+        List<Doctor> list = new ArrayList<>();
+        String sql = "select doctor_id, doctor_name from doctris_system.doctor";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Doctor(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
     public List<Doctor> getListByPage(List<Doctor> list,
             int start, int end) {
         ArrayList<Doctor> arr = new ArrayList<>();

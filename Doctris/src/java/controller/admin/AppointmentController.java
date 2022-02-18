@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Appointment;
+import model.Doctor;
 import dal.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -36,14 +37,28 @@ public class AppointmentController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         AppointmentDAO appointmentdao = new AppointmentDAO();
+        DoctorDAO doctordao = new DoctorDAO();
         String action = request.getParameter("action");
         List<Appointment> appointmentlist = null;
         String url = null;
         String alert = null;
         String message = null;
         try {
-            if(action.equals("all")){
-              appointmentlist = appointmentdao.getAppointmentList();
+            List<Doctor> doctorlist = doctordao.getDoctorNameAndID();
+            if (action.equals("all")) {
+                appointmentlist = appointmentdao.getAppointmentList();
+            }
+            if (action.equals("filter")) {
+                String doctor_id = request.getParameter("doctor_id");
+                String status = request.getParameter("status");
+                request.setAttribute("doctor_id", doctor_id);
+                request.setAttribute("status", status);
+                if (doctor_id.equals("all") && status.equals("all")) {
+                    response.sendRedirect("appointmentmanage?action=all");
+                } else {
+                    appointmentlist = appointmentdao.getFilter(doctor_id, status);
+                }
+                url = "appointmentmanage?action=filter&doctor_id=" + doctor_id + "&status=" + status;
             }
             if (appointmentlist != null) {
                 int page, numperpage = 8;
@@ -65,6 +80,7 @@ public class AppointmentController extends HttpServlet {
                 request.setAttribute("num", num);
                 request.setAttribute("url", url);
                 request.setAttribute("appointment", appointment);
+                request.setAttribute("doctor", doctorlist);
                 request.getRequestDispatcher("admin/appointment.jsp").forward(request, response);
             }
         } catch (IOException | SQLException | ServletException e) {

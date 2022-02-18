@@ -24,24 +24,59 @@
                                     <h5 class="mb-0">Appointments</h5>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-md-7">
+                                <form action="appointmentmanage?action=filter" method="POST" onSubmit="document.getElementById('submit').disabled = true;">
+                                    <div class="justify-content-md-end row">
+                                        <div class="col-md-5 row align-items-center">
+                                            <div class="col-md-3">
+                                                <label class="form-label">Bác sĩ</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <select name="doctor_id" class="form-select" aria-label="Default select example">
+                                                    <option <c:if test="${doctor_id == 'all'}">selected</c:if> value="all">Tất cả</option>
+                                                    <c:forEach items="${doctor}" var="d">
+                                                        <option <c:if test="${doctor_id == d.doctor_id}">selected</c:if> value="${d.doctor_id}">${d.doctor_name}</option>
+                                                    </c:forEach>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 row align-items-center">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Trạng thái</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select name="status" class="form-select" aria-label="Default select example">
+                                                    <option <c:if test="${status == 'all'}">selected</c:if> value="all">Tất cả</option>
+                                                    <option <c:if test="${status == 'Assigned'}">selected</c:if> value="Assigned">Assigned</option>
+                                                    <option <c:if test="${status == 'Pending'}">selected</c:if> value="Pending">Pending</option>
+                                                     <option <c:if test="${status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>
+                                                    </select>
+                                                </div>  
+                                            </div>
+                                            <div class="col-md-1 md-0">
+                                                <button type="submit" class="btn btn-primary">Lọc</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
-                        <div class="row">
-                            <div class="col-12 mt-4">
-                                <div class="table-responsive bg-white shadow rounded">
-                                    <table class="table mb-0 table-center">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-bottom p-3" >ID</th>
-                                                <th class="border-bottom p-3" >Bệnh nhân</th>
-                                                <th class="border-bottom p-3" >Bác sĩ</th>
-                                                <th class="border-bottom p-3" >Ngày</th>
-                                                <th class="border-bottom p-3" >Thời gian</th>
-                                                <th class="border-bottom p-3" >Trạng thái</th>
-                                                <th class="border-bottom p-3" ></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="table-responsive bg-white shadow rounded">
+                                        <table class="table mb-0 table-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom p-3" >ID</th>
+                                                    <th class="border-bottom p-3" >Bệnh nhân</th>
+                                                    <th class="border-bottom p-3" >Bác sĩ</th>
+                                                    <th class="border-bottom p-3" >Ngày</th>
+                                                    <th class="border-bottom p-3" >Thời gian</th>
+                                                    <th class="border-bottom p-3" >Trạng thái</th>
+                                                    <th class="border-bottom p-3" ></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                             <c:forEach items="${appointment}" var="a">
                                                 <tr>
                                                     <th class="p-3">${a.id}</th>
