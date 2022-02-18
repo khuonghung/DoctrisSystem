@@ -40,13 +40,22 @@ public class Doctor {
         this.status = status;
         this.img = img;
     }
-    
+
     public Doctor(Setting setting, int doctor_id, String doctor_name, boolean gender, boolean status) {
         this.setting = setting;
         this.doctor_id = doctor_id;
         this.doctor_name = doctor_name;
         this.gender = gender;
         this.status = status;
+    }
+
+    public Doctor(String doctor_name) {
+        this.doctor_name = doctor_name;
+    }
+
+    public Doctor(int doctor_id, String doctor_name) {
+        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
     }
 
     public Setting getSetting() {
@@ -137,6 +146,4 @@ public class Doctor {
         this.img = img;
     }
 
-       
-    
 }
