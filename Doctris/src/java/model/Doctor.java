@@ -48,6 +48,10 @@ public class Doctor {
         this.gender = gender;
         this.status = status;
     }
+    
+    public Doctor(String doctor_name) {
+        this.doctor_name = doctor_name;
+    }
 
     public Setting getSetting() {
         return setting;

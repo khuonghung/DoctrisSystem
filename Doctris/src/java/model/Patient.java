@@ -46,6 +46,10 @@ public class Patient {
         this.status = status;
         this.DOB = DOB;
     }
+    
+    public Patient(Account account) {
+        this.account = account;
+    }
 
 
     public Account getAccount() {
