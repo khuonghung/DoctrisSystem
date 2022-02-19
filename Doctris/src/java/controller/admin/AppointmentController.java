@@ -72,10 +72,11 @@ public class AppointmentController extends HttpServlet {
                 request.getRequestDispatcher("admin/appointmentdetail.jsp").forward(request, response);
             }
             if(action.equals("update")){
+                double fee = Double.parseDouble(request.getParameter("fee"));
                 int id = Integer.parseInt(request.getParameter("id"));
                 String staff = request.getParameter("staff");
                 String status = request.getParameter("status");
-                appointmentdao.DoctorUpdate(id, staff, status);
+                appointmentdao.DoctorUpdate(id, staff, status, fee);
                 alert = "success";
                 message = "Cập nhật thông tin thành công";
                 request.setAttribute("alert", alert);

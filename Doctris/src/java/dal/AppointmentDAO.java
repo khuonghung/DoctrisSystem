@@ -171,14 +171,15 @@ public class AppointmentDAO {
         return null;
     }
     
-    public void DoctorUpdate(int id, String staff, String status) throws SQLException {
-        String sql = "UPDATE `doctris_system`.`appointments` SET `staff` = ?, `status` = ? WHERE (`appointment_id` = ?)";
+    public void DoctorUpdate(int id, String staff, String status, double fee) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`appointments` SET `staff` = ?, `status` = ?, `fee` = ? WHERE (`appointment_id` = ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, staff);
             ps.setString(2, status);
-            ps.setInt(3, id);
+            ps.setDouble(3, fee);
+            ps.setInt(4, id);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {

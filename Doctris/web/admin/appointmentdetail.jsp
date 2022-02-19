@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +135,13 @@
                                             <p>${appointment.staff.username}</p>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phí tư vấn</label>
+                                            <p><fmt:formatNumber pattern="##########" value="${appointment.fee}"/> đ</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Thông tin</label>
                                             <p>${appointment.description}</p>
@@ -149,6 +156,14 @@
                                 <h5 class="mb-0">Cập nhật thông tin</h5>
                             </div>
                             <form action="appointmentmanage?action=update&id=${appointment.id}" method="POST">
+                                <div class="tab-content p-4" id="pills-tabContent">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phí tư vấn</label>
+                                            <input name="fee" id="number" type="number" class="form-control" value="${appointment.fee}">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="tab-content p-4" id="pills-tabContent">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
