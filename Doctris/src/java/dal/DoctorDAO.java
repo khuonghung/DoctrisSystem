@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,6 +32,7 @@ public class DoctorDAO {
     ResultSet rs = null;
     DBContext dbc = new DBContext();
     Connection connection = null;
+    public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public List<Doctor> getRandomTop6Doctor() throws SQLException, IOException {
         List<Doctor> list = new ArrayList<>();
@@ -65,7 +67,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), formatter.format(rs.getDate(10)), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
             }
         } catch (SQLException e) {
         } finally {
@@ -247,7 +249,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(5),rs.getString(12),null);
                 Setting s = new Setting(rs.getString(1));
-                return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), rs.getDate(7), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image);
+                return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), formatter.format(rs.getDate(7)), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image);
             }
         } catch (SQLException e) {
         } finally {

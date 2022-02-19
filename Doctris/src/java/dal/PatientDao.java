@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,6 +32,7 @@ public class PatientDao {
     ResultSet rs = null;
     DBContext dbc = new DBContext();
     Connection connection = null;
+    public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     
     public List<Patient> getAllPatient() throws SQLException, IOException {
         List<Patient> list = new ArrayList<>();
@@ -42,7 +44,7 @@ public class PatientDao {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Patient(new Account(rs.getString(2), rs.getString(3), rs.getBoolean(4)), rs.getInt(1), rs.getDate(5), rs.getBoolean(6)));
+                list.add(new Patient(new Account(rs.getString(2), rs.getString(3), rs.getBoolean(4)), rs.getInt(1), formatter.format(rs.getDate(5)), rs.getBoolean(6)));
             }
         } catch (SQLException e) {
         } finally {
@@ -91,7 +93,7 @@ public class PatientDao {
                     base64Image = "default";
                 }
                 Account a = new Account(base64Image, rs.getString(2), rs.getString(3), rs.getString(4), rs.getBoolean(5), rs.getInt(6));
-                return new Patient(a, rs.getInt(7), rs.getDate(8), rs.getString(9), rs.getBoolean(10));
+                return new Patient(a, rs.getInt(7), formatter.format(rs.getDate(8)), rs.getString(9), rs.getBoolean(10));
             }
         } catch (SQLException e) {
         } finally {
@@ -149,7 +151,7 @@ public class PatientDao {
             rs = ps.executeQuery();
             while (rs.next()) {
 
-                list.add(new Patient(new Account(rs.getString(2), rs.getString(3), rs.getBoolean(4)), rs.getInt(1), rs.getDate(5), rs.getBoolean(6)));
+                list.add(new Patient(new Account(rs.getString(2), rs.getString(3), rs.getBoolean(4)), rs.getInt(1), formatter.format(rs.getDate(5)), rs.getBoolean(6)));
             }
         } catch (SQLException e) {
         } finally {
