@@ -40,6 +40,14 @@ public class Doctor {
         this.status = status;
         this.img = img;
     }
+    
+    public Doctor(String img, String doctor_name, int phone, boolean gender, String description) {
+        this.doctor_name = doctor_name;
+        this.gender = gender;
+        this.phone = phone;
+        this.description = description;
+        this.img = img;
+    }
 
     public Doctor(Setting setting, int doctor_id, String doctor_name, boolean gender, boolean status) {
         this.setting = setting;

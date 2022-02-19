@@ -6,7 +6,10 @@
 package dal;
 
 import context.DBContext;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import model.*;
 
 /**
@@ -97,6 +101,91 @@ public class AppointmentDAO {
             }
         }
         return list;
+    }
+
+    public Appointment getAppointmentByID(int id) throws SQLException, IOException {
+        String sql = "select doctor.img, doctor.doctor_name, doctor.phone, doctor.gender, "
+                + "category_service.name , users.img, users.name, users.phone, "
+                + "users.gender, patient.DOB, appointments.date ,appointments.time, "
+                + "appointments.status, appointments.description, staff.name, "
+                + "appointments.fee, appointments.appointment_id from appointments inner join doctor "
+                + "on appointments.doctor_id = doctor.doctor_id "
+                + "inner join patient on appointments.patient_id = patient.patient_id "
+                + "inner join users on patient.username = users.username "
+                + "inner join users staff on appointments.staff = staff.username "
+                + "inner join category_service on doctor.category_id = category_service.id "
+                + "where appointments.appointment_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String doctorImage = null;
+                String patientImage = null;
+                Blob doctorBlob = rs.getBlob(1);
+                Blob patientBlob = rs.getBlob(6);
+                if (doctorBlob != null) {
+                    InputStream inputStream = doctorBlob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    doctorImage = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    doctorImage = "default";
+                }
+
+                if (patientBlob != null) {
+                    InputStream inputStream = patientBlob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    patientImage = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    patientImage = "default";
+                }
+                Doctor doctor = new Doctor(doctorImage, rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5));
+                Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9));
+                Account staff = new Account(rs.getString(15));
+                Patient patient = new Patient(account, rs.getDate(10));
+                return new Appointment(rs.getInt(17) ,patient, doctor, staff, formatter.format(rs.getDate(11)), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
+    
+    public void DoctorUpdate(int id, String staff, String status) throws SQLException {
+        String sql = "UPDATE `doctris_system`.`appointments` SET `staff` = ?, `status` = ? WHERE (`appointment_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, staff);
+            ps.setString(2, status);
+            ps.setInt(3, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 
     public List<Appointment> getListByPage(List<Appointment> list,

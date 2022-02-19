@@ -86,7 +86,7 @@
                                                     <td class="p-3">${a.time}</td>
                                                     <td class="p-3">${a.status}</td>
                                                     <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-info">Chi tiết</a>
+                                                        <a href="appointmentmanage?action=detail&id=${a.id}" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
