@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.sql.Date;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Doctor {
     private String doctor_name;
     Account account;
     private boolean gender;
-    private String DOB;
+    private Date DOB;
     private int phone;
     private String description;
     private boolean status;
@@ -26,7 +27,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, String DOB, int phone, String description, boolean status, String img) {
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img) {
         this.setting = setting;
         this.doctor_id = doctor_id;
         this.role_id = role_id;
@@ -113,11 +114,11 @@ public class Doctor {
         this.gender = gender;
     }
 
-    public String getDOB() {
+    public Date getDOB() {
         return DOB;
     }
 
-    public void setDOB(String DOB) {
+    public void setDOB(Date DOB) {
         this.DOB = DOB;
     }
 

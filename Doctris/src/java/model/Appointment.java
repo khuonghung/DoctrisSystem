@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.sql.Date;
 import java.sql.Time;
 
 /**
@@ -16,7 +17,7 @@ public class Appointment {
     private Patient patient;
     private Doctor doctor;
     private Account staff;
-    private String date;
+    private Date date;
     private Time time;
     private String status;
     private double fee;
@@ -25,7 +26,7 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(int id, Patient patient, Doctor doctor, Account staff, String date, Time time, String status, double fee, String description) {
+    public Appointment(int id, Patient patient, Doctor doctor, Account staff, Date date, Time time, String status, double fee, String description) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
@@ -37,7 +38,7 @@ public class Appointment {
         this.description = description;
     }
 
-    public Appointment(int id, Patient patient, Doctor doctor, String date, Time time, String status) {
+    public Appointment(int id, Patient patient, Doctor doctor, Date date, Time time, String status) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;
@@ -86,11 +87,11 @@ public class Appointment {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
     

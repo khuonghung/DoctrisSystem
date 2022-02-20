@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.sql.Date;
 
 /**
  *
@@ -18,12 +19,12 @@ public class Patient {
     private int role_id;
     private boolean status;
     private String address;
-    private String DOB;
+    private Date DOB;
 
     public Patient() {
     }
 
-    public Patient(Account account, int patient_id, String username, int role_id, boolean status, String address, String DOB) {
+    public Patient(Account account, int patient_id, String username, int role_id, boolean status, String address, Date DOB) {
         this.account = account;
         this.patient_id = patient_id;
         this.username = username;
@@ -32,14 +33,14 @@ public class Patient {
         this.address = address;
         this.DOB = DOB;
     }
-    public Patient(Account account, int patient_id,  String DOB,String address, boolean status) {
+    public Patient(Account account, int patient_id,  Date DOB,String address, boolean status) {
         this.account = account;
         this.patient_id = patient_id;
         this.DOB = DOB;
         this.address = address;
         this.status = status;
     }
-    public Patient(Account account, int patient_id, String DOB, boolean status) {
+    public Patient(Account account, int patient_id, Date DOB, boolean status) {
         this.account = account;
         this.patient_id = patient_id;
         this.status = status;
@@ -50,7 +51,7 @@ public class Patient {
         this.account = account;
     }
 
-    public Patient(Account account, String DOB) {
+    public Patient(Account account, Date DOB) {
         this.account = account;
         this.DOB = DOB;
     }
@@ -103,11 +104,11 @@ public class Patient {
         this.address = address;
     }
 
-    public String getDOB() {
+    public Date getDOB() {
         return DOB;
     }
 
-    public void setDOB(String DOB) {
+    public void setDOB(Date DOB) {
         this.DOB = DOB;
     }
 }

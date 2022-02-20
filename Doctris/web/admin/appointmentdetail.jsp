@@ -114,7 +114,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ngày hẹn</label>
-                                            <p>${appointment.date}</p>
+                                            <p><fmt:formatDate pattern="dd/MM/yyyy" value="${appointment.date}" /></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

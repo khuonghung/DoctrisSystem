@@ -30,7 +30,6 @@ public class AppointmentDAO {
     ResultSet rs = null;
     DBContext dbc = new DBContext();
     Connection connection = null;
-    public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public List<Appointment> getAppointmentList() throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
@@ -43,7 +42,7 @@ public class AppointmentDAO {
                 Doctor doctor = new Doctor(rs.getString(2));
                 Account account = new Account(rs.getString(3));
                 Patient patient = new Patient(account);
-                list.add(new Appointment(rs.getInt(1), patient, doctor, formatter.format(rs.getDate(4)), rs.getTime(5), rs.getString(6)));
+                list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(4), rs.getTime(5), rs.getString(6)));
             }
         } catch (SQLException e) {
         } finally {
@@ -92,7 +91,7 @@ public class AppointmentDAO {
                 Doctor doctor = new Doctor(rs.getString(2));
                 Account account = new Account(rs.getString(3));
                 Patient patient = new Patient(account);
-                list.add(new Appointment(rs.getInt(1), patient, doctor, formatter.format(rs.getDate(4)), rs.getTime(5), rs.getString(6)));
+                list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(4), rs.getTime(5), rs.getString(6)));
             }
         } catch (SQLException e) {
         } finally {
@@ -159,8 +158,8 @@ public class AppointmentDAO {
                 Doctor doctor = new Doctor(doctorImage, rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5));
                 Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9));
                 Account staff = new Account(rs.getString(15));
-                Patient patient = new Patient(account, formatter.format(rs.getDate(10)));
-                return new Appointment(rs.getInt(17) ,patient, doctor, staff, formatter.format(rs.getDate(11)), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
+                Patient patient = new Patient(account, rs.getDate(10));
+                return new Appointment(rs.getInt(17) ,patient, doctor, staff, rs.getDate(11), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
             }
         } catch (SQLException e) {
         } finally {

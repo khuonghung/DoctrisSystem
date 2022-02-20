@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -71,7 +72,7 @@
                                                     <c:if test="${a.account.gender == false}">
                                                         <td class="p-3">Nữ</td>
                                                     </c:if>
-                                                    <td class="p-3">${a.DOB}</td>
+                                                    <td class="p-3"><fmt:formatDate pattern="dd/MM/yyyy" value="${a.DOB}" /></td>
                                                     <c:if test="${a.status == true}">
                                                         <td class="p-3">Active</td>
                                                     </c:if>

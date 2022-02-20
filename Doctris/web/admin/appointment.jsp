@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 
 
 <!DOCTYPE html>
@@ -82,7 +83,7 @@
                                                     <th class="p-3">${a.id}</th>
                                                     <td class="p-3">${a.patient.account.username}</td>
                                                     <td class="p-3">${a.doctor.doctor_name}</td>
-                                                    <td class="p-3">${a.date}</td>
+                                                    <td class="p-3"><fmt:formatDate pattern="dd/MM/yyyy" value="${a.date}" /></td>
                                                     <td class="p-3">${a.time}</td>
                                                     <td class="p-3">${a.status}</td>
                                                     <td class="text-end p-3">
