@@ -36,6 +36,7 @@ public class Account {
         this.img = img;
         this.status = status;
     }
+
     public Account(String username, Role role, String name, boolean gender, int phone, String email, String img, boolean status) {
         this.username = username;
         this.role = role;
@@ -46,7 +47,7 @@ public class Account {
         this.img = img;
         this.status = status;
     }
-    
+
     public Account(String username, Role role, String name, boolean gender, int phone, String email, boolean status) {
         this.username = username;
         this.role = role;
@@ -56,7 +57,8 @@ public class Account {
         this.email = email;
         this.status = status;
     }
-    public Account(String img,String username, String name, String email, boolean gender, int phone) {
+
+    public Account(String img, String username, String name, String email, boolean gender, int phone) {
         this.img = img;
         this.username = username;
         this.name = name;
@@ -64,24 +66,37 @@ public class Account {
         this.gender = gender;
         this.phone = phone;
     }
+
     public Account(String username, String name, boolean gender) {
         this.username = username;
         this.name = name;
         this.gender = gender;
     }
-    
+
     public Account(String username) {
         this.username = username;
     }
-    
+
     public Account(String username, String email, String captcha) {
         this.username = username;
-        if(email != null){
+        if (email != null) {
             this.email = email;
         }
-        if(captcha != null){
+        if (captcha != null) {
             this.captcha = captcha;
         }
+    }
+
+    public Account(String img, String name, int phone, boolean gender) {
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.img = img;
+    }
+    
+    public Account(String username, String name) {
+        this.username = username;
+        this.name = name;
     }
 
     public String getUsername() {
@@ -99,7 +114,7 @@ public class Account {
     public void setRole(Role role) {
         this.role = role;
     }
-    
+
     public String getPassword() {
         return password;
     }

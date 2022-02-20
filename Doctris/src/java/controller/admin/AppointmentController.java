@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Appointment;
 import model.Doctor;
+import model.Account;
 import dal.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,6 +39,7 @@ public class AppointmentController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         AppointmentDAO appointmentdao = new AppointmentDAO();
         DoctorDAO doctordao = new DoctorDAO();
+        UserDAO userdao = new UserDAO();
         String action = request.getParameter("action");
         List<Appointment> appointmentlist = null;
         String url = null;
@@ -60,6 +62,26 @@ public class AppointmentController extends HttpServlet {
                     appointmentlist = appointmentdao.getFilter(doctor_id, status);
                 }
                 url = "appointmentmanage?action=filter&doctor_id=" + doctor_id + "&status=" + status;
+            }
+            if(action.equals("detail")){
+                List<Account> stafflist = userdao.getAllStaff();
+                int id = Integer.parseInt(request.getParameter("id"));
+                Appointment appointment = appointmentdao.getAppointmentByID(id);
+                request.setAttribute("staff", stafflist);
+                request.setAttribute("appointment", appointment);
+                request.getRequestDispatcher("admin/appointmentdetail.jsp").forward(request, response);
+            }
+            if(action.equals("update")){
+                double fee = Double.parseDouble(request.getParameter("fee"));
+                int id = Integer.parseInt(request.getParameter("id"));
+                String staff = request.getParameter("staff");
+                String status = request.getParameter("status");
+                appointmentdao.DoctorUpdate(id, staff, status, fee);
+                alert = "success";
+                message = "Cập nhật thông tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("appointmentmanage?action=detail&id=" + id).forward(request, response);
             }
             if (appointmentlist != null) {
                 int page, numperpage = 8;

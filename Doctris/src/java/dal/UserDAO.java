@@ -491,7 +491,7 @@ public class UserDAO {
             }
         }
     }
-    
+
     public void UpdateAccount(String username, String name, int phone, boolean gender, int role_id, boolean status) throws SQLException {
         String sql = "UPDATE `doctris_system`.`users` SET `name` = ?, `phone` = ?, `gender` = ?, `role_id` = ?, `status` = ?  WHERE (`username` = ?)";
         try {
@@ -520,7 +520,7 @@ public class UserDAO {
         }
         return arr;
     }
-    
+
     public void AddCaptcha(String username, String captcha) throws SQLException {
         String sql = "INSERT INTO `doctris_system`.`verification` (`username`, `captcha`, `lifetime`) VALUES (?, ?, UNIX_TIMESTAMP(now() + INTERVAL 180 SECOND))";
         try {
@@ -536,7 +536,7 @@ public class UserDAO {
             }
         }
     }
-    
+
     public void RemoveCaptcha(String username) throws SQLException {
         String sql = "DELETE FROM `doctris_system`.`verification` WHERE (`username` = ?)";
         try {
@@ -551,7 +551,7 @@ public class UserDAO {
             }
         }
     }
-    
+
     public Account checkCaptcha(String captcha, String username) throws SQLException {
         String sql = "SELECT * FROM doctris_system.verification where username = ? and captcha = ?";
         try {
@@ -572,4 +572,23 @@ public class UserDAO {
         return null;
     }
 
+    public List<Account> getAllStaff() throws SQLException, IOException {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT username,name FROM doctris_system.users where role_id = 4 ";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(rs.getString(1), rs.getString(2)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+
+    }
 }

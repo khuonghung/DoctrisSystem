@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 
 
 <!DOCTYPE html>
@@ -82,11 +83,11 @@
                                                     <th class="p-3">${a.id}</th>
                                                     <td class="p-3">${a.patient.account.username}</td>
                                                     <td class="p-3">${a.doctor.doctor_name}</td>
-                                                    <td class="p-3">${a.date}</td>
+                                                    <td class="p-3"><fmt:formatDate pattern="dd/MM/yyyy" value="${a.date}" /></td>
                                                     <td class="p-3">${a.time}</td>
                                                     <td class="p-3">${a.status}</td>
                                                     <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-info">Chi tiết</a>
+                                                        <a href="appointmentmanage?action=detail&id=${a.id}" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -109,17 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted"><script>document.write(new Date().getFullYear())</script> © Doctris.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <jsp:include page="../admin/layout/footer.jsp"/>
             </main>
         </div>
 

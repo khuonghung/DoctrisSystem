@@ -6,6 +6,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +67,7 @@
                                         <div class="d-flex align-items-center mt-2">
                                             <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
                                             <h6 class="mb-0">Ngày sinh</h6>
-                                            <p class="text-muted mb-0 ms-2">${patient.DOB}</p>
+                                            <p class="text-muted mb-0 ms-2"><fmt:formatDate pattern="dd/MM/yyyy" value="${patient.DOB}" /></p>
                                         </div>
                                         <div class="d-flex align-items-center mt-2">
                                             <i class="uil uil-medical-drip align-text-bottom text-primary h5 mb-0 me-2"></i>
@@ -180,20 +181,7 @@
                     </div>
                 </div>
 
-                <footer class="bg-white shadow py-3">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <div class="text-sm-start text-center">
-                                    <p class="mb-0 text-muted">
-                                        <script>document.write(new Date().getFullYear())</script>
-                                        © Doctris.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <jsp:include page="../admin/layout/footer.jsp"/>
             </main>
         </div>
 

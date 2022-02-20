@@ -1,6 +1,6 @@
 <%-- 
-    Document   : 404
-    Created on : Feb 16, 2022, 4:00:40 PM
+    Document   : 500
+    Created on : Feb 20, 2022, 9:03:43 PM
     Author     : Khuong Hung
 --%>
 
@@ -18,9 +18,8 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7 col-md-10 text-center">
-                        <img src="assets/images/svg/error.svg" class="img-fluid" alt="">
-                        <h3 class="mb-4">Page Not Found</h3>
-                        <p class="text-muted para-desc mx-auto">Có vẻ như đường dẫn của bạn không khả dụng.</p>
+                        <img src="assets/images/svg/500.svg" class="img-fluid" alt="">
+                        <h3 class="mb-4">Đã xảy ra sự cố nghiêm trọng.</h3>
                         <a href="home" class="btn btn-primary mt-2">Quay lại trang chủ</a>
                     </div>
                 </div>
@@ -34,3 +33,4 @@
     </body>
 
 </html>
+

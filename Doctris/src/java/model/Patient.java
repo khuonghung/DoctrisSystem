@@ -51,6 +51,10 @@ public class Patient {
         this.account = account;
     }
 
+    public Patient(Account account, Date DOB) {
+        this.account = account;
+        this.DOB = DOB;
+    }
 
     public Account getAccount() {
         return account;
