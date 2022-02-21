@@ -76,7 +76,7 @@ public class AppointmentController extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 String staff = request.getParameter("staff");
                 String status = request.getParameter("status");
-                appointmentdao.DoctorUpdate(id, staff, status, fee);
+                appointmentdao.Update(id, staff, status, fee);
                 alert = "success";
                 message = "Cập nhật thông tin thành công";
                 request.setAttribute("alert", alert);
