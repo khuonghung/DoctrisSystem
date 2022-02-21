@@ -39,6 +39,7 @@ public class ReservationController extends HttpServlet {
         List<Reservation> reservationlist = null;
         ReservationDAO reservationdao = new ReservationDAO();
         ServiceDAO servicedao = new ServiceDAO();
+        UserDAO userdao = new UserDAO();
         String url = null;
         String alert = null;
         String message = null;
@@ -63,8 +64,20 @@ public class ReservationController extends HttpServlet {
             if(action.equals("detail")){
                 int id = Integer.parseInt(request.getParameter("id"));
                 Reservation reservation = reservationdao.getReservationByID(id);
+                List<Account> stafflist = userdao.getAllStaff();
+                request.setAttribute("staff", stafflist);
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("admin/reservationdetail.jsp").forward(request, response);
+            }
+            if(action.equals("update")){
+                int id = Integer.parseInt(request.getParameter("id"));
+                String staff = request.getParameter("staff");
+                reservationdao.StaffUpdate(id, staff);
+                alert = "success";
+                message = "Cập nhật thông tin thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("reservationmanage?action=detail&id=" + id).forward(request, response);
             }
             if (reservationlist != null) {
                 int page, numperpage = 8;

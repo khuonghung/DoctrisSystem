@@ -171,6 +171,22 @@ public class ReservationDAO {
         }
         return null;
     }
+    
+    public void StaffUpdate(int id, String staff) throws SQLException {
+        String sql = "UPDATE `reservations` SET `staff` = ? WHERE (`reservation_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, staff);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     public List<Reservation> getListByPage(List<Reservation> list,
             int start, int end) {

@@ -134,8 +134,29 @@
                                 </div>
                             </div>
                         </div>
-
-                        
+                        <div class="card border-0 shadow overflow-hidden mt-4">
+                            <div class="p-4 border-bottom">
+                                <h5 class="mb-0">Cập nhật thông tin</h5>
+                            </div>
+                            <form action="reservationmanage?action=update&id=${reservation.id}" method="POST">
+                                <div class="tab-content p-4" id="pills-tabContent">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nhân viên hỗ trợ</label>
+                                            <select name="staff" class="form-select">
+                                                <c:forEach items="${staff}" var="s">
+                                                    <option <c:if test="${reservation.staff.username == s.name}">selected</c:if> class="form-control" value="${s.username}">${s.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="tab-content p-0" id="pills-tabContent">
+                                            <input type="submit" id="submit" name="send" class="btn btn-primary"
+                                                    value="Cập nhật">
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 <jsp:include page="../admin/layout/footer.jsp"/>
