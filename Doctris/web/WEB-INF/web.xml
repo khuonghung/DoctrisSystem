@@ -40,6 +40,10 @@
         <servlet-name>Appointment</servlet-name>
         <servlet-class>controller.admin.AppointmentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReservationController</servlet-name>
+        <servlet-class>controller.admin.ReservationController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -76,6 +80,10 @@
         <servlet-name>Appointment</servlet-name>
         <url-pattern>/appointmentmanage</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReservationController</servlet-name>
+        <url-pattern>/reservationmanage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -85,11 +93,11 @@
         <welcome-file>home</welcome-file>
     </welcome-file-list>
     <error-page>
-    <error-code>404</error-code>
-    <location>/404.jsp</location>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
     </error-page>
     <error-page>
-    <error-code>500</error-code>
-    <location>/500.jsp</location>
+        <error-code>500</error-code>
+        <location>/500.jsp</location>
     </error-page>
 </web-app>
