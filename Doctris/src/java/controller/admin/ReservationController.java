@@ -60,6 +60,12 @@ public class ReservationController extends HttpServlet {
                 }
                 url = "reservationmanage?action=filter&service_id=" + service_id + "&status=" + status;
             }
+            if(action.equals("detail")){
+                int id = Integer.parseInt(request.getParameter("id"));
+                Reservation reservation = reservationdao.getReservationByID(id);
+                request.setAttribute("reservation", reservation);
+                request.getRequestDispatcher("admin/reservationdetail.jsp").forward(request, response);
+            }
             if (reservationlist != null) {
                 int page, numperpage = 8;
                 int type = 0;

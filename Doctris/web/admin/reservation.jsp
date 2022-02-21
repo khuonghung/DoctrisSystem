@@ -87,7 +87,7 @@
                                                     <td class="p-3">${r.time}</td>
                                                     <td class="p-3">${r.status}</td>
                                                     <td class="text-end p-3">
-                                                        <a href="#" type="button"class="btn btn-info">Chi tiết</a>
+                                                        <a href="reservationmanage?action=detail&id=${r.id}" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
