@@ -21,7 +21,7 @@
         <servlet-class>controller.home.ContactController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AccountController</servlet-name>
+        <servlet-name>AccountManage</servlet-name>
         <servlet-class>controller.admin.AccountManage</servlet-class>
     </servlet>
     <servlet>
@@ -29,19 +29,19 @@
         <servlet-class>controller.home.BlogController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DoctorController</servlet-name>
+        <servlet-name>DoctorManage</servlet-name>
         <servlet-class>controller.admin.DoctorManage</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PatientController</servlet-name>
+        <servlet-name>PatientManage</servlet-name>
         <servlet-class>controller.admin.PatientManage</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Appointment</servlet-name>
+        <servlet-name>AppointmentManage</servlet-name>
         <servlet-class>controller.admin.AppointmentManage</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ReservationController</servlet-name>
+        <servlet-name>ReservationManage</servlet-name>
         <servlet-class>controller.admin.ReservationManage</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -61,7 +61,7 @@
         <url-pattern>/contact</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AccountController</servlet-name>
+        <servlet-name>AccountManage</servlet-name>
         <url-pattern>/account</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -69,19 +69,19 @@
         <url-pattern>/blogs</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DoctorController</servlet-name>
+        <servlet-name>DoctorManage</servlet-name>
         <url-pattern>/doctormanage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PatientController</servlet-name>
+        <servlet-name>PatientManage</servlet-name>
         <url-pattern>/patientmanage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Appointment</servlet-name>
+        <servlet-name>AppointmentManage</servlet-name>
         <url-pattern>/appointmentmanage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ReservationController</servlet-name>
+        <servlet-name>ReservationManage</servlet-name>
         <url-pattern>/reservationmanage</url-pattern>
     </servlet-mapping>
     <session-config>
