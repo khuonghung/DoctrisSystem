@@ -5,21 +5,22 @@
  */
 package controller.admin;
 
-import dal.*;
-import model.*;
+import dal.PatientDao;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Patient;
 
 /**
  *
- * @author Khuong Hung
+ * @author Trung
  */
-public class ReservationController extends HttpServlet {
+public class PatientManage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,55 +36,54 @@ public class ReservationController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        String action = request.getParameter("action");
-        List<Reservation> reservationlist = null;
-        ReservationDAO reservationdao = new ReservationDAO();
-        ServiceDAO servicedao = new ServiceDAO();
-        UserDAO userdao = new UserDAO();
+        PatientDao patientdao = new PatientDao();
+        List<Patient> patientlist = null;
         String url = null;
         String alert = null;
         String message = null;
+        String action = request.getParameter("action");
+
         try {
-            List<Service> servicelist = servicedao.getServiceNameAndID();
-            if(action.equals("all")){
-                reservationlist = reservationdao.getReservationList();
-                url = "reservationmanage?action=all";
+            if (action.equals("all")) {
+                url = "patientmanage?action=all";
+                patientlist = patientdao.getAllPatient();
             }
-            if (action.equals("filter")) {
-                String service_id = request.getParameter("service_id");
-                String status = request.getParameter("status");
-                request.setAttribute("service_id", service_id);
-                request.setAttribute("status", status);
-                if (service_id.equals("all") && status.equals("all")) {
-                    response.sendRedirect("reservationmanage?action=all");
-                } else {
-                    reservationlist = reservationdao.getFilter(service_id, status);
-                }
-                url = "reservationmanage?action=filter&service_id=" + service_id + "&status=" + status;
+            
+            if (action.equals("search")) {
+                String search = request.getParameter("search");
+                url = "patientmanage?action=search&search="+search;
+                patientlist = patientdao.getPatientByName(search);
             }
-            if(action.equals("detail")){
-                int id = Integer.parseInt(request.getParameter("id"));
-                Reservation reservation = reservationdao.getReservationByID(id);
-                List<Account> stafflist = userdao.getAllStaff();
-                request.setAttribute("staff", stafflist);
-                request.setAttribute("reservation", reservation);
-                request.getRequestDispatcher("admin/reservationdetail.jsp").forward(request, response);
+         
+            if (action.equals("detail")) {
+                String username = request.getParameter("username");
+                Patient patient = new Patient();
+                patient = patientdao.getPatientByUsername(username);
+                request.setAttribute("patient", patient);
+                request.getRequestDispatcher("admin/patientdetail.jsp").forward(request, response);
             }
-            if(action.equals("update")){
-                int id = Integer.parseInt(request.getParameter("id"));
-                String staff = request.getParameter("staff");
-                reservationdao.StaffUpdate(id, staff);
+
+            if (action.equals("update_patient")) {
+                int patient_id = Integer.parseInt(request.getParameter("patient_id"));
+                int phone = Integer.parseInt(request.getParameter("phone"));
+                String username = request.getParameter("username");
+                String name = request.getParameter("name");
+                String adress = request.getParameter("address");
+                boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                Date dob = Date.valueOf(request.getParameter("DOB"));
+                patientdao.PatientUpdate(username, adress, dob, patient_id, name, status, gender, phone);
                 alert = "success";
-                message = "Cập nhật thông tin thành công";
+                message = "Cập nhật thôn tin thành công";
                 request.setAttribute("alert", alert);
                 request.setAttribute("message", message);
-                request.getRequestDispatcher("reservationmanage?action=detail&id=" + id).forward(request, response);
+                request.getRequestDispatcher("patientmanage?action=detail&username=" + username).forward(request, response);
             }
-            if (reservationlist != null) {
+            
+            if (patientlist != null) {
                 int page, numperpage = 8;
-                int type = 0;
-                int size = reservationlist.size();
-                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                int size = patientlist.size();
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);//so trang
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -93,15 +93,15 @@ public class ReservationController extends HttpServlet {
                 int start, end;
                 start = (page - 1) * numperpage;
                 end = Math.min(page * numperpage, size);
-                List<Reservation> reservation = reservationdao.getListByPage(reservationlist, start, end);
-                request.setAttribute("type", type);
+                List<Patient> patientDetails = patientdao.getListByPage(patientlist, start, end);
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
                 request.setAttribute("url", url);
-                request.setAttribute("reservation", reservation);
-                request.setAttribute("service", servicelist);
-                request.getRequestDispatcher("admin/reservation.jsp").forward(request, response);
+                request.setAttribute("patientlist", patientlist);
+                request.setAttribute("patientDetails", patientDetails);
+                request.getRequestDispatcher("admin/patient.jsp").forward(request, response);
             }
+
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);
         }

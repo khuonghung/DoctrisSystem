@@ -23,7 +23,7 @@ import model.*;
  * @author Khuong Hung
  */
 @MultipartConfig(maxFileSize = 16177216)
-public class DoctorController extends HttpServlet {
+public class DoctorManage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

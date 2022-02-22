@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>AccountController</servlet-name>
-        <servlet-class>controller.admin.AccountController</servlet-class>
+        <servlet-class>controller.admin.AccountManage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BlogController</servlet-name>
@@ -30,19 +30,19 @@
     </servlet>
     <servlet>
         <servlet-name>DoctorController</servlet-name>
-        <servlet-class>controller.admin.DoctorController</servlet-class>
+        <servlet-class>controller.admin.DoctorManage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PatientController</servlet-name>
-        <servlet-class>controller.admin.PatientController</servlet-class>
+        <servlet-class>controller.admin.PatientManage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Appointment</servlet-name>
-        <servlet-class>controller.admin.AppointmentController</servlet-class>
+        <servlet-class>controller.admin.AppointmentManage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ReservationController</servlet-name>
-        <servlet-class>controller.admin.ReservationController</servlet-class>
+        <servlet-class>controller.admin.ReservationManage</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
