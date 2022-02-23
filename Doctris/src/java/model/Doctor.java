@@ -23,6 +23,7 @@ public class Doctor {
     private String description;
     private boolean status;
     private String img;
+    private RateStar rateStar;
 
     public Doctor() {
     }
@@ -39,6 +40,21 @@ public class Doctor {
         this.description = description;
         this.status = status;
         this.img = img;
+    }
+
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, RateStar rateStar) {
+        this.setting = setting;
+        this.doctor_id = doctor_id;
+        this.role_id = role_id;
+        this.doctor_name = doctor_name;
+        this.account = account;
+        this.gender = gender;
+        this.DOB = DOB;
+        this.phone = phone;
+        this.description = description;
+        this.status = status;
+        this.img = img;
+        this.rateStar = rateStar;
     }
     
     public Doctor(String img, String doctor_name, int phone, boolean gender, String description) {
@@ -152,6 +168,14 @@ public class Doctor {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public RateStar getRateStar() {
+        return rateStar;
+    }
+
+    public void setRateStar(RateStar rateStar) {
+        this.rateStar = rateStar;
     }
 
 }

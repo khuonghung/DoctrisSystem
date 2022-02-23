@@ -10,6 +10,7 @@ package model;
  * @author Khuong Hung
  */
 public class Service {
+
     Setting setting;
     private int service_id;
     private String title;
@@ -27,6 +28,22 @@ public class Service {
         this.fee = fee;
         this.description = description;
         this.img = img;
+    }
+    
+    public Service(Setting setting, String title, double fee, String img) {
+        this.setting = setting;
+        this.title = title;
+        this.fee = fee;
+        this.img = img;
+    }
+
+    public Service(int service_id, String title) {
+        if (service_id != 0) {
+            this.service_id = service_id;
+        }
+        if (title != null) {
+            this.title = title;
+        }
     }
 
     public Setting getSetting() {
@@ -77,5 +94,4 @@ public class Service {
         this.img = img;
     }
 
- 
 }

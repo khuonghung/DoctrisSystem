@@ -22,7 +22,7 @@ import model.*;
  * @author Khuong Hung
  */
 @MultipartConfig(maxFileSize = 16177216)
-public class AccountController extends HttpServlet {
+public class AccountManage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
