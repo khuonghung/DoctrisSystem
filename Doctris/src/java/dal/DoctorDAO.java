@@ -360,6 +360,74 @@ public class DoctorDAO {
         return list;
     }
 
+    public List<Doctor> getFilter(String speciality, String gender) throws SQLException, IOException {
+        List<Doctor> list = new ArrayList<>();
+        String spec = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id where d.category_id = ?";
+        String gen = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id where d.gender = ?";
+        String filter = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id where d.gender = ? AND d.category_id = ?";
+        try {
+            connection = dbc.getConnection();
+            if (speciality.equals("all")) {
+                ps = connection.prepareStatement(gen);
+                ps.setBoolean(1, Boolean.parseBoolean(gender));
+            } else if (gender.equals("all")) {
+                ps = connection.prepareStatement(spec);
+                ps.setString(1, speciality);
+            } else {
+                ps = connection.prepareStatement(filter);
+                ps.setBoolean(1, Boolean.parseBoolean(gender));
+                ps.setString(2, speciality);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(14);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
+                Account a = new Account(rs.getString(8));
+                Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+
     public int getStars(int id) throws SQLException, IOException {
         int star = 0;
         String sql = "SELECT (SUM(star) / COUNT(*)) as star from ratestar where doctor_id = ?";
@@ -379,7 +447,7 @@ public class DoctorDAO {
         }
         return star;
     }
-    
+
     public int CountFeedback(int id) throws SQLException, IOException {
         int star = 0;
         String sql = "SELECT COUNT(*) from ratestar where doctor_id = ?";

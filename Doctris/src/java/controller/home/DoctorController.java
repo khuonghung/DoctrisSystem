@@ -43,11 +43,28 @@ public class DoctorController extends HttpServlet {
         String action = request.getParameter("action");
         DoctorDAO doctordao = new DoctorDAO();
         String url = null;
+        List<Doctor> getdoctor = null;
         ArrayList<Doctor> doctorall = new ArrayList<>();
         try {
+            List<Setting> specialitylist = doctordao.getSpeciality();
             if (action.equals("all")) {
                 url = "doctor?action=all";
-                List<Doctor> getdoctor = doctordao.getAllDoctorHome();
+                getdoctor = doctordao.getAllDoctorHome();
+            }
+            
+            if (action.equals("filter")){
+                String gender = request.getParameter("gender");
+                String speciality = request.getParameter("speciality");
+                request.setAttribute("gender",gender);
+                request.setAttribute("speciality1",speciality);
+                if(gender.equals("all") && speciality.equals("all")){
+                    response.sendRedirect("doctor?action=all");
+                }else {
+                    getdoctor = doctordao.getFilter(speciality, gender);
+                }
+                url = "doctor?action=filter&gender=" + gender + "&speciality=" + speciality;
+            }
+            if (getdoctor != null) {
                 for (Doctor doctor : getdoctor) {
                     int star = doctordao.getStars(doctor.getDoctor_id());
                     int feedback = doctordao.CountFeedback(doctor.getDoctor_id());
@@ -59,8 +76,6 @@ public class DoctorController extends HttpServlet {
                             doctor.getPhone(), doctor.getDescription(), doctor.isStatus(),
                             doctor.getImg(), rateStar));
                 }
-            }
-            if (doctorall != null) {
                 int page, numperpage = 6;
                 int size = doctorall.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
@@ -77,6 +92,7 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
                 request.setAttribute("url", url);
+                request.setAttribute("speciality", specialitylist);
                 request.setAttribute("doctor", doctorlist);
                 request.getRequestDispatcher("doctor.jsp").forward(request, response);
             }
