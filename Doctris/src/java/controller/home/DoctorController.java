@@ -51,18 +51,30 @@ public class DoctorController extends HttpServlet {
                 url = "doctor?action=all";
                 getdoctor = doctordao.getAllDoctorHome();
             }
-            
-            if (action.equals("filter")){
+
+            if (action.equals("filter")) {
                 String gender = request.getParameter("gender");
                 String speciality = request.getParameter("speciality");
-                request.setAttribute("gender",gender);
-                request.setAttribute("speciality1",speciality);
-                if(gender.equals("all") && speciality.equals("all")){
+                request.setAttribute("gender", gender);
+                request.setAttribute("speciality1", speciality);
+                if (gender.equals("all") && speciality.equals("all")) {
                     response.sendRedirect("doctor?action=all");
-                }else {
+                } else {
                     getdoctor = doctordao.getFilter(speciality, gender);
                 }
                 url = "doctor?action=filter&gender=" + gender + "&speciality=" + speciality;
+            }
+            if (action.equals("detail")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                Doctor detail = doctordao.getDetail(id);
+                int star = doctordao.getStars(detail.getDoctor_id());
+                int feedback = doctordao.CountFeedback(detail.getDoctor_id());
+                List<RateStar> getRate = doctordao.getRateDoctor(detail.getDoctor_id());
+                request.setAttribute("detail", detail);
+                request.setAttribute("star", star);
+                request.setAttribute("feedback", feedback);
+                request.setAttribute("rate", getRate);
+                request.getRequestDispatcher("doctordetail.jsp").forward(request, response);
             }
             if (getdoctor != null) {
                 for (Doctor doctor : getdoctor) {
@@ -74,7 +86,7 @@ public class DoctorController extends HttpServlet {
                     doctorall.add(new Doctor(s, doctor.getDoctor_id(), doctor.getRole_id(),
                             doctor.getDoctor_name(), a, doctor.isGender(), doctor.getDOB(),
                             doctor.getPhone(), doctor.getDescription(), doctor.isStatus(),
-                            doctor.getImg(), rateStar));
+                            doctor.getImg(), rateStar, doctor.getFee()));
                 }
                 int page, numperpage = 6;
                 int size = doctorall.size();

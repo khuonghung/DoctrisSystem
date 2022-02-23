@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="pt-2">
                                           <button class="btn btn-soft-primary" onclick="window.location.href='user?action=login'">Đặt lịch</button>
-                                          <button class="btn btn-soft-primary" onclick="window.location.href='user?action=login'">Chi tiết</button>  
+                                          <button class="btn btn-soft-primary" onclick="window.location.href='doctor?action=detail&id=${d.doctor_id}'">Chi tiết</button>  
                                         </div>
                                     </div>
                                 </div>

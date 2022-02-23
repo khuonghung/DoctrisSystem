@@ -561,7 +561,7 @@ public class UserDAO {
             ps.setString(2, captcha);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Account(rs.getString(1), null, rs.getString(2));
+                return new Account(rs.getString(1), null, rs.getString(2), null);
             }
         } catch (Exception e) {
         } finally {

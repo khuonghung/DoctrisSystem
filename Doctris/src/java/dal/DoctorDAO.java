@@ -37,7 +37,7 @@ public class DoctorDAO {
         String sql = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img, d.fee"
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id ORDER BY RAND() LIMIT 8";
@@ -65,7 +65,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
             }
         } catch (SQLException e) {
         } finally {
@@ -217,7 +217,7 @@ public class DoctorDAO {
 
     public Doctor getDoctorByID(int doctor_id) throws SQLException, IOException {
         String sql = "select cs.name,d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,u.email "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,u.email,d.fee "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs on d.category_id = cs.id "
                 + "inner join doctris_system.users u on d.username = u.username "
@@ -245,9 +245,9 @@ public class DoctorDAO {
                 } else {
                     base64Image = "default";
                 }
-                Account a = new Account(rs.getString(5), rs.getString(12), null);
+                Account a = new Account(rs.getString(5), rs.getString(12), null, null);
                 Setting s = new Setting(rs.getString(1));
-                return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), rs.getDate(7), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image);
+                return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), rs.getDate(7), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image, rs.getDouble(13));
             }
         } catch (SQLException e) {
         } finally {
@@ -321,7 +321,7 @@ public class DoctorDAO {
         String sql = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id";
@@ -349,7 +349,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15)));
             }
         } catch (SQLException e) {
         } finally {
@@ -365,21 +365,21 @@ public class DoctorDAO {
         String spec = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id where d.category_id = ?";
         String gen = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id where d.gender = ?";
         String filter = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id where d.gender = ? AND d.category_id = ?";
@@ -417,7 +417,92 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+
+    public Doctor getDetail(int id) throws SQLException, IOException {
+        String getdoctor = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id where d.doctor_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(getdoctor);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(14);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
+                Account a = new Account(rs.getString(8));
+                Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
+                return new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
+    
+    
+    public List<RateStar> getRateDoctor(int id) throws SQLException, IOException {
+        List<RateStar> list = new ArrayList<>();
+        String sql = "SELECT users.name, users.img, ratestar.star, ratestar.feedback, "
+                + "ratestar.datetime FROM ratestar inner join users "
+                + "on ratestar.username = users.username where ratestar.doctor_id = ? order by ratestar.id desc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(2);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
+                Account a = new Account(rs.getString(1),null, null,base64Image);
+                list.add(new RateStar(a, rs.getInt(3), rs.getString(4), rs.getTimestamp(5)));
             }
         } catch (SQLException e) {
         } finally {
