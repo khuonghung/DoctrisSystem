@@ -61,9 +61,9 @@ public class DoctorController extends HttpServlet {
                 }
             }
             if (doctorall != null) {
-                int page, numperpage = 8;
+                int page, numperpage = 6;
                 int size = doctorall.size();
-                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
