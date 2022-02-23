@@ -64,6 +64,10 @@
                                             </ul>
                                             <p class="text-muted mb-0">${d.rateStar.countfeedback} feedbacks</p>
                                         </div>
+                                        <div class="pt-2">
+                                          <button class="btn btn-soft-primary" onclick="window.location.href='user?action=login'">Đặt lịch</button>
+                                          <button class="btn btn-soft-primary" onclick="window.location.href='user?action=login'">Chi tiết</button>  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
