@@ -88,7 +88,13 @@
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex align-items-center">
                                         <a class="pe-3" href="#">
-                                            <img src="data:image/png;base64,${r.user.img}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                            <c:if test="${r.user.img != 'default'}">
+                                                <img src="data:image/png;base64,${r.user.img}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                            </c:if>
+                                                <c:if test="${r.user.img == 'default'}">
+                                                <img src="assets/images/avata.png" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                            </c:if>
+                                            
                                         </a>
                                         <div class="commentor-detail">
                                             <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">${r.user.username}</a></h6>
