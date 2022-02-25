@@ -34,7 +34,13 @@ public class RateStar {
         this.star = star;
         this.countfeedback = countfeedback;
     }
-
+    
+    public RateStar(Account user, int star, String feedback) {
+        this.user = user;
+        this.star = star;
+        this.feedback = feedback;
+    }
+    
     public int getStar() {
         return star;
     }

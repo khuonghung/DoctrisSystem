@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import model.RateStar;
 import model.Service;
 import model.Setting;
 
@@ -108,6 +109,14 @@ public class ServiceManage extends HttpServlet {
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("servicemanage?action=all").forward(request, response);
             }
+            
+            if (action.equals("viewfeedback")) {
+                int service_id = Integer.parseInt(request.getParameter("id"));
+                List<RateStar> ratestars = servicedao.getFeedback(service_id);
+                request.setAttribute("ratestars", ratestars);
+                request.getRequestDispatcher("admin/servicefeedback.jsp").forward(request, response);
+            }
+
  
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);

@@ -54,7 +54,7 @@ public class ServiceDAO {
         }
         return list;
     }
-    
+
     public List<Service> getServiceNameAndID() throws SQLException, IOException {
         List<Service> list = new ArrayList<>();
         String sql = "SELECT service_id, title FROM doctris_system.service";
@@ -73,7 +73,7 @@ public class ServiceDAO {
         }
         return list;
     }
-    
+
     public Service getServiceByID(int service_id) throws SQLException, IOException {
         String sql = "SELECT c.name,s.status,s.service_id,s.title, s.fee,s.description,s.img FROM service s inner join category_service c \n"
                 + "on s.category_id = c.id\n"
@@ -211,6 +211,45 @@ public class ServiceDAO {
                 connection.close();
             }
         }
+    }
+
+    public List<RateStar> getFeedback(int service_id) throws SQLException, IOException {
+        List<RateStar> list = new ArrayList<>();
+        String sql = "SELECT u.img, u.name, r.star,r.feedback FROM doctris_system.ratestar r "
+                + "inner join doctris_system.users u on r.username = u.username where r.service_id = ? ORDER BY r.datetime DESC";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, service_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(1);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
+                Account s = new Account(base64Image, rs.getString(2), 0, false);
+                list.add(new RateStar(s, rs.getInt(3), rs.getString(4)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
     }
 
 }
