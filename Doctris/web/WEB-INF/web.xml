@@ -48,6 +48,10 @@
         <servlet-name>DoctorController</servlet-name>
         <servlet-class>controller.home.DoctorController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServiceManage</servlet-name>
+        <servlet-class>controller.admin.ServiceManage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>DoctorController</servlet-name>
         <url-pattern>/doctor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServiceManage</servlet-name>
+        <url-pattern>/servicemanage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
