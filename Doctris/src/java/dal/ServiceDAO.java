@@ -25,12 +25,12 @@ import model.*;
  * @author Khuong Hung
  */
 public class ServiceDAO {
-
+    
     PreparedStatement ps = null;
     ResultSet rs = null;
     DBContext dbc = new DBContext();
     Connection connection = null;
-
+    
     public List<Service> getRandomTop6Service() throws SQLException {
         List<Service> list = new ArrayList<>();
         String sql = "select concat_ws(cs.id,s.category_id)id ,cs.name,cs.setting_id,"
@@ -54,7 +54,78 @@ public class ServiceDAO {
         }
         return list;
     }
-
+    
+    public List<Service> getAllServices() throws SQLException, IOException {
+        List<Service> list = new ArrayList<>();
+        String sql = "SELECT service.service_id, service.title, category_service.name, "
+                + "service.fee, service.status FROM service inner join "
+                + "category_service on service.category_id = category_service.id "
+                + "order by service.service_id asc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Setting s = new Setting(rs.getString(3));
+                list.add(new Service(rs.getInt(1), rs.getString(2), s, rs.getDouble(4), rs.getBoolean(5)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
+    public List<Service> getFilter(String catetogory) throws SQLException, IOException {
+        List<Service> list = new ArrayList<>();
+        String sql = "SELECT service.service_id, service.title, category_service.name, "
+                + "service.fee, service.status FROM service inner join "
+                + "category_service on service.category_id = category_service.id where service.category_id = ?"
+                + "order by service.service_id asc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, catetogory);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Setting s = new Setting(rs.getString(3));
+                list.add(new Service(rs.getInt(1), rs.getString(2), s, rs.getDouble(4), rs.getBoolean(5)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
+    public List<Service> getSearch(String txt) throws SQLException, IOException {
+        List<Service> list = new ArrayList<>();
+        String sql = "SELECT service.service_id, service.title, category_service.name, "
+                + "service.fee, service.status FROM service inner join "
+                + "category_service on service.category_id = category_service.id where service.title like ?"
+                + "order by service.service_id asc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + txt + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Setting s = new Setting(rs.getString(3));
+                list.add(new Service(rs.getInt(1), rs.getString(2), s, rs.getDouble(4), rs.getBoolean(5)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
     public List<Service> getServiceNameAndID() throws SQLException, IOException {
         List<Service> list = new ArrayList<>();
         String sql = "SELECT service_id, title FROM doctris_system.service";
@@ -73,7 +144,7 @@ public class ServiceDAO {
         }
         return list;
     }
-
+    
     public Service getServiceByID(int service_id) throws SQLException, IOException {
         String sql = "SELECT c.name,s.status,s.service_id,s.title, s.fee,s.description,s.img FROM service s inner join category_service c \n"
                 + "on s.category_id = c.id\n"
@@ -112,7 +183,7 @@ public class ServiceDAO {
         }
         return null;
     }
-
+    
     public List<Setting> getCatetogoryService() throws SQLException {
         List<Setting> list = new ArrayList<>();
         String sql = "select * from doctris_system.category_service";
@@ -131,7 +202,7 @@ public class ServiceDAO {
         }
         return list;
     }
-
+    
     public void UpdateImage(int service_id, Part img) throws SQLException {
         String sql = "UPDATE `doctris_system`.`service`\n"
                 + "SET\n"
@@ -151,7 +222,7 @@ public class ServiceDAO {
             }
         }
     }
-
+    
     public void ServiceUpdate(int id, String title, double fee, String description, int catetogory, boolean status) throws SQLException {
         String sql1 = "UPDATE `doctris_system`.`service`\n"
                 + "SET\n"
@@ -178,7 +249,23 @@ public class ServiceDAO {
             }
         }
     }
-
+    
+    public void UpdateStatus(boolean status, int service_id) throws SQLException {
+        String sql1 = "UPDATE `doctris_system`.`service` SET `status` = ? WHERE (`service_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql1);
+            ps.setInt(2, service_id);
+            ps.setBoolean(1, status);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
     public void ServiceADD(String title, double fee, String description, int catetogory, boolean status, Part img) throws SQLException {
         String sql = "INSERT INTO `doctris_system`.`service`\n"
                 + "(`category_id`,\n"
@@ -212,7 +299,7 @@ public class ServiceDAO {
             }
         }
     }
-
+    
     public List<RateStar> getFeedback(int service_id) throws SQLException, IOException {
         List<RateStar> list = new ArrayList<>();
         String sql = "SELECT u.img, u.name, r.star,r.feedback FROM doctris_system.ratestar r "
@@ -251,5 +338,14 @@ public class ServiceDAO {
         }
         return list;
     }
-
+    
+    public List<Service> getListByPage(List<Service> list,
+            int start, int end) {
+        ArrayList<Service> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+    
 }

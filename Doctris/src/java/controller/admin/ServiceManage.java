@@ -6,6 +6,7 @@
 package controller.admin;
 
 import dal.ServiceDAO;
+import dal.DoctorDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,7 +24,6 @@ import model.Setting;
  *
  * @author Khuong Hung
  */
-
 @MultipartConfig(maxFileSize = 16177216)
 public class ServiceManage extends HttpServlet {
 
@@ -37,7 +37,7 @@ public class ServiceManage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -46,11 +46,40 @@ public class ServiceManage extends HttpServlet {
         String url = null;
         String alert = null;
         String message = null;
+        List<Service> servicelist = null;
         List<Setting> catetogory_name = null;
         try {
             catetogory_name = servicedao.getCatetogoryService();
+            if (action.equals("all")) {
+                servicelist = servicedao.getAllServices();
+                url = "servicemanage?action=all";
+            }
             
-            if(action.equals("detail")){
+            if (action.equals("filter")) {
+                String category = request.getParameter("category");
+                if (category.equals("all")) {
+                    response.sendRedirect("servicemanage?action=all");
+                } else {
+                    servicelist = servicedao.getFilter(category);
+                }
+                request.setAttribute("category1", category);
+                url = "servicemanage?action=filter&category=" + category;
+            }
+            
+            if (action.equals("search")) {
+                String txt = request.getParameter("txt");
+                servicelist = servicedao.getSearch(txt);
+                url = "servicemanage?action=search&txt=" + txt;
+            }
+            
+            if (action.equals("update_status")){
+                boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                int service_id = Integer.parseInt(request.getParameter("id"));
+                servicedao.UpdateStatus(status, service_id);
+                response.sendRedirect("servicemanage?action=all");
+            }
+            
+            if (action.equals("detail")) {
                 int service_id = Integer.parseInt(request.getParameter("id"));
                 Service service = new Service();
                 service = servicedao.getServiceByID(service_id);
@@ -75,7 +104,7 @@ public class ServiceManage extends HttpServlet {
                 request.getRequestDispatcher("servicemanage?action=detail&id=" + service_id).forward(request, response);
             }
             
-            if(action.equals("update_info")){
+            if (action.equals("update_info")) {
                 int service_id = Integer.parseInt(request.getParameter("id"));
                 String title = request.getParameter("title");
                 double fee = Double.parseDouble(request.getParameter("fee"));
@@ -90,7 +119,7 @@ public class ServiceManage extends HttpServlet {
                 request.getRequestDispatcher("servicemanage?action=detail&id=" + service_id).forward(request, response);
             }
             
-            if(action.equals("add")){
+            if (action.equals("add")) {
                 request.setAttribute("catetogory", catetogory_name);
                 request.getRequestDispatcher("admin/addservice.jsp").forward(request, response);
             }
@@ -116,13 +145,33 @@ public class ServiceManage extends HttpServlet {
                 request.setAttribute("ratestars", ratestars);
                 request.getRequestDispatcher("admin/servicefeedback.jsp").forward(request, response);
             }
-
- 
+            
+            if (servicelist != null) {
+                int page, numperpage = 8;
+                int size = servicelist.size();
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<Service> service = servicedao.getListByPage(servicelist, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("url", url);
+                request.setAttribute("service", service);
+                request.setAttribute("category", catetogory_name);
+                request.getRequestDispatcher("admin/service.jsp").forward(request, response);
+            }
+            
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);
         }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

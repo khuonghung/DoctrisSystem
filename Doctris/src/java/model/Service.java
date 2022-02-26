@@ -41,6 +41,14 @@ public class Service {
         this.img = img;
     }
     
+    public Service(int service_id, String title, Setting setting, double fee, boolean status) {
+        this.setting = setting;
+        this.status = status;
+        this.service_id = service_id;
+        this.title = title;
+        this.fee = fee;
+    }
+    
     public boolean isStatus() {
         return status;
     }
