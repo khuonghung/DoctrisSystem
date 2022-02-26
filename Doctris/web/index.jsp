@@ -160,7 +160,7 @@
                                     <img src="data:image/png;base64,${d.img}" style="display: block;margin-left: auto;margin-right: auto;" class="rounded img-fluid" alt="">
                                 </div>
                                 <div class="card-body content text-center">
-                                    <a href="#" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
+                                    <a href="doctor?action=detail&id=${d.doctor_id}" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
                                     <small class="text-muted speciality">${d.setting.name}</small>
                                 </div>
                             </div>
