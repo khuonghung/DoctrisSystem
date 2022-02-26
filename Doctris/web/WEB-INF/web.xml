@@ -52,6 +52,10 @@
         <servlet-name>ServiceManage</servlet-name>
         <servlet-class>controller.admin.ServiceManage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BlogManage</servlet-name>
+        <servlet-class>controller.admin.BlogManage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -99,6 +103,10 @@
     <servlet-mapping>
         <servlet-name>ServiceManage</servlet-name>
         <url-pattern>/servicemanage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogManage</servlet-name>
+        <url-pattern>/blogmanage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -22,6 +22,7 @@
     <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
     <script src="assets/js/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <script type="text/javascript">
         $(document).ready(function () {
