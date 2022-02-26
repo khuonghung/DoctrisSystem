@@ -183,6 +183,28 @@
                                         <div class="p-4 border-bottom">
                                             <h5 class="mb-0">Danh sách cuộc hẹn</h5>
                                         </div>
+                                        <table class="table p-4 mb-0 table-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom p-3" >ID</th>
+                                                    <th class="border-bottom p-3" >Bệnh nhân</th>
+                                                    <th class="border-bottom p-3" >Ngày</th>
+                                                    <th class="border-bottom p-3" >Thời gian</th>
+                                                    <th class="border-bottom p-3" >Trạng thái</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${appointment}" var="a">
+                                                <tr>
+                                                    <th class="p-3">${a.id}</th>
+                                                    <td class="p-3">${a.patient.account.username}</td>
+                                                    <td class="p-3"><fmt:formatDate pattern="dd/MM/yyyy" value="${a.date}" /></td>
+                                                    <td class="p-3">${a.time}</td>
+                                                    <td class="p-3">${a.status}</td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 mt-4">
