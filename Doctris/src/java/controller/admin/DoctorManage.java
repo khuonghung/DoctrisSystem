@@ -76,8 +76,10 @@ public class DoctorManage extends HttpServlet {
             if(action.equals("detail")){
                 int doctor_id = Integer.parseInt(request.getParameter("id"));
                 Doctor doctor = new Doctor();
+                List<RateStar> getRate = doctordao.getRateDoctor(doctor_id);
                 doctor = doctordao.getDoctorByID(doctor_id);
                 request.setAttribute("speciality", specialitylist);
+                request.setAttribute("rate", getRate);
                 request.setAttribute("doctor", doctor);
                 request.getRequestDispatcher("admin/doctordetail.jsp").forward(request, response);
             }
