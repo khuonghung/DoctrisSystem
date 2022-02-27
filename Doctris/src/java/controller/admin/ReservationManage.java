@@ -72,7 +72,8 @@ public class ReservationManage extends HttpServlet {
             if(action.equals("update")){
                 int id = Integer.parseInt(request.getParameter("id"));
                 String staff = request.getParameter("staff");
-                reservationdao.StaffUpdate(id, staff);
+                String status = request.getParameter("status");
+                reservationdao.StaffUpdate(id, staff, status);
                 alert = "success";
                 message = "Cập nhật thông tin thành công";
                 request.setAttribute("alert", alert);
