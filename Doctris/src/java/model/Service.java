@@ -25,6 +25,14 @@ public class Service {
         this.img = img;
         this.description = description;
     }
+       public Service(String title, Setting setting, RateStar ratestar, double fee, String description,int service_id){
+        this.title = title;
+        this.setting = setting;
+        this.ratestar = ratestar;
+        this.fee = fee;
+        this.description = description;
+        this.service_id = service_id;
+    }
     public Service(Setting setting,boolean status, int service_id, String title, double fee, String description, String img) {
         this.setting = setting;
         this.status = status;
