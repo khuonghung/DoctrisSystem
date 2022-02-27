@@ -55,7 +55,7 @@
                     <div class="col-md-7 mt-4 mt-sm-0 pt-2 pt-sm-0">
                         <div class="section-title ms-md-4">
                             <h4 class="title">${service.title}</h4>
-                            <p class="text-muted">${service.category_name}</p>
+                            <p class="text-muted">${service.setting.setting_name}</p>
                             <h5 class="text-muted"><fmt:formatNumber pattern="#,###,###,###" value="${service.fee}"/> đ</h5>
                             <ul class="list-unstyled text-warning h5 mb-0">
                                 <c:if test="${service.ratestar.star != 0}">

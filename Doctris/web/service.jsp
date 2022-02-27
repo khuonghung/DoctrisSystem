@@ -76,7 +76,7 @@
                                 <select name="Speciality" class="form-select">
                                     <option value="1 or (1=1)">Tất cả</option>
                                     <c:forEach items="${speciality}" var="s">
-                                        <option value="${s.img}">${s.category_name}</option>
+                                        <option value="${s.img}">${s.description}</option>
                                     </c:forEach>
                                 </select>  
                             </div>
@@ -108,7 +108,7 @@
                             <c:forEach items="${serviceList}" var="d">
                                 <tr>
                                     <th class="p-3">${d.title}</th>
-                                    <td class="p-3">${d.category_name}</td>
+                                    <td class="p-3">${d.setting.setting_name}</td>
                                     <td class="p-3" style="width: 130px"><c:if test="${d.ratestar.star != 0}">
                                             <c:forEach var = "i" begin = "1" end = "${d.ratestar.star}">
                                     <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
