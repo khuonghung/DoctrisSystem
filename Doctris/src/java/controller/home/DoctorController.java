@@ -51,6 +51,17 @@ public class DoctorController extends HttpServlet {
                 url = "doctor?action=all";
                 getdoctor = doctordao.getAllDoctorHome();
             }
+            
+            if(action.equals("sort")){
+                String type = request.getParameter("type");
+                request.setAttribute("sort", type);
+                if(type.equals("all")){
+                    response.sendRedirect("doctor?action=all");
+                }else{
+                    getdoctor = doctordao.getSort(type);
+                }
+                url = "doctor?action=sort&type=" + type;
+            }
 
             if (action.equals("filter")) {
                 String gender = request.getParameter("gender");

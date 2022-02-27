@@ -65,7 +65,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
             }
         } catch (SQLException e) {
         } finally {
@@ -349,7 +349,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
             }
         } catch (SQLException e) {
         } finally {
@@ -417,7 +417,103 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+
+    public List<Doctor> getSort(String type) throws SQLException, IOException {
+        List<Doctor> list = new ArrayList<>();
+        String az = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id ORDER BY d.doctor_name";
+        String latest = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
+        String popular = "select concat_ws(cs.id,d.category_id)id, cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee, sum(ratestar.star)/count(ratestar.star) star\n"
+                + "from doctris_system.doctor d \n"
+                + "inner join doctris_system.category_service cs \n"
+                + "on d.category_id = cs.id left join ratestar on d.doctor_id = ratestar.doctor_id group by id, cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee order by star DESC";
+        String fee = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
+        String ascending = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
+        String decrease = "select concat_ws(cs.id,d.category_id)id,"
+                + " cs.name, cs.setting_id ,cs.status,"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "from doctris_system.doctor d "
+                + "inner join doctris_system.category_service cs "
+                + "on d.category_id = cs.id ORDER BY d.doctor_id asc";
+        try {
+            connection = dbc.getConnection();
+            if (type.equals("a-z")) {
+                ps = connection.prepareStatement(az);
+            }
+            if (type.equals("latest")) {
+                ps = connection.prepareStatement(latest);
+            }
+
+            if (type.equals("popular")) {
+                ps = connection.prepareStatement(popular);
+            }
+
+            if (type.equals("fee-")) {
+                ps = connection.prepareStatement(ascending);
+            }
+
+            if (type.equals("fee")) {
+                ps = connection.prepareStatement(decrease);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(14);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
+                Account a = new Account(rs.getString(8));
+                Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
             }
         } catch (SQLException e) {
         } finally {
@@ -461,7 +557,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                return new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image,rs.getDouble(15));
+                return new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15));
             }
         } catch (SQLException e) {
         } finally {
@@ -471,8 +567,7 @@ public class DoctorDAO {
         }
         return null;
     }
-    
-    
+
     public List<RateStar> getRateDoctor(int id) throws SQLException, IOException {
         List<RateStar> list = new ArrayList<>();
         String sql = "SELECT users.name, users.img, ratestar.star, ratestar.feedback, "
@@ -501,7 +596,7 @@ public class DoctorDAO {
                 } else {
                     base64Image = "default";
                 }
-                Account a = new Account(rs.getString(1),null, null,base64Image);
+                Account a = new Account(rs.getString(1), null, null, base64Image);
                 list.add(new RateStar(a, rs.getInt(3), rs.getString(4), rs.getTimestamp(5)));
             }
         } catch (SQLException e) {
