@@ -20,7 +20,26 @@ public class Blog {
     private String describe;
     private Date date;
     private String author;
+    private boolean status;
+    private boolean featured;
 
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+    
+    
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
     public String getAuthor() {
         return author;
     }

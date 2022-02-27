@@ -43,11 +43,51 @@ public class DoctorController extends HttpServlet {
         String action = request.getParameter("action");
         DoctorDAO doctordao = new DoctorDAO();
         String url = null;
+        List<Doctor> getdoctor = null;
         ArrayList<Doctor> doctorall = new ArrayList<>();
         try {
+            List<Setting> specialitylist = doctordao.getSpeciality();
             if (action.equals("all")) {
                 url = "doctor?action=all";
-                List<Doctor> getdoctor = doctordao.getAllDoctorHome();
+                getdoctor = doctordao.getAllDoctorHome();
+            }
+            
+            if(action.equals("sort")){
+                String type = request.getParameter("type");
+                request.setAttribute("sort", type);
+                if(type.equals("all")){
+                    response.sendRedirect("doctor?action=all");
+                }else{
+                    getdoctor = doctordao.getSort(type);
+                }
+                url = "doctor?action=sort&type=" + type;
+            }
+
+            if (action.equals("filter")) {
+                String gender = request.getParameter("gender");
+                String speciality = request.getParameter("speciality");
+                request.setAttribute("gender", gender);
+                request.setAttribute("speciality1", speciality);
+                if (gender.equals("all") && speciality.equals("all")) {
+                    response.sendRedirect("doctor?action=all");
+                } else {
+                    getdoctor = doctordao.getFilter(speciality, gender);
+                }
+                url = "doctor?action=filter&gender=" + gender + "&speciality=" + speciality;
+            }
+            if (action.equals("detail")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                Doctor detail = doctordao.getDetail(id);
+                int star = doctordao.getStars(detail.getDoctor_id());
+                int feedback = doctordao.CountFeedback(detail.getDoctor_id());
+                List<RateStar> getRate = doctordao.getRateDoctor(detail.getDoctor_id());
+                request.setAttribute("detail", detail);
+                request.setAttribute("star", star);
+                request.setAttribute("feedback", feedback);
+                request.setAttribute("rate", getRate);
+                request.getRequestDispatcher("doctordetail.jsp").forward(request, response);
+            }
+            if (getdoctor != null) {
                 for (Doctor doctor : getdoctor) {
                     int star = doctordao.getStars(doctor.getDoctor_id());
                     int feedback = doctordao.CountFeedback(doctor.getDoctor_id());
@@ -57,13 +97,11 @@ public class DoctorController extends HttpServlet {
                     doctorall.add(new Doctor(s, doctor.getDoctor_id(), doctor.getRole_id(),
                             doctor.getDoctor_name(), a, doctor.isGender(), doctor.getDOB(),
                             doctor.getPhone(), doctor.getDescription(), doctor.isStatus(),
-                            doctor.getImg(), rateStar));
+                            doctor.getImg(), rateStar, doctor.getFee()));
                 }
-            }
-            if (doctorall != null) {
-                int page, numperpage = 8;
+                int page, numperpage = 6;
                 int size = doctorall.size();
-                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
                     page = 1;
@@ -77,6 +115,7 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("page", page);
                 request.setAttribute("num", num);
                 request.setAttribute("url", url);
+                request.setAttribute("speciality", specialitylist);
                 request.setAttribute("doctor", doctorlist);
                 request.getRequestDispatcher("doctor.jsp").forward(request, response);
             }

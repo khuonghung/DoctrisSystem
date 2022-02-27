@@ -17,17 +17,44 @@ public class Service {
     private double fee;
     private String description;
     private String img;
+    private boolean status;
 
     public Service() {
     }
 
-    public Service(Setting setting, int service_id, String title, double fee, String description, String img) {
+    public Service(Setting setting,boolean status, int service_id, String title, double fee, String description, String img) {
+        this.setting = setting;
+        this.status = status;
+        this.service_id = service_id;
+        this.title = title;
+        this.fee = fee;
+        this.description = description;
+        this.img = img;
+    }
+    
+    public Service(Setting setting,int service_id, String title, double fee, String description, String img) {
         this.setting = setting;
         this.service_id = service_id;
         this.title = title;
         this.fee = fee;
         this.description = description;
         this.img = img;
+    }
+    
+    public Service(int service_id, String title, Setting setting, double fee, boolean status) {
+        this.setting = setting;
+        this.status = status;
+        this.service_id = service_id;
+        this.title = title;
+        this.fee = fee;
+    }
+    
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
     
     public Service(Setting setting, String title, double fee, String img) {

@@ -172,13 +172,14 @@ public class ReservationDAO {
         return null;
     }
     
-    public void StaffUpdate(int id, String staff) throws SQLException {
-        String sql = "UPDATE `reservations` SET `staff` = ? WHERE (`reservation_id` = ?)";
+    public void StaffUpdate(int id, String staff, String status) throws SQLException {
+        String sql = "UPDATE `reservations` SET `staff` = ?, `status` = ? WHERE (`reservation_id` = ?)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, staff);
-            ps.setInt(2, id);
+            ps.setString(2, status);
+            ps.setInt(3, id);
             ps.executeUpdate();
         } catch (Exception e) {
         } finally {

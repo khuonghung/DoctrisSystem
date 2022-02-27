@@ -123,7 +123,7 @@
                         <div class="col-xl-4 col-lg-4 col-md-6 mt-4 pt-2">
                             <div class="card team border-0 rounded shadow overflow-hidden">
                                 <div class="team-img position-relative">
-                                    <img style="height: 14rem;width: 100%"src="${s.img}" class="img-fluid" alt="">
+                                    <img style="height: 14rem;width: 100%"src="data:image/png;base64,${s.img}" class="img-fluid" alt="">
                                 </div>
                                 <div class="card-body content text-center">
                                     <a href="#" class="title text- h5 d-block mb-0">${s.title}</a>
@@ -160,7 +160,7 @@
                                     <img src="data:image/png;base64,${d.img}" style="display: block;margin-left: auto;margin-right: auto;" class="rounded img-fluid" alt="">
                                 </div>
                                 <div class="card-body content text-center">
-                                    <a href="#" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
+                                    <a href="doctor?action=detail&id=${d.doctor_id}" class="title text- h5 d-block mb-0">${d.doctor_name}</a>
                                     <small class="text-muted speciality">${d.setting.name}</small>
                                 </div>
                             </div>

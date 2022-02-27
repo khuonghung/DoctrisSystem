@@ -183,7 +183,70 @@
                                         <div class="p-4 border-bottom">
                                             <h5 class="mb-0">Danh sách cuộc hẹn</h5>
                                         </div>
+                                        <table class="table p-4 mb-0 table-center">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom p-3" >ID</th>
+                                                    <th class="border-bottom p-3" >Bệnh nhân</th>
+                                                    <th class="border-bottom p-3" >Ngày</th>
+                                                    <th class="border-bottom p-3" >Thời gian</th>
+                                                    <th class="border-bottom p-3" >Trạng thái</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${appointment}" var="a">
+                                                <tr>
+                                                    <th class="p-3">${a.id}</th>
+                                                    <td class="p-3">${a.patient.account.username}</td>
+                                                    <td class="p-3"><fmt:formatDate pattern="dd/MM/yyyy" value="${a.date}" /></td>
+                                                    <td class="p-3">${a.time}</td>
+                                                    <td class="p-3">${a.status}</td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 mt-4">
+                                    <div class="bg-white rounded shadow overflow-hidden">
+                                        <div class="p-4 border-bottom">
+                                            <h5 class="mb-0">Đánh giá từ bệnh nhân</h5>
+                                        </div>
+                                        <ul class="media-list list-unstyled p-4 mb-0">
+                                            <c:forEach items="${rate}" var="r">
+                                                <li class="mt-4">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex align-items-center">
+                                                            <a class="pe-3" href="#">
+                                                                <c:if test="${r.user.img != 'default'}">
+                                                                    <img src="data:image/png;base64,${r.user.img}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                                                </c:if>
+                                                                <c:if test="${r.user.img == 'default'}">
+                                                                    <img src="assets/images/avata.png" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                                                </c:if>
+
+                                                            </a>
+                                                            <div class="commentor-detail">
+                                                                <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">${r.user.username}</a></h6>
+                                                                <small class="text-muted"><fmt:formatDate pattern="dd/MM/yyyy hh:mm" value="${r.date}"/></small>
+                                                            </div>
+                                                        </div>
+                                                        <ul class="list-unstyled text-warning h5 mb-0">
+                                                            <c:if test="${r.star != 0}">
+                                                                <c:forEach var = "i" begin = "1" end = "${r.star}">
+                                                                    <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                                                    </c:forEach>
+                                                                </c:if>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <p class="text-muted font-italic p-3 bg-light rounded">${r.feedback}</p>
+                                                    </div>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+
                                 </div>
                             </div>
 

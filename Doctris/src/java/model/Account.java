@@ -77,13 +77,18 @@ public class Account {
         this.username = username;
     }
 
-    public Account(String username, String email, String captcha) {
-        this.username = username;
+    public Account(String username, String email, String captcha, String img) {
+        if (username != null) {
+            this.username = username;
+        }
         if (email != null) {
             this.email = email;
         }
         if (captcha != null) {
             this.captcha = captcha;
+        }
+        if (img != null) {
+            this.img = img;
         }
     }
 
@@ -93,7 +98,7 @@ public class Account {
         this.phone = phone;
         this.img = img;
     }
-    
+
     public Account(String username, String name) {
         this.username = username;
         this.name = name;

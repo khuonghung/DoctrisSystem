@@ -5,6 +5,7 @@
  */
 package controller.admin;
 
+import dal.AppointmentDAO;
 import dal.DoctorDAO;
 import java.io.IOException;
 import java.sql.Date;
@@ -42,6 +43,7 @@ public class DoctorManage extends HttpServlet {
         DoctorDAO doctordao = new DoctorDAO();
         String action = request.getParameter("action");
         List<Doctor> doctorlist = null;
+        AppointmentDAO appointmentdao = new AppointmentDAO();
         String url = null;
         String alert = null;
         String message = null;
@@ -76,8 +78,12 @@ public class DoctorManage extends HttpServlet {
             if(action.equals("detail")){
                 int doctor_id = Integer.parseInt(request.getParameter("id"));
                 Doctor doctor = new Doctor();
+                List<model.Appointment> appointmentlist = appointmentdao.getAppointmentByDoctor(doctor_id);
+                List<RateStar> getRate = doctordao.getRateDoctor(doctor_id);
                 doctor = doctordao.getDoctorByID(doctor_id);
                 request.setAttribute("speciality", specialitylist);
+                request.setAttribute("appointment", appointmentlist);
+                request.setAttribute("rate", getRate);
                 request.setAttribute("doctor", doctor);
                 request.getRequestDispatcher("admin/doctordetail.jsp").forward(request, response);
             }

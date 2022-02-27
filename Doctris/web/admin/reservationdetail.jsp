@@ -149,6 +149,14 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Trạng thái</label>
+                                            <select name="status" class="form-select" aria-label="Default select example">
+                                                <option <c:if test="${reservation.status == 'Assigned'}">selected</c:if> value="Assigned">Assigned</option>
+                                                <option <c:if test="${reservation.status == 'Pending'}">selected</c:if> value="Pending">Pending</option>
+                                                <option <c:if test="${reservation.status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>
+                                            </select>
+                                        </div>
                                         <div class="tab-content p-0" id="pills-tabContent">
                                             <input type="submit" id="submit" name="send" class="btn btn-primary"
                                                     value="Cập nhật">

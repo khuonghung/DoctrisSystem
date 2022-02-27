@@ -24,11 +24,12 @@ public class Doctor {
     private boolean status;
     private String img;
     private RateStar rateStar;
+    private double fee;
 
     public Doctor() {
     }
 
-    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img) {
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, double fee) {
         this.setting = setting;
         this.doctor_id = doctor_id;
         this.role_id = role_id;
@@ -40,9 +41,10 @@ public class Doctor {
         this.description = description;
         this.status = status;
         this.img = img;
+        this.fee = fee;
     }
 
-    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, RateStar rateStar) {
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, RateStar rateStar, double fee) {
         this.setting = setting;
         this.doctor_id = doctor_id;
         this.role_id = role_id;
@@ -55,6 +57,7 @@ public class Doctor {
         this.status = status;
         this.img = img;
         this.rateStar = rateStar;
+        this.fee = fee;
     }
     
     public Doctor(String img, String doctor_name, int phone, boolean gender, String description) {
@@ -176,6 +179,14 @@ public class Doctor {
 
     public void setRateStar(RateStar rateStar) {
         this.rateStar = rateStar;
+    }
+
+    public double getFee() {
+        return fee;
+    }
+
+    public void setFee(double fee) {
+        this.fee = fee;
     }
 
 }

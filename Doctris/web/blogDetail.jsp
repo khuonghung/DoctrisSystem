@@ -18,18 +18,12 @@
         <!-- Navbar End -->
 
         <!-- Start Hero -->
-        <section class="bg-half-150 d-table w-100 bg-light">
+        <section class="bg-half-170 d-table w-100" style="background:grey center center;">
             <div class="container">
                 <div class="row mt-5 justify-content-center">
                     <div class="col-12">
                         <div class="section-title text-center">
-                            <h3 class="sub-title mb-4">${requestScope.blog.title}</h3>
-                            <p class="para-desc mx-auto text-muted">Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.</p>
-
-                            <ul class="list-unstyled mt-4">
-                                <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${requestScope.blog.author}</li>
-                                <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${requestScope.blog.date}</li>
-                            </ul>
+                            <h3 class="sub-title mb-4" style="color:white">${requestScope.blog.title}</h3>
                         </div>
                     </div><!--end col-->
                 </div><!--end row-->
@@ -49,61 +43,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-lg-7">
-                        <img src="assets/images/blog/01.jpg" class="img-fluid rounded shadow" alt="">
+                        <img src="data:image/png;base64,${requestScope.blog.img}" class="img-fluid rounded shadow" alt="">
 
-                        <!-- <ul class="list-unstyled mt-4">
-                            <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> Calvin Carlo</li>
-                            <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> 1st January, 2021</li>
-                        </ul> -->
+                         <ul class="list-unstyled mt-4">
+                                <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${requestScope.blog.author}</li>
+                                <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${requestScope.blog.date}</li>
+                            </ul>
                         <p class="text-muted mt-4">${requestScope.blog.describe}</p>
                     </div><!--end col-->
 
                     <!-- right sider start --> 
-                    <div class="col-lg-4 col-md-4 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                        <div class="card border-0 sidebar sticky-bar rounded shadow">
-                            <div class="card-body">
-                                <!-- SEARCH -->
-                                <div class="widget mb-4 pb-2">
-                                    <h5 class="widget-title">Tìm Kiếm</h5>
-                                    <div id="search2" class="widget-search mt-4 mb-0">
-                                        <form action="blogs?action=search" method="POST" id="searchform" class="searchform">
-                                            <div>
-                                                <input type="text" class="border rounded" name="content" id="s" placeholder="Nhập từ khóa">
-                                                <input type="submit" id="searchsubmit" value="Search">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- SEARCH -->
-
-                                <!-- RECENT POST -->
-                                <div class="widget mb-4 pb-2">
-                                    <h5 class="widget-title">Bài Đăng Nổi Bật</h5>
-                                    <div class="mt-4">
-                                        <c:forEach items="${featured_blogs}" var="fb">
-                                            <div class="clearfix post-recent">
-                                                <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="${fb.img}" class="img-fluid rounded"></a></div>
-                                                <div class="post-recent-content float-start"><a href="blogs?action=detail&blog_id=${fb.blog_id}">${fb.title}</a></div>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                                <!-- RECENT POST -->
-
-                                <!-- TAG CLOUDS -->
-                                <div class="widget mb-4 pb-2">
-                                    <h5 class="widget-title">Danh Mục</h5>
-                                    <div class="tagcloud mt-4">
-                                        <c:forEach items="${categories}" var='c'>
-                                            <a href="blogs?action=category&id=${c.id}" class="rounded">${c.name}</a>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                                <!-- TAG CLOUDS -->
-
-                            </div>
-                        </div>
-                    </div>
+                    <jsp:include page="blogRightSider.jsp"/>
                     <!-- right sider end -->
                 </div><!--end row-->
             </div><!--end container-->
@@ -189,14 +139,14 @@
         <!-- Offcanvas End -->
 
         <!-- javascript -->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
         <!-- SLIDER -->
-        <script src="../assets/js/tiny-slider.js "></script>
-        <script src="../assets/js/tiny-slider-init.js "></script>
+        <script src="assets/js/tiny-slider.js "></script>
+        <script src="assets/js/tiny-slider-init.js "></script>
         <!-- Icons -->
-        <script src="../assets/js/feather.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
         <!-- Main Js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="assets/js/app.js"></script>
 
     </body>
 
