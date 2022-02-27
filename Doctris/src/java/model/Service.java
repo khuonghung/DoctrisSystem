@@ -18,10 +18,13 @@ public class Service {
     private String description;
     private String img;
     private boolean status;
-
+    RateStar ratestar;
     public Service() {
     }
-
+    public Service(String img, String description) {
+        this.img = img;
+        this.description = description;
+    }
     public Service(Setting setting,boolean status, int service_id, String title, double fee, String description, String img) {
         this.setting = setting;
         this.status = status;
@@ -30,6 +33,14 @@ public class Service {
         this.fee = fee;
         this.description = description;
         this.img = img;
+    }
+
+    public RateStar getRatestar() {
+        return ratestar;
+    }
+
+    public void setRatestar(RateStar ratestar) {
+        this.ratestar = ratestar;
     }
     
     public Service(Setting setting,int service_id, String title, double fee, String description, String img) {
