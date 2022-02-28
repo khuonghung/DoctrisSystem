@@ -430,13 +430,13 @@ public class DoctorDAO {
 
     public List<Doctor> getSort(String type) throws SQLException, IOException {
         List<Doctor> list = new ArrayList<>();
-        String az = "select concat_ws(cs.id,d.category_id)id,"
-                + " cs.name, cs.setting_id ,cs.status,"
-                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
-                + "from doctris_system.doctor d "
-                + "inner join doctris_system.category_service cs "
-                + "on d.category_id = cs.id ORDER BY d.doctor_name";
+        String star = "select concat_ws(cs.id,d.category_id)id, cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee, sum(ratestar.star)/count(ratestar.star) star\n"
+                + "from doctris_system.doctor d \n"
+                + "inner join doctris_system.category_service cs \n"
+                + "on d.category_id = cs.id left join ratestar on d.doctor_id = ratestar.doctor_id group by id, cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee order by star DESC";
         String latest = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
@@ -446,11 +446,11 @@ public class DoctorDAO {
                 + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
         String popular = "select concat_ws(cs.id,d.category_id)id, cs.name, cs.setting_id ,cs.status,\n"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee, sum(ratestar.star)/count(ratestar.star) star\n"
-                + "from doctris_system.doctor d \n"
-                + "inner join doctris_system.category_service cs \n"
-                + "on d.category_id = cs.id left join ratestar on d.doctor_id = ratestar.doctor_id group by id, cs.name, cs.setting_id ,cs.status,\n"
-                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee order by star DESC";
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee, count(appointments.appointment_id) appointment\n"
+                + "from doctris_system.doctor d\n"
+                + "inner join doctris_system.category_service cs\n"
+                + "on d.category_id = cs.id left join  appointments on d.doctor_id = appointments.doctor_id group by id, cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee order by appointment DESC";
         String fee = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
@@ -474,8 +474,8 @@ public class DoctorDAO {
                 + "on d.category_id = cs.id ORDER BY d.doctor_id asc";
         try {
             connection = dbc.getConnection();
-            if (type.equals("a-z")) {
-                ps = connection.prepareStatement(az);
+            if (type.equals("star")) {
+                ps = connection.prepareStatement(star);
             }
             if (type.equals("latest")) {
                 ps = connection.prepareStatement(latest);
