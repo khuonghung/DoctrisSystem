@@ -42,7 +42,7 @@ public class BlogController extends HttpServlet {
         BlogDAO blogDB = new BlogDAO();
         try {
             if (action == null) {
-                ArrayList<Blog> blogs = blogDB.getBlogs();
+                ArrayList<Blog> blogs = blogDB.getActiveBlogs();
                 
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
                 
