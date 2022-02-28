@@ -282,6 +282,28 @@ function CheckFullName(text) {
     return true;
 }
 
+function CheckTitle(text) {
+    var fullname = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]{14,}(?:[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+){0,2}$/;
+    if(!fullname.test(text.value)){
+        text.setCustomValidity('Title không hợp lệ');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
+function CheckPrice(text) {
+    var phone = /([0-9.]{5,})\b/;
+    if(!phone.test(text.value)){
+        text.setCustomValidity('Giá không hợp lệ');
+    }    
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
+
 function CheckPhone(text) {
     var phone = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
     if(!phone.test(text.value)){

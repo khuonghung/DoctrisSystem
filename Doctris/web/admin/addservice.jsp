@@ -108,14 +108,14 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Title</label>
-                                                        <input name="title" id="name" type="text" class="form-control" >
+                                                        <input name="title" oninvalid="CheckTitle(this);" oninput="CheckTitle(this);" id="name" type="text" class="form-control" >
                                                     </div>
                                                 </div>
 
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Giá dịch vụ</label>
-                                                        <input name="fee"  id="number" type="text" class="form-control">
+                                                        <input name="fee" oninvalid="CheckPrice(this);" oninput="CheckPrice(this);"  id="number" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 
@@ -124,7 +124,7 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">Mô tả</label>
                                                         <br>
-                                                        <textarea class="form-control" id="name" name="description" type="text" rows="5" cols="33" ></textarea>
+                                                        <textarea class="form-control" id="name" name="description" oninvalid="CheckTitle(this);" oninput="CheckTitle(this);" type="text" rows="5" cols="33" ></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
