@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
@@ -47,7 +48,7 @@
 
                          <ul class="list-unstyled mt-4">
                                 <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${requestScope.blog.author}</li>
-                                <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i> ${requestScope.blog.date}</li>
+                                <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i><fmt:formatDate pattern="dd/MM/yyyy" value="${blog.date}" /></li>
                             </ul>
                         <p class="text-muted mt-4">${requestScope.blog.describe}</p>
                     </div><!--end col-->

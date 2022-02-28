@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="../admin/layout/adminhead.jsp"/>
@@ -118,7 +118,7 @@
                                         <img src="data:image/png;base64,${b.img}" class="img-fluid" alt="">
                                         <div class="card-body p-4">
                                             <ul class="list-unstyled mb-2">
-                                                <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i>${b.date}</li>
+                                                <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i><fmt:formatDate pattern="dd/MM/yyyy" value="${b.date}" /></li>
                                             </ul>
                                             <a href="blogmanage?action=detail&blog_id=${b.blog_id}" class="text-dark title h7">${b.title}</a>
                                             <c:set var = "detail" value = "${b.describe}"/>
@@ -192,7 +192,7 @@
                                                         <img src="data:image/jpg;base64,${blog.img}" id="output" width="200" />
                                                     </c:if>
                                                     <c:if test="${empty blog.img}">
-                                                        <img src="" id="output" width="200" alt="no image"/>
+                                                        <img src="" id="output" width="200" alt=""/>
                                                     </c:if>
                                                 </label>
                                                 <br><br>
