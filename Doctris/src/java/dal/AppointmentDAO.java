@@ -53,6 +53,34 @@ public class AppointmentDAO {
         return list;
     }
     
+    public List<Appointment> getAppointmentListByStaff(String staff) throws SQLException, IOException {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "Select appointments.appointment_id , doctor.doctor_name, "
+                + "users.name , appointments.date ,appointments.time, "
+                + "appointments.status from appointments inner join doctor "
+                + "on appointments.doctor_id = doctor.doctor_id inner join patient "
+                + "on appointments.patient_id = patient.patient_id inner join users "
+                + "on patient.username = users.username where appointments.staff = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, staff);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Doctor doctor = new Doctor(rs.getString(2));
+                Account account = new Account(rs.getString(3));
+                Patient patient = new Patient(account);
+                list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+    
      public List<Appointment> getAppointmentByDoctor(int doctor_id) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String sql = "Select appointments.appointment_id , doctor.doctor_name, "
@@ -129,13 +157,65 @@ public class AppointmentDAO {
         }
         return list;
     }
+    
+    public List<Appointment> getFilterByStaff(String doctor_id, String status, String staff) throws SQLException, IOException {
+        List<Appointment> list = new ArrayList<>();
+        String filterStatus = "Select appointments.appointment_id , doctor.doctor_name, users.name , appointments.date ,"
+                + "appointments.time, appointments.status from appointments "
+                + "inner join doctor on appointments.doctor_id = doctor.doctor_id "
+                + "inner join patient on appointments.patient_id = patient.patient_id "
+                + "inner join users on patient.username = users.username where appointments.status = ? and appointments.staff = ?";
+
+        String filterDoctor = "Select appointments.appointment_id , doctor.doctor_name, users.name , appointments.date ,"
+                + "appointments.time, appointments.status from appointments "
+                + "inner join doctor on appointments.doctor_id = doctor.doctor_id "
+                + "inner join patient on appointments.patient_id = patient.patient_id "
+                + "inner join users on patient.username = users.username where appointments.doctor_id = ? and appointments.staff = ?";
+
+        String filter = "Select appointments.appointment_id , doctor.doctor_name, users.name , appointments.date ,"
+                + "appointments.time, appointments.status from appointments "
+                + "inner join doctor on appointments.doctor_id = doctor.doctor_id "
+                + "inner join patient on appointments.patient_id = patient.patient_id "
+                + "inner join users on patient.username = users.username where appointments.doctor_id = ? AND appointments.status = ? AND appointments.staff = ?";
+
+        try {
+            connection = dbc.getConnection();
+            if (doctor_id.equals("all")) {
+                ps = connection.prepareStatement(filterStatus);
+                ps.setString(1, status);
+                ps.setString(2, staff);
+            } else if (status.equals("all")) {
+                ps = connection.prepareStatement(filterDoctor);
+                ps.setString(1, doctor_id);
+                ps.setString(2, staff);
+            } else {
+                ps = connection.prepareStatement(filter);
+                ps.setString(1, doctor_id);
+                ps.setString(2, status);
+                ps.setString(3, staff);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Doctor doctor = new Doctor(rs.getString(2));
+                Account account = new Account(rs.getString(3));
+                Patient patient = new Patient(account);
+                list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 
     public Appointment getAppointmentByID(int id) throws SQLException, IOException {
         String sql = "select doctor.img, doctor.doctor_name, doctor.phone, doctor.gender, "
                 + "category_service.name , users.img, users.name, users.phone, "
                 + "users.gender, patient.DOB, appointments.date ,appointments.time, "
                 + "appointments.status, appointments.description, staff.name, "
-                + "appointments.fee, appointments.appointment_id from appointments inner join doctor "
+                + "appointments.fee, appointments.appointment_id, staff.username from appointments inner join doctor "
                 + "on appointments.doctor_id = doctor.doctor_id "
                 + "inner join patient on appointments.patient_id = patient.patient_id "
                 + "inner join users on patient.username = users.username "
@@ -185,7 +265,7 @@ public class AppointmentDAO {
                 }
                 Doctor doctor = new Doctor(doctorImage, rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5));
                 Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9));
-                Account staff = new Account(rs.getString(15));
+                Account staff = new Account(rs.getString(18),rs.getString(15));
                 Patient patient = new Patient(account, rs.getDate(10));
                 return new Appointment(rs.getInt(17) ,patient, doctor, staff, rs.getDate(11), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
             }

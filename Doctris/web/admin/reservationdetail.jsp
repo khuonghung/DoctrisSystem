@@ -122,7 +122,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Nhân viên hỗ trợ</label>
-                                            <p>${reservation.staff.username}</p>
+                                            <p>${reservation.staff.name}</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -138,17 +138,19 @@
                             <div class="p-4 border-bottom">
                                 <h5 class="mb-0">Cập nhật thông tin</h5>
                             </div>
-                            <form action="reservationmanage?action=update&id=${reservation.id}" method="POST">
+                            <form action="reservationmanage?action=update&id=${reservation.id}<c:if test="${sessionScope.user.role.role_id == 4}">&staff=${reservation.staff.username}</c:if>" method="POST">
                                 <div class="tab-content p-4" id="pills-tabContent">
                                     <div class="col-lg-12">
+                                        <c:if test="${sessionScope.user.role.role_id == 1}">
                                         <div class="mb-3">
                                             <label class="form-label">Nhân viên hỗ trợ</label>
                                             <select name="staff" class="form-select">
                                                 <c:forEach items="${staff}" var="s">
-                                                    <option <c:if test="${reservation.staff.username == s.name}">selected</c:if> class="form-control" value="${s.username}">${s.name}</option>
+                                                    <option <c:if test="${reservation.staff.username == s.username}">selected</c:if> class="form-control" value="${s.username}">${s.name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
+                                        </c:if>
                                         <div class="mb-3">
                                             <label class="form-label">Trạng thái</label>
                                             <select name="status" class="form-select" aria-label="Default select example">

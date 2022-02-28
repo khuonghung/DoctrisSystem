@@ -16,6 +16,7 @@ import model.Account;
 import dal.*;
 import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,13 +43,20 @@ public class AppointmentManage extends HttpServlet {
         UserDAO userdao = new UserDAO();
         String action = request.getParameter("action");
         List<Appointment> appointmentlist = null;
+        HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("user");
         String url = null;
         String alert = null;
         String message = null;
         try {
             List<Doctor> doctorlist = doctordao.getDoctorNameAndID();
             if (action.equals("all")) {
-                appointmentlist = appointmentdao.getAppointmentList();
+                if (user.getRole().getRole_id() == 1) {
+                    appointmentlist = appointmentdao.getAppointmentList();
+                }
+                if (user.getRole().getRole_id() == 4) {
+                    appointmentlist = appointmentdao.getAppointmentListByStaff(user.getUsername());
+                }
                 url = "appointmentmanage?action=all";
             }
             if (action.equals("filter")) {
@@ -59,11 +67,16 @@ public class AppointmentManage extends HttpServlet {
                 if (doctor_id.equals("all") && status.equals("all")) {
                     response.sendRedirect("appointmentmanage?action=all");
                 } else {
-                    appointmentlist = appointmentdao.getFilter(doctor_id, status);
+                    if (user.getRole().getRole_id() == 1) {
+                        appointmentlist = appointmentdao.getFilter(doctor_id, status);
+                    }
+                    if (user.getRole().getRole_id() == 4) {
+                        appointmentlist = appointmentdao.getFilterByStaff(doctor_id, status, user.getUsername());
+                    } 
                 }
                 url = "appointmentmanage?action=filter&doctor_id=" + doctor_id + "&status=" + status;
             }
-            if(action.equals("detail")){
+            if (action.equals("detail")) {
                 List<Account> stafflist = userdao.getAllStaff();
                 int id = Integer.parseInt(request.getParameter("id"));
                 Appointment appointment = appointmentdao.getAppointmentByID(id);
@@ -71,7 +84,7 @@ public class AppointmentManage extends HttpServlet {
                 request.setAttribute("appointment", appointment);
                 request.getRequestDispatcher("admin/appointmentdetail.jsp").forward(request, response);
             }
-            if(action.equals("update")){
+            if (action.equals("update")) {
                 double fee = Double.parseDouble(request.getParameter("fee"));
                 int id = Integer.parseInt(request.getParameter("id"));
                 String staff = request.getParameter("staff");
