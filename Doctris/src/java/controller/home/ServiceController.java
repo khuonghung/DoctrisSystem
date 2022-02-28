@@ -5,7 +5,6 @@
  */
 package controller.home;
 
-import dal.DoctorDAO;
 import dal.ServiceDAO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,15 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
-import model.Doctor;
 import model.RateStar;
-import model.Setting;
+import model.Service;
 
 /**
  *
  * @author Khuong Hung
  */
-public class DoctorController extends HttpServlet {
+public class ServiceController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,66 +39,59 @@ public class DoctorController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
-        DoctorDAO doctordao = new DoctorDAO();
+        ServiceDAO servicedao = new ServiceDAO();
         String url = null;
-        List<Doctor> getdoctor = null;
-        ArrayList<Doctor> doctorall = new ArrayList<>();
-        try {
-            List<Setting> specialitylist = doctordao.getSpeciality();
-            if (action.equals("all")) {
-                url = "doctor?action=all";
-                getdoctor = doctordao.getAllDoctorHome();
-            }
-            
-            if(action.equals("sort")){
-                String type = request.getParameter("type");
-                request.setAttribute("sort", type);
-                if(type.equals("all")){
-                    response.sendRedirect("doctor?action=all");
-                }else{
-                    getdoctor = doctordao.getSort(type);
-                }
-                url = "doctor?action=sort&type=" + type;
-            }
+        ArrayList<Service> AllService = new ArrayList<>();
+        ArrayList<Service> speciality = new ArrayList<>();
 
+        try {
+            if (action.equals("all")) {
+                url = "service?action=all";
+                AllService = servicedao.getAllService();
+                speciality = servicedao.getAllSpeciality();
+            }
+            if (action.equals("search")) {
+                String search = request.getParameter("search");
+                AllService = servicedao.Search(search);
+                url = "service?action=search";
+                speciality = servicedao.getAllSpeciality();
+            }
             if (action.equals("filter")) {
-                String gender = request.getParameter("gender");
-                String speciality = request.getParameter("speciality");
-                request.setAttribute("gender", gender);
-                request.setAttribute("speciality1", speciality);
-                if (gender.equals("all") && speciality.equals("all")) {
-                    response.sendRedirect("doctor?action=all");
-                } else {
-                    getdoctor = doctordao.getFilter(speciality, gender);
+                String search = request.getParameter("search");
+                String Speciality = request.getParameter("Speciality");
+                String   sort = request.getParameter("sort");
+                switch (sort) {
+                    case "1":
+                        sort = " order by s.title asc";
+                        break;
+                    case "2":
+                        sort = " order by s.title desc";
+                        break;
+                    case "3":
+                        sort = " order by s.fee asc";
+                        break;
+                    case "4":
+                        sort = " order by s.fee desc";
+                        break;
+                    default:
+                        break;
                 }
-                url = "doctor?action=filter&gender=" + gender + "&speciality=" + speciality;
+                AllService = servicedao.getServiceFiltered(Speciality, sort);
+                url = "service?action=filter";
+                speciality = servicedao.getAllSpeciality();
             }
             if (action.equals("detail")) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                Doctor detail = doctordao.getDetail(id);
-                int star = doctordao.getStars(detail.getDoctor_id());
-                int feedback = doctordao.CountFeedback(detail.getDoctor_id());
-                List<RateStar> getRate = doctordao.getRateDoctor(detail.getDoctor_id());
-                request.setAttribute("detail", detail);
-                request.setAttribute("star", star);
-                request.setAttribute("feedback", feedback);
-                request.setAttribute("rate", getRate);
-                request.getRequestDispatcher("doctordetail.jsp").forward(request, response);
+                String id = request.getParameter("id");
+                Service service = new Service();
+                service = servicedao.getServiceById(id);
+                List<RateStar> rate = servicedao.getRateService(Integer.parseInt(id));
+                request.setAttribute("service", service);
+                request.setAttribute("rate", rate);
+                request.getRequestDispatcher("servicedetail.jsp").forward(request, response);
             }
-            if (getdoctor != null) {
-                for (Doctor doctor : getdoctor) {
-                    int star = doctordao.getStars(doctor.getDoctor_id());
-                    int feedback = doctordao.CountFeedback(doctor.getDoctor_id());
-                    RateStar rateStar = new RateStar(star, feedback);
-                    Account a = new Account(doctor.getAccount().getUsername());
-                    Setting s = new Setting(doctor.getSetting().getId(), doctor.getSetting().getName(), doctor.getSetting().getSetting_id(), doctor.getSetting().isStatus());
-                    doctorall.add(new Doctor(s, doctor.getDoctor_id(), doctor.getRole_id(),
-                            doctor.getDoctor_name(), a, doctor.isGender(), doctor.getDOB(),
-                            doctor.getPhone(), doctor.getDescription(), doctor.isStatus(),
-                            doctor.getImg(), rateStar, doctor.getFee()));
-                }
+            if (AllService != null) {
                 int page, numperpage = 6;
-                int size = doctorall.size();
+                int size = AllService.size();
                 int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
                 String xpage = request.getParameter("page");
                 if (xpage == null) {
@@ -111,13 +102,13 @@ public class DoctorController extends HttpServlet {
                 int start, end;
                 start = (page - 1) * numperpage;
                 end = Math.min(page * numperpage, size);
-                List<Doctor> doctorlist = doctordao.getListByPage(doctorall, start, end);
+                ArrayList<Service> serviceList = servicedao.getListByPage(AllService, start, end);
                 request.setAttribute("page", page);
+                request.setAttribute("speciality", speciality);
                 request.setAttribute("num", num);
                 request.setAttribute("url", url);
-                request.setAttribute("speciality", specialitylist);
-                request.setAttribute("doctor", doctorlist);
-                request.getRequestDispatcher("doctor.jsp").forward(request, response);
+                request.setAttribute("serviceList", serviceList);
+                request.getRequestDispatcher("service.jsp").forward(request, response);
             }
 
         } catch (IOException | SQLException | ServletException e) {

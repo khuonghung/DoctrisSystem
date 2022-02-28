@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
@@ -64,9 +65,10 @@
                                             </ul>
                                             <p class="text-muted mb-0">${d.rateStar.countfeedback} feedbacks</p>
                                         </div>
+                                        <small class="text-muted speciality">Phí đặt lịch : <fmt:formatNumber pattern="#,###,###,###" value="${d.fee}"/> đ</small>
                                         <div class="pt-2">
-                                          <button class="btn btn-soft-primary" onclick="window.location.href='user?action=login'">Đặt lịch</button>
-                                          <button class="btn btn-soft-primary" onclick="window.location.href='doctor?action=detail&id=${d.doctor_id}'">Chi tiết</button>  
+                                            <button class="btn btn-soft-primary" onclick="window.location.href = 'user?action=login'">Đặt lịch</button>
+                                            <button class="btn btn-soft-primary" onclick="window.location.href = 'doctor?action=detail&id=${d.doctor_id}'">Chi tiết</button>  
                                         </div>
                                     </div>
                                 </div>
@@ -109,10 +111,25 @@
                                         <button type="submit" class="btn btn-primary">Lọc</button>
                                     </div>
                                 </form>
+                                <div class="widget mb-4 pb-2">
+                                    <h5 class="widget-title">Sắp xếp</h5>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12">
+                                            <select name="gender" onchange="Sort(this.value)" class="form-select">
+                                                <option <c:if test="${sort == 'all'}"> selected </c:if> value="all">Tất cả</option>
+                                                <option <c:if test="${sort == 'a-z'}"> selected </c:if> value="a-z">A-Z</option>
+                                                <option <c:if test="${sort == 'latest'}"> selected </c:if> value="latest">Mới nhất</option>
+                                                <option <c:if test="${sort == 'popular'}"> selected </c:if> value="popular">Phổ biến nhất</option>
+                                                <option <c:if test="${sort == 'fee-'}"> selected </c:if> value="fee-">Phí giảm dần</option>
+                                                <option <c:if test="${sort == 'fee'}"> selected </c:if> value="fee">Phí tăng dần</option>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <c:set var="page" value="${page}"/>
                 <div class="row text-center">
                     <div class="col-12 mt-4">
@@ -137,6 +154,11 @@
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
+        <script>
+            function Sort(type) {
+                window.location.href = "doctor?action=sort&type=" + type;
+            }
+        </script>
     </body>
 
 </html>
