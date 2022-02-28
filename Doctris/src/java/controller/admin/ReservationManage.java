@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,6 +37,8 @@ public class ReservationManage extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("user");
         List<Reservation> reservationlist = null;
         ReservationDAO reservationdao = new ReservationDAO();
         ServiceDAO servicedao = new ServiceDAO();
@@ -45,8 +48,13 @@ public class ReservationManage extends HttpServlet {
         String message = null;
         try {
             List<Service> servicelist = servicedao.getServiceNameAndID();
-            if(action.equals("all")){
-                reservationlist = reservationdao.getReservationList();
+            if (action.equals("all")) {
+                if (user.getRole().getRole_id() == 1) {
+                    reservationlist = reservationdao.getReservationList();
+                }
+                if (user.getRole().getRole_id() == 4) {
+                    reservationlist = reservationdao.getReservationListByStaff(user.getUsername());
+                }
                 url = "reservationmanage?action=all";
             }
             if (action.equals("filter")) {
@@ -57,11 +65,16 @@ public class ReservationManage extends HttpServlet {
                 if (service_id.equals("all") && status.equals("all")) {
                     response.sendRedirect("reservationmanage?action=all");
                 } else {
-                    reservationlist = reservationdao.getFilter(service_id, status);
+                    if (user.getRole().getRole_id() == 1) {
+                        reservationlist = reservationdao.getFilter(service_id, status);
+                    }
+                    if (user.getRole().getRole_id() == 4) {
+                        reservationlist = reservationdao.getFilterByStaff(service_id, status, user.getUsername());
+                    }
                 }
                 url = "reservationmanage?action=filter&service_id=" + service_id + "&status=" + status;
             }
-            if(action.equals("detail")){
+            if (action.equals("detail")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Reservation reservation = reservationdao.getReservationByID(id);
                 List<Account> stafflist = userdao.getAllStaff();
@@ -69,7 +82,7 @@ public class ReservationManage extends HttpServlet {
                 request.setAttribute("reservation", reservation);
                 request.getRequestDispatcher("admin/reservationdetail.jsp").forward(request, response);
             }
-            if(action.equals("update")){
+            if (action.equals("update")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 String staff = request.getParameter("staff");
                 String status = request.getParameter("status");

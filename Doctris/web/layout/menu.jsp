@@ -90,7 +90,7 @@
                 <ul class="navigation-menu nav-left nav-light">
                     <li><a href="home" class="sub-menu-item">Trang chủ</a></li>
                     <li><a href="doctor?action=all" class="sub-menu-item">Bác sĩ</a></li>
-                    <li><a href="#" class="sub-menu-item">Dịch vụ</a></li>
+                    <li><a href="service?action=all" class="sub-menu-item">Dịch vụ</a></li>
                     <li><a href="#" class="sub-menu-item">Chúng tôi</a></li>
                     <li><a href="contact" class="sub-menu-item">Liên hệ</a></li>
                     <li><a href="blogs" class="sub-menu-item">Tin tức & chủ đề</a></li>
