@@ -117,9 +117,9 @@
                                         <div class="col-md-12">
                                             <select name="gender" onchange="Sort(this.value)" class="form-select">
                                                 <option <c:if test="${sort == 'all'}"> selected </c:if> value="all">Tất cả</option>
-                                                <option <c:if test="${sort == 'a-z'}"> selected </c:if> value="a-z">A-Z</option>
+                                                <option <c:if test="${sort == 'star'}"> selected </c:if> value="star">Star</option>
                                                 <option <c:if test="${sort == 'latest'}"> selected </c:if> value="latest">Mới nhất</option>
-                                                <option <c:if test="${sort == 'popular'}"> selected </c:if> value="popular">Phổ biến nhất</option>
+                                                <option <c:if test="${sort == 'popular'}"> selected </c:if> value="popular">Phổ biến</option>
                                                 <option <c:if test="${sort == 'fee-'}"> selected </c:if> value="fee-">Phí giảm dần</option>
                                                 <option <c:if test="${sort == 'fee'}"> selected </c:if> value="fee">Phí tăng dần</option>
                                                 </select>  

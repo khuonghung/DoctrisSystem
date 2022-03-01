@@ -311,7 +311,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Ngày Sinh</label>
-                                                        <input name="DOB" id="number" type="date" class="form-control" value="${doctor.DOB}">
+                                                        <input name="DOB" id="number" type="date" onkeydown="return false" min="1922-01-01" max="2003-01-01" class="form-control" value="${doctor.DOB}">
                                                     </div>
                                                 </div>
 

@@ -55,6 +55,33 @@ public class ReservationDAO {
         }
         return list;
     }
+    
+    public List<Reservation> getReservationListByStaff(String staff) throws SQLException, IOException {
+        List<Reservation> list = new ArrayList<>();
+        String sql = "SELECT reservations.reservation_id, users.name, service.title, "
+                + "reservations.date, reservations.time, reservations.status FROM reservations \n"
+                + "inner join service on reservations.service_id = service.service_id \n"
+                + "inner join patient on reservations.patient_id = patient.patient_id \n"
+                + "inner join users on patient.username = users.username where reservations.staff = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, staff);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Service service = new Service(0, rs.getString(3));
+                Account account = new Account(rs.getString(2));
+                Patient patient = new Patient(account);
+                list.add(new Reservation(rs.getInt(1), patient, service, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 
     public List<Reservation> getFilter(String service_id, String status) throws SQLException, IOException {
         List<Reservation> list = new ArrayList<>();
@@ -104,11 +131,63 @@ public class ReservationDAO {
         }
         return list;
     }
+    
+    public List<Reservation> getFilterByStaff(String service_id, String status, String staff) throws SQLException, IOException {
+        List<Reservation> list = new ArrayList<>();
+        String filterStatus = "SELECT reservations.reservation_id, users.name, service.title, "
+                + "reservations.date, reservations.time, reservations.status FROM reservations \n"
+                + "inner join service on reservations.service_id = service.service_id \n"
+                + "inner join patient on reservations.patient_id = patient.patient_id \n"
+                + "inner join users on patient.username = users.username where reservations.status = ? AND reservations.staff = ?";
+
+        String filterDoctor = "SELECT reservations.reservation_id, users.name, service.title, "
+                + "reservations.date, reservations.time, reservations.status FROM reservations \n"
+                + "inner join service on reservations.service_id = service.service_id \n"
+                + "inner join patient on reservations.patient_id = patient.patient_id \n"
+                + "inner join users on patient.username = users.username where reservations.service_id = ? AND reservations.staff = ?";
+
+        String filter = "SELECT reservations.reservation_id, users.name, service.title, "
+                + "reservations.date, reservations.time, reservations.status FROM reservations \n"
+                + "inner join service on reservations.service_id = service.service_id \n"
+                + "inner join patient on reservations.patient_id = patient.patient_id \n"
+                + "inner join users on patient.username = users.username where reservations.service_id = ? AND reservations.status = ? AND reservations.staff = ?";
+
+        try {
+            connection = dbc.getConnection();
+            if (service_id.equals("all")) {
+                ps = connection.prepareStatement(filterStatus);
+                ps.setString(1, status);
+                ps.setString(2, staff);
+            } else if (status.equals("all")) {
+                ps = connection.prepareStatement(filterDoctor);
+                ps.setString(1, service_id);
+                ps.setString(2, staff);
+            } else {
+                ps = connection.prepareStatement(filter);
+                ps.setString(1, service_id);
+                ps.setString(2, status);
+                ps.setString(3, staff);
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Service service = new Service(0, rs.getString(3));
+                Account account = new Account(rs.getString(2));
+                Patient patient = new Patient(account);
+                list.add(new Reservation(rs.getInt(1), patient, service, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 
     public Reservation getReservationByID(int id) throws SQLException, IOException {
         String sql = "SELECT reservations.reservation_id, users.img , users.name, users.phone, users.gender, \n"
                 + "patient.DOB, service.img, service.title, category_service.name, service.fee ,reservations.date, \n"
-                + "reservations.time, reservations.status, staff.name, reservations.description \n"
+                + "reservations.time, reservations.status, staff.name, reservations.description, staff.username \n"
                 + "FROM reservations \n"
                 + "inner join service on reservations.service_id = service.service_id \n"
                 + "inner join patient on reservations.patient_id = patient.patient_id \n"
@@ -159,7 +238,7 @@ public class ReservationDAO {
                 Setting setting = new Setting(rs.getString(9));
                 Service service = new Service(setting, rs.getString(8), rs.getDouble(10), serviceImage);
                 Account account = new Account(patientImage, rs.getString(3), rs.getInt(4), rs.getBoolean(5));
-                Account staff = new Account(rs.getString(14));
+                Account staff = new Account(rs.getString(16),rs.getString(14));
                 Patient patient = new Patient(account, rs.getDate(6));
                 return new Reservation(rs.getInt(1), patient, service, rs.getDate(11), rs.getTime(12),rs.getString(13), staff , rs.getString(15));
             }
