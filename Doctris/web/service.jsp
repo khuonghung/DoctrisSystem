@@ -43,7 +43,7 @@
                         <div id="search" class="menu-search mb-0">
                             <form action="service?action=search" method="POST" id="searchform" class="searchform">
                                 <div>
-                                    <input type="text" value="${requestScope.viet}"  class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm tài khoản...">
+                                    <input type="text" value="${requestScope.viet}"  class="form-control border rounded-pill" name="search" id="s" placeholder="Tìm kiếm tên dịch vụ...">
                                     <input type="submit" id="searchsubmit" value="Search">
                                 </div>
                             </form>
@@ -97,8 +97,8 @@
                             <tr>
                                 <th class="border-bottom p-3" >Title</th>
                                 <th class="border-bottom p-3" >Category name</th>
-                                <th class="border-bottom p-3" >rated star</th>
-                                <th class="border-bottom p-3" >number of feedbacks</th>
+                                <th class="border-bottom p-3" >Rated star</th>
+                                <th class="border-bottom p-3" >Number of feedbacks</th>
                                 <th class="border-bottom p-3" >Fee</th>
                                 <th class="border-bottom p-3" >Description</th>
                                 <th class="border-bottom p-3" ></th>
