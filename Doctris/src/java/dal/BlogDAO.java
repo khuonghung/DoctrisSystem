@@ -56,7 +56,63 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+
+                    byte[] imageBytes = outputStream.toByteArray();
+                    String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+                    inputStream.close();
+                    outputStream.close();
+                    b.setImg(base64Image);
+                } else {
+                    b.setImg(noImage);
+                }
+                //end
+                b.setDate(rs.getDate("date"));
+                b.setStatus(rs.getBoolean("status"));
+                b.setDescribe(rs.getString("describe"));
+                b.setAuthor(rs.getString("author"));
+                Category_Blog c = new Category_Blog();
+                c.setId(rs.getInt("category_id"));
+                c.setName(rs.getString("category_name"));
+                b.setCategory(c);
+                blogs.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blogs;
+    }
+
+    public ArrayList<Blog> getActiveBlogs() throws IOException {
+        ArrayList<Blog> blogs = new ArrayList<>();
+        try {
+            connection = dbc.getConnection();
+            String sql = "Select b.*, u.name as author, c.name as category_name\n"
+                    + "from blog as b\n"
+                    + "Inner join users as u on b.username = u.username\n"
+                    + "inner join category_blog c on b.category_id = c.id\n"
+                    + "where b.status = 1\n"
+                    + "order by b.date desc;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog b = new Blog();
+                b.setBlog_id(rs.getInt("blog_id"));
+                b.setTitle(rs.getString("title"));
+                //start
+                Blob blob = rs.getBlob("img");
+                String noImage = "";
+                if (blob != null) {
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -111,7 +167,7 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -176,7 +232,7 @@ public class BlogDAO {
             connection = dbc.getConnection();
             String sql = "SELECT b.*, c.name as category_name FROM blog as b\n"
                     + "inner join category_blog as c on b.category_id = c.id\n"
-                    + "where category_id = ? \n"
+                    + "where category_id = ? and b.status = 1\n"
                     + "order by date desc ";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
@@ -188,7 +244,7 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -241,7 +297,7 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -280,7 +336,7 @@ public class BlogDAO {
         ArrayList<Blog> blogs = new ArrayList<>();
         try {
             connection = dbc.getConnection();
-            String sql = "Select * from blog where featured = 1 ;";
+            String sql = "Select * from blog where featured = 1 and status = 1;";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -290,7 +346,7 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -381,7 +437,7 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -451,7 +507,7 @@ public class BlogDAO {
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-                    
+
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -524,7 +580,7 @@ public class BlogDAO {
         }
     }
 
-    public void UpdateBlog(int category_id, String title, InputStream img,
+    public void UpdateBlog(int category_id, String title,
             String describe, Boolean featured, Boolean status, int blog_id) throws IOException {
         try {
             connection = dbc.getConnection();
@@ -532,7 +588,6 @@ public class BlogDAO {
                     + "SET\n"
                     + "`category_id` = ?,\n"
                     + "`title` = ?,\n"
-                    + "`img` = ?,\n"
                     + "`describe` = ?,\n"
                     + "`featured` = ?,\n"
                     + "`status` = ?\n"
@@ -540,18 +595,30 @@ public class BlogDAO {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, category_id);
             stm.setString(2, title);
-            stm.setBlob(3, img);
-            stm.setString(4, describe);
-            stm.setBoolean(5, featured);
-            stm.setBoolean(6, status);
-            stm.setInt(7, blog_id);
+            stm.setString(3, describe);
+            stm.setBoolean(4, featured);
+            stm.setBoolean(5, status);
+            stm.setInt(6, blog_id);
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BlogDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+    public void UpdateImage(int blog_id, Part img) throws IOException {
+
+        try {
+            connection = dbc.getConnection();
+            String sql = "UPDATE `doctris_system`.`blog` SET `img` = ? WHERE `blog_id` = ?;";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            InputStream image = img.getInputStream();
+            stm.setBlob(1, image);
+            stm.setInt(2, blog_id);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BlogDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public ArrayList<Account> GetAuthors() {
         ArrayList<Account> authors = new ArrayList<>();
@@ -581,5 +648,3 @@ public class BlogDAO {
         return arr;
     }
 }
-
-

@@ -175,24 +175,30 @@ public class BlogManage extends HttpServlet {
                 boolean featured = Boolean.parseBoolean(request.getParameter("featured"));
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
 
-                Part filePart = request.getPart("image");
-                InputStream inputImage = null;
-                if (filePart.getSize() != 0) {
-                    System.out.println(filePart.getName());
-                    System.out.println(filePart.getSize());
-                    System.out.println(filePart.getContentType());
-                    // Obtains input stream of the upload file
-                    inputImage = filePart.getInputStream();
-                } else {
-                    inputImage = null;
-                }
-                blogDB.UpdateBlog(category_id, title, inputImage , describe, featured, status, blog_id);
+                
+                blogDB.UpdateBlog(category_id, title, describe, featured, status, blog_id);
                 alert = "success";
                 message = "Sửa thành công";
                 request.setAttribute("alert", alert);
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("blogmanage?action=all").forward(request, response);
 
+            }
+            
+            if (action.equals("update_image")) {
+                int blog_id = Integer.parseInt(request.getParameter("blog_id"));
+                Part image = request.getPart("image");
+                if (image != null) {
+                    try {
+                        blogDB.UpdateImage(blog_id, image);
+                    } catch (Exception e) {
+                    }
+                }
+                alert = "success";
+                message = "Cập nhật ảnh thành công";
+                request.setAttribute("alert", alert);
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("blogmanage?action=detail&blog_id=" + blog_id).forward(request, response);
             }
 
             if (blogs != null) {

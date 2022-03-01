@@ -28,13 +28,13 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
                                                 <label class="form-label">Tên tài khoản <span class="text-danger">*</span></label>
-                                                <input type="text" oninvalid="CheckUserName(this);" oninput="CheckUserName(this);" class="form-control" name="username" required="">
+                                                <input value="${requestScope.username}" type="text" oninvalid="CheckUserName(this);" oninput="CheckUserName(this);" class="form-control" name="username" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">                                               
                                                 <label class="form-label">Họ Tên <span class="text-danger">*</span></label>
-                                                <input type="text" oninvalid="CheckFullName(this);" oninput="CheckFullName(this);" class="form-control" name="name" required="">
+                                                <input value="${requestScope.name}"type="text" oninvalid="CheckFullName(this);" oninput="CheckFullName(this);" class="form-control" name="name" required="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -42,12 +42,12 @@
                                                 <label class="form-label">Giới tính <span class="text-danger">*</span></label>
                                                 <div class="my-3">
                                                     <div class="form-check">
-                                                        <input id="credit" name="gender" value="true" type="radio" class="form-check-input"
+                                                        <input ${(requestScope.gender) ? "checked=\"checked\"" : ""} id="credit" name="gender" value="true" type="radio" class="form-check-input"
                                                                checked required>
                                                         <label class="form-check-label">Nam</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input id="debit" name="gender" value="false" type="radio" class="form-check-input"
+                                                        <input ${(!requestScope.gender) ? "checked=\"checked\"" : ""} id="debit" name="gender" value="false" type="radio" class="form-check-input"
                                                                required>
                                                         <label class="form-check-label">Nữ</label>
                                                     </div>
@@ -58,25 +58,25 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">                                               
                                             <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                                            <input type="text" oninvalid="CheckPhone(this);" oninput="CheckPhone(this);" class="form-control" name="phone" required="">
+                                            <input value="${requestScope.phone}" type="text" oninvalid="CheckPhone(this);" oninput="CheckPhone(this);" class="form-control" name="phone" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" oninvalid="CheckEmail(this);" oninput="CheckEmail(this);" class="form-control" name="email" required="">
+                                            <input value="${requestScope.email}" type="email" oninvalid="CheckEmail(this);" oninput="CheckEmail(this);" class="form-control" name="email" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                            <input type="password" id="password" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" class="form-control" name="password" required="">
+                                            <input value="${requestScope.password}" type="password" id="password" oninvalid="CheckPassword(this);" oninput="CheckPassword(this);" class="form-control" name="password" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nhập lại mật khẩu <span class="text-danger">*</span></label>
-                                            <input type="password" oninvalid="CheckRePassword(this);" oninput="CheckRePassword(this);" class="form-control" name="repassword" required="">
+                                            <input value="${requestScope.repassword}" type="password" oninvalid="CheckRePassword(this);" oninput="CheckRePassword(this);" class="form-control" name="repassword" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-12">

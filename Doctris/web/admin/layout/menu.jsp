@@ -22,7 +22,7 @@
             <li><a href="servicemanage?action=all"><i class="uil uil-apps me-2 d-inline-block"></i>Quản lý Dịch vụ</a></li>
             <li><a href="appointmentmanage?action=all"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Quản lý lịch hẹn</a></li>
             <li><a href="reservationmanage?action=all"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Quản lý đặt lịch dịch vụ</a></li>
-            <li><a href="blogmanage?action=all"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Quản lý blog</a></li>
+            <li><a href="blogmanage?action=all"><i class="uil uil-flip-h me-2 d-inline-block"></i>Quản lý blog</a></li>
         </ul>
     </div>
     <ul class="sidebar-footer list-unstyled mb-0">

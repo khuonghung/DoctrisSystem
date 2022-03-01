@@ -108,6 +108,13 @@ public class UserController extends HttpServlet {
                 String fullname = Validate.capitalizeFirstLetter(name);
                 Account account = userdao.checkAcc(email, username);
                 if (account != null) {
+                    request.setAttribute("email", email);
+                    request.setAttribute("password", password);
+                    request.setAttribute("repassword", repassword);
+                    request.setAttribute("username", username);
+                    request.setAttribute("name", name);
+                    request.setAttribute("gender", rgender.equals("true"));
+                    request.setAttribute("phone", rphone);
                     request.setAttribute("error", "Email hoặc username đã tồn tại trên hệ thống!");
                     request.getRequestDispatcher("user?action=register").forward(request, response);
                 } else {

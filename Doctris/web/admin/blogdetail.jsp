@@ -23,24 +23,30 @@
                                 <div class="tab-content p-4" id="pills-tabContent">
                                     <label class="form-label">Ảnh<span class="text-danger">*</span></label>
                                     <br>
-                                    <form action="blogmanage?action=update&blog_id=${blog.blog_id}" method="POST" class="mt-4" onSubmit="document.getElementById('submit').disabled = true;" enctype="multipart/form-data">
-                                        
-                                        <div class="form-group">
-                                            <div class="col-lg-offset-5 col-lg-15">
-                                                <div class="profile-pic">
-                                                    <label class="-label" for="file">
-                                                        <c:if test="${ not empty blog.img}">
-                                                            <img src="data:image/jpg;base64,${blog.img}" id="output" width="200" />
-                                                        </c:if>
-                                                        <c:if test="${empty blog.img}">
-                                                            <img src="" id="output" width="200" alt="default image"/>
-                                                        </c:if>
-                                                    </label>
-                                                    <br><br>
-                                                    <input id="file" type="file" onchange="loadFile(event)" name="image"/>
-                                                </div>
+                                    <c:if test="${ not empty blog.img}">
+                                        <img src="data:image/jpg;base64,${blog.img}" id="output" width="200" />
+                                    </c:if>
+                                    <form action="blogmanage?action=update_image&blog_id=${blog.blog_id}" method="POST" enctype="multipart/form-data" onSubmit="document.getElementById('submit').disabled = true;">
+                                        <div>
+                                            <div id="myfileupload">
+                                                <input type="file" name="image" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
                                             </div>
+                                            <div id="thumbbox">
+                                                <img class="rounded" height="20%" width="30%" alt="Thumb image" id="thumbimage" style="display: none" />
+                                                <a class="removeimg" href="javascript:"></a>
+                                            </div>
+                                            <div id="boxchoice">
+                                                <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn ảnh</a>
+                                                <p style="clear:both"></p>
+                                                <input type="submit" id="submit" style="display: none" name="send" class="Update btn btn-primary"
+                                                       value="Cập nhật">
+                                                <p style="clear:both"></p>
+                                            </div> 
                                         </div>
+                                    </form>
+                                    <br>
+                                    <form action="blogmanage?action=update&blog_id=${blog.blog_id}" method="POST" class="mt-4" onSubmit="document.getElementById('submit').disabled = true;" enctype="multipart/form-data">
+
                                         <div class="row">
                                             <input type="hidden" name="blogid" value="${blog.blog_id}" /> <br/>
                                             <div class="col-lg-12">
@@ -202,40 +208,40 @@
         <script src="assets/js/app.js"></script>
         <script>
 
-                                                                function readURL(input, thumbimage) {
-                                                                    if (input.files && input.files[0]) { //Sử dụng  cho Firefox - chrome
-                                                                        var reader = new FileReader();
-                                                                        reader.onload = function (e) {
-                                                                            $("#thumbimage").attr('src', e.target.result);
-                                                                        }
-                                                                        reader.readAsDataURL(input.files[0]);
-                                                                    } else { // Sử dụng cho IE
-                                                                        $("#thumbimage").attr('src', input.value);
-
-                                                                    }
-                                                                    $("#thumbimage").show();
-                                                                    $('.filename').text($("#uploadfile").val());
-                                                                    $(".Choicefile").hide();
-                                                                    $(".Update").show();
-                                                                    $(".removeimg").show();
+                                                        function readURL(input, thumbimage) {
+                                                            if (input.files && input.files[0]) { //Sử dụng  cho Firefox - chrome
+                                                                var reader = new FileReader();
+                                                                reader.onload = function (e) {
+                                                                    $("#thumbimage").attr('src', e.target.result);
                                                                 }
-                                                                var editor = '';
-                                                                $(document).ready(function () {
-                                                                    editor = CKEDITOR.replace('describe');
-                                                                    $(".Choicefile").bind('click', function () {
-                                                                        $("#uploadfile").click();
+                                                                reader.readAsDataURL(input.files[0]);
+                                                            } else { // Sử dụng cho IE
+                                                                $("#thumbimage").attr('src', input.value);
 
-                                                                    });
-                                                                    $(".removeimg").click(function () {
-                                                                        $("#thumbimage").attr('src', '').hide();
-                                                                        $("#myfileupload").html('<input type="file" id="uploadfile"  onchange="readURL(this);" />');
-                                                                        $(".removeimg").hide();
-                                                                        $(".Choicefile").show();
-                                                                        $(".Update").hide();
-                                                                        $(".filename").text("");
-                                                                    });
+                                                            }
+                                                            $("#thumbimage").show();
+                                                            $('.filename').text($("#uploadfile").val());
+                                                            $(".Choicefile").hide();
+                                                            $(".Update").show();
+                                                            $(".removeimg").show();
+                                                        }
+                                                        var editor = '';
+                                                        $(document).ready(function () {
+                                                            editor = CKEDITOR.replace('describe');
+                                                            $(".Choicefile").bind('click', function () {
+                                                                $("#uploadfile").click();
 
-                                                                })
+                                                            });
+                                                            $(".removeimg").click(function () {
+                                                                $("#thumbimage").attr('src', '').hide();
+                                                                $("#myfileupload").html('<input type="file" id="uploadfile"  onchange="readURL(this);" />');
+                                                                $(".removeimg").hide();
+                                                                $(".Choicefile").show();
+                                                                $(".Update").hide();
+                                                                $(".filename").text("");
+                                                            });
+
+                                                        })
 
         </script>
     </body>
