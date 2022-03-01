@@ -574,7 +574,7 @@ public class UserDAO {
 
     public List<Account> getAllStaff() throws SQLException, IOException {
         List<Account> list = new ArrayList<>();
-        String sql = "SELECT username,name FROM doctris_system.users where role_id = 4 ";
+        String sql = "SELECT username,name FROM doctris_system.users where role_id = 4 and status = 1";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
