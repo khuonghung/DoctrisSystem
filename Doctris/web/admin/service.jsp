@@ -92,10 +92,10 @@
                                                     </c:if>
                                                     <td class=" text-center p-3">
                                                         <c:if test="${s.status == true}">
-                                                            <a href="servicemanage?action=update_status&id=${s.service_id}&status=false" type="button" style="width: 140px" class="btn btn-info">Deactivate</a>
+                                                            <button class="btn btn-info disable" type="button" style="width: 140px" value="${s.service_id}">Deactivate</button>
                                                         </c:if>
                                                         <c:if test="${s.status == false}">
-                                                            <a href="servicemanage?action=update_status&id=${s.service_id}&status=true" type="button" style="width: 140px" class="btn btn-info">Active</a>
+                                                            <button class="btn btn-info active" type="button" style="width: 140px" value="${s.service_id}">Active</button>
                                                         </c:if>
                                                         <a href="servicemanage?action=detail&id=${s.service_id}" type="button"class="btn btn-info">Chi tiết</a>
                                                     </td>
@@ -135,6 +135,40 @@
         <script src="assets/js/timepicker.init.js"></script> 
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
+        <script src="assets/js/sweetalert.min.js"></script>
+        <script>
+                                                        $(document).ready(jQuery(function () {
+                                                            jQuery(".disable").click(function () {
+                                                                swal({
+                                                                    title: "Cảnh báo",
+                                                                    text: "Bạn có chắc chắn muốn khóa dịch vụ này?",
+                                                                    buttons: ["Hủy bỏ", "Đồng ý"],
+                                                                })
+                                                                        .then((willDelete) => {
+                                                                            if (willDelete) {
+                                                                                window.location = "servicemanage?action=update_status&id=" + $(this).attr("value") + "&status=false";
+                                                                                swal("Đã khóa thành công.!", {
+                                                                                });
+                                                                            }
+                                                                        });
+                                                            });
+
+                                                            jQuery(".active").click(function () {
+                                                                swal({
+                                                                    title: "Cảnh báo",
+                                                                    text: "Bạn có chắc chắn muốn kích hoạt dịch vụ này?",
+                                                                    buttons: ["Hủy bỏ", "Đồng ý"],
+                                                                })
+                                                                        .then((willDelete) => {
+                                                                            if (willDelete) {
+                                                                                window.location = "servicemanage?action=update_status&id=" + $(this).attr("value") + "&status=true";
+                                                                                swal("Đã kích hoạt thành công.!", {
+                                                                                });
+                                                                            }
+                                                                        });
+                                                            });
+                                                        }));
+        </script>
 
     </body>
 
