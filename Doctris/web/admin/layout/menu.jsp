@@ -14,7 +14,7 @@
         </div>
 
         <ul class="sidebar-menu pt-3">
-            <li><a href="#"><i class="uil uil-dashboard me-2 d-inline-block"></i>Bảng điều khiển</a></li>
+            <li><a href="dashboard"><i class="uil uil-dashboard me-2 d-inline-block"></i>Bảng điều khiển</a></li>
             <li><a href="setting?action=all"><i class="uil uil-stethoscope me-2 d-inline-block"></i>Setting</a></li>
             <li><a href="account?action=all"><i class="uil uil-user me-2 d-inline-block"></i>Quản lý Tài khoản</a></li>
             <li><a href="doctormanage?action=all"><i class="uil uil-user me-2 d-inline-block"></i>Quản lý Bác sĩ</a></li>
