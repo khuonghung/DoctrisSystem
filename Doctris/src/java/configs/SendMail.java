@@ -15,6 +15,8 @@ import javax.mail.internet.*;
  */
 public class SendMail {
 
+    public static ResourceBundle bundle = ResourceBundle.getBundle("resource.email");
+
     public static void send(String to, String sub,
             String msg, final String user, final String pass) {
         Properties props = new Properties();
@@ -55,7 +57,7 @@ public class SendMail {
                 + "\n"
                 + "<body>\n"
                 + "    <h3 style=\"color: blue;\">Xin chào " + username + " !</h3>\n"
-                + "    <div>Link xác minh tài khoản của bạn là : <a href=\""+ code +"\">Nhấn vào đây!</a></div>\n"
+                + "    <div>Link xác minh tài khoản của bạn là : <a href=\"" + code + "\">Nhấn vào đây!</a></div>\n"
                 + "    <div>Thư này được tạo ra tự động.</div>\n"
                 + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
                 + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"
@@ -63,9 +65,10 @@ public class SendMail {
                 + "</body>\n"
                 + "\n"
                 + "</html>";
-        SendMail.send(email, subject, message, "doctris.care@gmail.com", "doctriscareg3");
+        SendMail.send(email, subject, message, bundle.getString("email"), bundle.getString("pass"));
     }
-     public static void setContentRecover(String username, String code, String email) {
+
+    public static void setContentRecover(String username, String code, String email) {
         String subject = "[Doctris] Please verify your email.";
         String message = "<!DOCTYPE html>\n"
                 + "<html lang=\"en\">\n "
@@ -75,7 +78,7 @@ public class SendMail {
                 + "\n"
                 + "<body>\n"
                 + "    <h3 style=\"color: blue;\">Xin chào " + username + " !</h3>\n"
-                + "    <div>Link đặt lại mật khẩu của bạn là : <a href=\""+ code +"\">Nhấn vào đây!</a></div>\n"
+                + "    <div>Link đặt lại mật khẩu của bạn là : <a href=\"" + code + "\">Nhấn vào đây!</a></div>\n"
                 + "    <div>Thư này được tạo ra tự động.</div>\n"
                 + "    <div>Nếu bạn cần trợ giúp hoặc có câu hỏi, hãy gửi email đến doctris.care@gmail.com bất cứ lúc nào.</div>\n"
                 + "    <h3 style=\"color: blue;\">Trân trọng!</h3>\n"
@@ -83,7 +86,7 @@ public class SendMail {
                 + "</body>\n"
                 + "\n"
                 + "</html>";
-        SendMail.send(email, subject, message, "doctris.care@gmail.com", "doctriscareg3");
+        SendMail.send(email, subject, message, bundle.getString("email"), bundle.getString("pass"));
     }
-    
+
 }
