@@ -276,5 +276,61 @@ public class ReservationDAO {
         }
         return arr;
     }
+    
+    public int CountReservation(){
+        int count = 0;
+        String sql = "select count(*) from reservations";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
+    
+    public int SumFee(){
+        int sum = 0;
+        String sql = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id where reservations.status = 'Assigned'";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {                
+                sum = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return sum;
+    }
+    
+    public List<Reservation> getReservationListInDay() throws SQLException, IOException {
+        List<Reservation> list = new ArrayList<>();
+        String sql = "SELECT reservations.reservation_id, users.name, service.title, "
+                + "reservations.date, reservations.time, reservations.status FROM reservations \n"
+                + "inner join service on reservations.service_id = service.service_id \n"
+                + "inner join patient on reservations.patient_id = patient.patient_id \n"
+                + "inner join users on patient.username = users.username where reservations.date = cast(CURDATE() as Date)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Service service = new Service(0, rs.getString(3));
+                Account account = new Account(rs.getString(2));
+                Patient patient = new Patient(account);
+                list.add(new Reservation(rs.getInt(1), patient, service, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 
 }

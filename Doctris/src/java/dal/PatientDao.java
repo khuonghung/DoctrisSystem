@@ -160,6 +160,21 @@ public class PatientDao {
         return list;
 
     }
-
+    
+        
+    public int CountPatient(){
+        int count = 0;
+        String sql = "select count(*) from patient";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
 
 }
