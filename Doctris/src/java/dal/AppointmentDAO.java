@@ -52,7 +52,7 @@ public class AppointmentDAO {
         }
         return list;
     }
-    
+
     public List<Appointment> getAppointmentListByStaff(String staff) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String sql = "Select appointments.appointment_id , doctor.doctor_name, "
@@ -80,8 +80,8 @@ public class AppointmentDAO {
         }
         return list;
     }
-    
-     public List<Appointment> getAppointmentByDoctor(int doctor_id) throws SQLException, IOException {
+
+    public List<Appointment> getAppointmentByDoctor(int doctor_id) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String sql = "Select appointments.appointment_id , doctor.doctor_name, "
                 + "users.name , appointments.date ,appointments.time, "
@@ -108,7 +108,7 @@ public class AppointmentDAO {
         }
         return list;
     }
-     
+
     public List<Appointment> getFilter(String doctor_id, String status) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String filterStatus = "Select appointments.appointment_id , doctor.doctor_name, users.name , appointments.date ,"
@@ -157,7 +157,7 @@ public class AppointmentDAO {
         }
         return list;
     }
-    
+
     public List<Appointment> getFilterByStaff(String doctor_id, String status, String staff) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String filterStatus = "Select appointments.appointment_id , doctor.doctor_name, users.name , appointments.date ,"
@@ -265,9 +265,9 @@ public class AppointmentDAO {
                 }
                 Doctor doctor = new Doctor(doctorImage, rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5));
                 Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9));
-                Account staff = new Account(rs.getString(18),rs.getString(15));
+                Account staff = new Account(rs.getString(18), rs.getString(15));
                 Patient patient = new Patient(account, rs.getDate(10));
-                return new Appointment(rs.getInt(17) ,patient, doctor, staff, rs.getDate(11), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
+                return new Appointment(rs.getInt(17), patient, doctor, staff, rs.getDate(11), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
             }
         } catch (SQLException e) {
         } finally {
@@ -277,7 +277,7 @@ public class AppointmentDAO {
         }
         return null;
     }
-    
+
     public void Update(int id, String staff, String status, double fee) throws SQLException {
         String sql = "UPDATE `doctris_system`.`appointments` SET `staff` = ?, `status` = ?, `fee` = ? WHERE (`appointment_id` = ?)";
         try {
@@ -303,5 +303,60 @@ public class AppointmentDAO {
             arr.add(list.get(i));
         }
         return arr;
+    }
+
+    public int CountAppointment() {
+        int count = 0;
+        String sql = "select count(*) from appointments";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
+
+    public int SumFee() {
+        int sum = 0;
+        String sql = "select sum(fee) from appointments where status = 'Assigned'";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                sum = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return sum;
+    }
+
+    public List<Appointment> getAppointmentListInDay() throws SQLException, IOException {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "Select appointments.appointment_id , doctor.doctor_name, users.name , \n"
+                + "appointments.date ,appointments.time, appointments.status from appointments \n"
+                + "inner join doctor on appointments.doctor_id = doctor.doctor_id inner join patient on \n"
+                + "appointments.patient_id = patient.patient_id inner join users on patient.username = users.username where appointments.date = cast(CURDATE() as Date);";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Doctor doctor = new Doctor(rs.getString(2));
+                Account account = new Account(rs.getString(3));
+                Patient patient = new Patient(account);
+                list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
     }
 }
