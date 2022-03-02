@@ -52,6 +52,8 @@ public class Dashboard extends HttpServlet {
             request.setAttribute("doctor", doctor);
             request.setAttribute("Revenue", Revenue);
             request.setAttribute("appointmentlist", appointmentlist);
+            request.setAttribute("Revenueappointment", appointmentdao.SumFee());
+            request.setAttribute("Revenuereservation", reservationdao.SumFee());
             request.setAttribute("reservationlist", reservationlist);
             request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
         } catch (Exception e) {

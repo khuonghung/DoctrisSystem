@@ -108,7 +108,7 @@
                             <div class="col-xl-4 col-lg-5 mt-4">
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="align-items-center mb-0">Patients by Department</h6>
+                                        <h6 class="align-items-center mb-0">Doanh thu tháng này</h6>
                                     </div>
                                     <div id="department" class="apex-chart"></div>
                                 </div>
@@ -182,10 +182,32 @@
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/simplebar.min.js"></script>
         <script src="assets/js/apexcharts.min.js"></script>
-        <script src="assets/js/columnchart.init.js"></script>
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
+        <script>
+            var options2 = {
+                series: [${Revenueappointment}, ${Revenuereservation}],
+                chart: {
+                    width: 380,
+                    type: 'pie',
+                },
 
+                labels: ['Appointment', 'Reservation'],
+                responsive: [{
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                                width: 200
+                            },
+                            legend: {
+                                position: 'bottom'
+                            },
+                        }
+                    }]
+            };
+            var chart2 = new ApexCharts(document.querySelector("#department"), options2);
+            chart2.render();
+        </script>
     </body>
 
 </html>
