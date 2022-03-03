@@ -42,20 +42,15 @@ public class Dashboard extends HttpServlet {
         try {
             List<Appointment> appointmentlist = appointmentdao.getAppointmentListInDay();
             List<Reservation> reservationlist = reservationdao.getReservationListInDay();
-            int patient = patientdao.CountPatient();
-            int doctor = doctordao.CountDoctor();
-            int reservation = reservationdao.CountReservation();
-            int appointment = appointmentdao.CountAppointment();
-            int Revenue = reservationdao.SumFee() + appointmentdao.SumFee();
             List<Statistic> appointment7day = appointmentdao.getDataLast7Day();
             List<Statistic> reservation7day = reservationdao.getDataLast7Day();
             request.setAttribute("appointment7day", appointment7day);
             request.setAttribute("reservation7day", reservation7day);
-            request.setAttribute("appointment", appointment);
-            request.setAttribute("reservation", reservation);
-            request.setAttribute("patient", patient);
-            request.setAttribute("doctor", doctor);
-            request.setAttribute("Revenue", Revenue);
+            request.setAttribute("appointment", appointmentdao.CountAppointment());
+            request.setAttribute("reservation", reservationdao.CountReservation());
+            request.setAttribute("patient", patientdao.CountPatient());
+            request.setAttribute("doctor", doctordao.CountDoctor());
+            request.setAttribute("Revenue", reservationdao.SumFee() + appointmentdao.SumFee());
             request.setAttribute("appointmentlist", appointmentlist);
             request.setAttribute("Revenueappointment", appointmentdao.SumFee());
             request.setAttribute("Revenuereservation", reservationdao.SumFee());
