@@ -99,7 +99,7 @@
                             <div class="col-xl-8 col-lg-7 mt-4">
                                 <div class="card shadow border-0 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="align-items-center mb-0">Patients visit by Gender</h6>
+                                        <h6 class="align-items-center mb-0">Thống kê số lịch hẹn 7 ngày gần đây</h6>
                                     </div>
                                     <div id="dashboard" class="apex-chart"></div>
                                 </div>
@@ -155,7 +155,7 @@
                                             <tr>
                                                 <th class="border-bottom p-3" >Bệnh nhân</th>
                                                 <th class="border-bottom p-3" >Bác sĩ</th>
-                                                <th class="border-bottom p-3" >Ngày</th>
+                                                <th class="border-bottom p-3" >Thời gian</th>
                                                 <th class="border-bottom p-3" >Trạng thái</th>
                                             </tr>
                                         </thead>
@@ -185,19 +185,71 @@
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
         <script>
+            var options1 = {
+                series: [{
+                        name: 'Appointment',
+                        data: [<c:forEach items="${appointment7day}" var="a">${a.count},</c:forEach>]
+                    },{
+                        name: 'Reservation',
+                        data: [<c:forEach items="${reservation7day}" var="r">${r.count},</c:forEach>]
+                    }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    stacked: true,
+                    toolbar: {
+                        show: true
+                    },
+                    zoom: {
+                        enabled: true
+                    }
+                },
+                responsive: [{
+                        breakpoint: 480,
+                        options: {
+                            legend: {
+                                position: 'bottom',
+                                offsetX: -10,
+                                offsetY: 0
+                            }
+                        }
+                    }],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        borderRadius: 10
+                    },
+                },
+                xaxis: {
+                    type: 'text',
+                    categories: [<c:forEach items="${appointment7day}" var="a">'<fmt:formatDate pattern="dd/MM/yyyy" value="${a.date}"/>',</c:forEach>
+                    ],
+                },
+                legend: {
+                    position: 'right',
+                    offsetY: 40
+                },
+                fill: {
+                    opacity: 1
+                }
+            };
+            var chart1 = new ApexCharts(document.querySelector("#dashboard"), options1);
+            chart1.render();
+        </script>
+        <script>
             var options2 = {
                 series: [${Revenueappointment}, ${Revenuereservation}],
                 chart: {
-                    width: 380,
+                    width: 450,
                     type: 'pie',
                 },
 
                 labels: ['Appointment', 'Reservation'],
                 responsive: [{
-                        breakpoint: 480,
+                        breakpoint: 600,
                         options: {
                             chart: {
-                                width: 200
+                                width: 500
                             },
                             legend: {
                                 position: 'bottom'

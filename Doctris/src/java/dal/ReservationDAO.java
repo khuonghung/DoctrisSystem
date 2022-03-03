@@ -55,7 +55,7 @@ public class ReservationDAO {
         }
         return list;
     }
-    
+
     public List<Reservation> getReservationListByStaff(String staff) throws SQLException, IOException {
         List<Reservation> list = new ArrayList<>();
         String sql = "SELECT reservations.reservation_id, users.name, service.title, "
@@ -131,7 +131,7 @@ public class ReservationDAO {
         }
         return list;
     }
-    
+
     public List<Reservation> getFilterByStaff(String service_id, String status, String staff) throws SQLException, IOException {
         List<Reservation> list = new ArrayList<>();
         String filterStatus = "SELECT reservations.reservation_id, users.name, service.title, "
@@ -238,9 +238,9 @@ public class ReservationDAO {
                 Setting setting = new Setting(rs.getString(9));
                 Service service = new Service(setting, rs.getString(8), rs.getDouble(10), serviceImage);
                 Account account = new Account(patientImage, rs.getString(3), rs.getInt(4), rs.getBoolean(5));
-                Account staff = new Account(rs.getString(16),rs.getString(14));
+                Account staff = new Account(rs.getString(16), rs.getString(14));
                 Patient patient = new Patient(account, rs.getDate(6));
-                return new Reservation(rs.getInt(1), patient, service, rs.getDate(11), rs.getTime(12),rs.getString(13), staff , rs.getString(15));
+                return new Reservation(rs.getInt(1), patient, service, rs.getDate(11), rs.getTime(12), rs.getString(13), staff, rs.getString(15));
             }
         } catch (SQLException e) {
         } finally {
@@ -250,7 +250,7 @@ public class ReservationDAO {
         }
         return null;
     }
-    
+
     public void StaffUpdate(int id, String staff, String status) throws SQLException {
         String sql = "UPDATE `reservations` SET `staff` = ?, `status` = ? WHERE (`reservation_id` = ?)";
         try {
@@ -276,37 +276,37 @@ public class ReservationDAO {
         }
         return arr;
     }
-    
-    public int CountReservation(){
+
+    public int CountReservation() {
         int count = 0;
         String sql = "select count(*) from reservations";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 count = rs.getInt(1);
             }
         } catch (Exception e) {
         }
         return count;
     }
-    
-    public int SumFee(){
+
+    public int SumFee() {
         int sum = 0;
         String sql = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id where reservations.status = 'Assigned'";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 sum = rs.getInt(1);
             }
         } catch (Exception e) {
         }
         return sum;
     }
-    
+
     public List<Reservation> getReservationListInDay() throws SQLException, IOException {
         List<Reservation> list = new ArrayList<>();
         String sql = "SELECT reservations.reservation_id, users.name, service.title, "
@@ -329,6 +329,35 @@ public class ReservationDAO {
             if (connection != null) {
                 connection.close();
             }
+        }
+        return list;
+    }
+
+    public List<Statistic> getDataLast7Day() {
+        List<Statistic> list = new ArrayList<>();
+        String sql = "Select p.day , coalesce(count(u.reservation_id), 0) as count from (\n"
+                + "    Select curdate() as day\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 1 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 2 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 3 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 4 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 5 day)\n"
+                + "         union\n"
+                + "    Select date_sub(Curdate(),interval 6 day))as p\n"
+                + "left join reservations as u on p.day = u.date group by p.day order by p.day asc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Statistic(rs.getDate(1), rs.getInt(2)));
+            }
+        } catch (Exception e) {
         }
         return list;
     }

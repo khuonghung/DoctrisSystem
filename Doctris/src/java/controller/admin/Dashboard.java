@@ -15,6 +15,7 @@ import dal.*;
 import java.util.List;
 import model.Appointment;
 import model.Reservation;
+import model.Statistic;
 
 /**
  *
@@ -46,6 +47,10 @@ public class Dashboard extends HttpServlet {
             int reservation = reservationdao.CountReservation();
             int appointment = appointmentdao.CountAppointment();
             int Revenue = reservationdao.SumFee() + appointmentdao.SumFee();
+            List<Statistic> appointment7day = appointmentdao.getDataLast7Day();
+            List<Statistic> reservation7day = reservationdao.getDataLast7Day();
+            request.setAttribute("appointment7day", appointment7day);
+            request.setAttribute("reservation7day", reservation7day);
             request.setAttribute("appointment", appointment);
             request.setAttribute("reservation", reservation);
             request.setAttribute("patient", patient);

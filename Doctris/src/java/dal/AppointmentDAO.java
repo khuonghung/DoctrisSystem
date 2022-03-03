@@ -359,4 +359,34 @@ public class AppointmentDAO {
         }
         return list;
     }
+
+    public List<Statistic> getDataLast7Day() {
+        List<Statistic> list = new ArrayList<>();
+        String sql = "    \n"
+                + "    Select p.day , coalesce(count(u.appointment_id), 0) as count from (\n"
+                + "    Select curdate() as day\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 1 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 2 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 3 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 4 day)\n"
+                + "          union\n"
+                + "    Select date_sub(Curdate(),interval 5 day)\n"
+                + "         union\n"
+                + "    Select date_sub(Curdate(),interval 6 day))as p\n"
+                + "left join appointments as u on p.day = u.date group by p.day order by p.day asc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Statistic(rs.getDate(1), rs.getInt(2)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
 }
