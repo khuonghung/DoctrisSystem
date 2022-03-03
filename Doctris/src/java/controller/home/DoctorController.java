@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Doctor;
 import model.RateStar;
@@ -44,6 +45,8 @@ public class DoctorController extends HttpServlet {
         DoctorDAO doctordao = new DoctorDAO();
         String url = null;
         List<Doctor> getdoctor = null;
+        HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("user");
         ArrayList<Doctor> doctorall = new ArrayList<>();
         try {
             List<Setting> specialitylist = doctordao.getSpeciality();
@@ -86,6 +89,26 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("feedback", feedback);
                 request.setAttribute("rate", getRate);
                 request.getRequestDispatcher("doctordetail.jsp").forward(request, response);
+            }
+            if(action.equals("myfeedback")){
+                List<RateStar> getRate = doctordao.getRateDoctor(doctordao.getDoctorIDByUsername(user.getUsername()));
+                int page, numperpage = 8;
+                int size = getRate.size();
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<RateStar> ratelist = doctordao.getListByPageRate(getRate, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("ratelist", ratelist);
+                request.getRequestDispatcher("myfeedback.jsp").forward(request, response);
             }
             if (getdoctor != null) {
                 for (Doctor doctor : getdoctor) {
