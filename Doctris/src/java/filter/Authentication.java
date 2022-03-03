@@ -24,13 +24,13 @@ import model.Account;
  *
  * @author Khuong Hung
  */
-public class Authorization implements Filter {
+public class Authentication implements Filter {
 
     private static final boolean debug = true;
 
     private FilterConfig filterConfig = null;
 
-    public Authorization() {
+    public Authentication() {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
@@ -40,9 +40,9 @@ public class Authorization implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("user");
-        String url = request.getRequestURI()+"?"+request.getQueryString();
+        String url = request.getRequestURI() + "?" + request.getQueryString();
         if (url.startsWith("/doctris/user?action=profile") || url.startsWith("/doctris/user?action=updateprofile")
-                || url.startsWith("/doctris/user?action=update_image")|| url.startsWith("/doctris/user?action=changepassword")) {
+                || url.startsWith("/doctris/user?action=update_image") || url.startsWith("/doctris/user?action=changepassword")) {
             if (user != null) {
                 filterchain.doFilter(servletRequest, servletResponse);
             } else {
@@ -50,7 +50,7 @@ public class Authorization implements Filter {
             }
         } else {
             filterchain.doFilter(servletRequest, servletResponse);
-        }
+        }      
     }
 
     /**
