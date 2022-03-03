@@ -41,11 +41,4 @@
             </c:if>
         </ul>
     </div>
-    <ul class="sidebar-footer list-unstyled mb-0">
-        <li class="list-inline-item mb-0 ms-1">
-            <a href="#" class="btn btn-icon btn-pills btn-soft-primary">
-                <i class="uil uil-comment icons"></i>
-            </a>
-        </li>
-    </ul>
 </nav>
