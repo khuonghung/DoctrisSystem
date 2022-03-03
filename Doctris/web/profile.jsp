@@ -81,27 +81,7 @@
         <section class="bg-dashboard">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-12">
-                        <div class="rounded shadow overflow-hidden sticky-bar">
-                            <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <br><br><br><br>
-                                <c:if test="${sessionScope.user.img != 'default'}">
-                                    <img src="data:image/png;base64,${sessionScope.user.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                </c:if>
-                                <c:if test="${sessionScope.user.img == 'default'}">
-                                    <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                </c:if>
-
-                                <h5 class="mt-3 mb-1">${sessionScope.user.name}</h5>
-                                <p class="text-muted mb-0">${sessionScope.user.username}</p>
-                            </div>
-
-                            <ul class="list-unstyled sidebar-nav mb-0">
-                                <li class="navbar-item"><a href="#" class="navbar-link"><i class="ri-airplay-line align-middle navbar-icon"></i> Dashboard</a></li>
-                            </ul>
-                        </div>
-                    </div><!--end col-->
-
+                    <jsp:include page="layout/profileMenu.jsp"/>
                     <div class="col-xl-8 col-lg-8 col-md-7 mt-4 pt-2 mt-sm-0 pt-sm-0">
                         <h3 class="mb-0"></h3>
                         <div class="rounded shadow mt-4">
