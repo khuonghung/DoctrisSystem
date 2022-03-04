@@ -19,13 +19,16 @@ public class Service {
     private String img;
     private boolean status;
     RateStar ratestar;
+
     public Service() {
     }
+
     public Service(String img, String description) {
         this.img = img;
         this.description = description;
     }
-       public Service(String title, Setting setting, RateStar ratestar, double fee, String description,int service_id){
+
+    public Service(String title, Setting setting, RateStar ratestar, double fee, String description, int service_id) {
         this.title = title;
         this.setting = setting;
         this.ratestar = ratestar;
@@ -33,7 +36,8 @@ public class Service {
         this.description = description;
         this.service_id = service_id;
     }
-    public Service(Setting setting,boolean status, int service_id, String title, double fee, String description, String img) {
+
+    public Service(Setting setting, boolean status, int service_id, String title, double fee, String description, String img) {
         this.setting = setting;
         this.status = status;
         this.service_id = service_id;
@@ -50,8 +54,8 @@ public class Service {
     public void setRatestar(RateStar ratestar) {
         this.ratestar = ratestar;
     }
-    
-    public Service(Setting setting,int service_id, String title, double fee, String description, String img) {
+
+    public Service(Setting setting, int service_id, String title, double fee, String description, String img) {
         this.setting = setting;
         this.service_id = service_id;
         this.title = title;
@@ -59,7 +63,7 @@ public class Service {
         this.description = description;
         this.img = img;
     }
-    
+
     public Service(int service_id, String title, Setting setting, double fee, boolean status) {
         this.setting = setting;
         this.status = status;
@@ -67,7 +71,7 @@ public class Service {
         this.title = title;
         this.fee = fee;
     }
-    
+
     public boolean isStatus() {
         return status;
     }
@@ -75,7 +79,7 @@ public class Service {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
+
     public Service(Setting setting, String title, double fee, String img) {
         this.setting = setting;
         this.title = title;
@@ -90,6 +94,11 @@ public class Service {
         if (title != null) {
             this.title = title;
         }
+    }
+
+    public Service(String title, double fee) {
+        this.title = title;
+        this.fee = fee;
     }
 
     public Setting getSetting() {

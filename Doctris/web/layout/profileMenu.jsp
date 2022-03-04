@@ -23,8 +23,14 @@
         </div>
 
         <ul class="list-unstyled sidebar-nav mb-0">
-            <li class="navbar-item"><a href="user?action=profile" class="navbar-link"><i class="ri-airplay-line align-middle navbar-icon"></i> Dashboard</a></li>
-            <li class="navbar-item"><a href="doctor?action=myfeedback" class="navbar-link"><i class="ri-chat-1-line align-middle navbar-icon"></i> Phản hồi</a></li>
+                <li class="navbar-item"><a href="user?action=profile" class="navbar-link"><i class="ri-airplay-line align-middle navbar-icon"></i> Dashboard</a></li>
+                <c:if test="${sessionScope.user.role.role_id == 3}">
+                <li class="navbar-item"><a href="doctor?action=myfeedback" class="navbar-link"><i class="ri-chat-1-line align-middle navbar-icon"></i> Phản hồi</a></li>
+                </c:if>
+                <c:if test="${sessionScope.user.role.role_id == 2}">
+                <li class="navbar-item"><a href="user?action=history&type=appointment" class="navbar-link"><i class="ri-calendar-check-line align-middle navbar-icon"></i> Lịch sử đặt lịch</a></li>
+                <li class="navbar-item"><a href="user?action=history&type=reservation" class="navbar-link"><i class="ri-calendar-check-line align-middle navbar-icon"></i> Lịch sử dịch vụ</a></li>
+                </c:if>
         </ul>
     </div>
-</div><!--end col-->
+</div>

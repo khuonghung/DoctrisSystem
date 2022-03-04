@@ -389,4 +389,49 @@ public class AppointmentDAO {
         }
         return list;
     }
+    
+    public List<Appointment> getAppointmentHistory(int patient_id) throws SQLException, IOException {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "Select appointments.appointment_id, doctor.doctor_id, doctor.img, "
+                + "doctor.doctor_name, users.name , appointments.date ,appointments.time, "
+                + "appointments.status from appointments inner join doctor "
+                + "on appointments.doctor_id = doctor.doctor_id inner join patient "
+                + "on appointments.patient_id = patient.patient_id inner join users "
+                + "on patient.username = users.username where appointments.patient_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String doctorImage = null;
+                Blob doctorBlob = rs.getBlob(3);
+                if (doctorBlob != null) {
+                    InputStream inputStream = doctorBlob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    doctorImage = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    doctorImage = "default";
+                }
+                Doctor doctor = new Doctor(rs.getInt(2),doctorImage ,rs.getString(4));
+                Account account = new Account(rs.getString(5));
+                Patient patient = new Patient(account);
+                list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(6), rs.getTime(7), rs.getString(8)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 }
