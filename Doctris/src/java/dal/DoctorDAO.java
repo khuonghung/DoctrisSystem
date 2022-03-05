@@ -657,6 +657,15 @@ public class DoctorDAO {
         return arr;
     }
     
+    public List<RateStar> getListByPageRate(List<RateStar> list,
+            int start, int end) {
+        ArrayList<RateStar> arr = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+    
     public int CountDoctor(){
         int count = 0;
         String sql = "select count(*) from doctor";
@@ -670,5 +679,21 @@ public class DoctorDAO {
         } catch (Exception e) {
         }
         return count;
+    }
+    
+    public int getDoctorIDByUsername(String username){
+        int doctor_id = 0;
+        String sql = "select doctor_id from doctor  where username = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                doctor_id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return doctor_id;
     }
 }

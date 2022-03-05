@@ -43,29 +43,34 @@ public class Authorization implements Filter {
         String url = request.getRequestURI() + "?" + request.getQueryString();
 
         if (url.contains("manage") || url.contains("setting") || url.contains("account") || url.contains("dashboard")) {
-            if (url.contains("patientmanage") || url.contains("doctormanage")
-                    || url.contains("servicemanage") || url.contains("blogmanage")) {
-                if (user != null && user.getRole().getRole_id() == 5 || user.getRole().getRole_id() == 1) {
-                    filterChain.doFilter(servletRequest, servletResponse);
+            if (user != null) {
+                if (url.contains("patientmanage") || url.contains("doctormanage")
+                        || url.contains("servicemanage") || url.contains("blogmanage")) {
+                    if (user != null && user.getRole().getRole_id() == 5 || user.getRole().getRole_id() == 1) {
+                        filterChain.doFilter(servletRequest, servletResponse);
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/401.jsp");
+                    }
+                } else if (url.contains("appointmentmanage") || url.contains("reservationmanage")) {
+                    if (user != null && user.getRole().getRole_id() == 4 || user.getRole().getRole_id() == 1) {
+                        filterChain.doFilter(servletRequest, servletResponse);
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/401.jsp");
+                    }
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/401.jsp");
-                }
-            } else if (url.contains("appointmentmanage") || url.contains("reservationmanage")) {
-                if (user != null && user.getRole().getRole_id() == 4 || user.getRole().getRole_id() == 1) {
-                    filterChain.doFilter(servletRequest, servletResponse);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/401.jsp");
+                    if (user != null && user.getRole().getRole_id() == 1) {
+                        filterChain.doFilter(servletRequest, servletResponse);
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/401.jsp");
+                    }
                 }
             } else {
-                if (user != null && user.getRole().getRole_id() == 1) {
-                    filterChain.doFilter(servletRequest, servletResponse);
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/401.jsp");
-                }
+                response.sendRedirect(request.getContextPath() + "/user?action=login");
             }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
+
     }
 
     public FilterConfig getFilterConfig() {

@@ -176,5 +176,21 @@ public class PatientDao {
         }
         return count;
     }
+    
+    public int getPatientIDByUsername(String username){
+        int patient_id = 0;
+        String sql = "select patient_id from patient  where username = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                patient_id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return patient_id;
+    }
 
 }

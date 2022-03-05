@@ -361,5 +361,32 @@ public class ReservationDAO {
         }
         return list;
     }
+    
+    public List<Reservation> getReservationListHistory(int patient_id) throws SQLException, IOException {
+        List<Reservation> list = new ArrayList<>();
+        String sql = "SELECT reservations.reservation_id, users.name, service.title, "
+                + "reservations.date, reservations.time, reservations.status, service.fee FROM reservations \n"
+                + "inner join service on reservations.service_id = service.service_id \n"
+                + "inner join patient on reservations.patient_id = patient.patient_id \n"
+                + "inner join users on patient.username = users.username where reservations.patient_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Service service = new Service(rs.getString(3), rs.getDouble(7));
+                Account account = new Account(rs.getString(2));
+                Patient patient = new Patient(account);
+                list.add(new Reservation(rs.getInt(1), patient, service, rs.getDate(4), rs.getTime(5), rs.getString(6)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
 
 }

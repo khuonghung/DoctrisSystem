@@ -84,6 +84,12 @@ public class Doctor {
         this.doctor_id = doctor_id;
         this.doctor_name = doctor_name;
     }
+    
+    public Doctor(int doctor_id,String img, String doctor_name) {
+        this.doctor_id = doctor_id;
+        this.doctor_name = doctor_name;
+        this.img = img;
+    }
 
     public Setting getSetting() {
         return setting;

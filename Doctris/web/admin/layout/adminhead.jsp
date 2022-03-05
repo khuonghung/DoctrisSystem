@@ -24,11 +24,23 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <style>
+        @media not all and (min-resolution:.001dpcm)
+        { @supports (-webkit-appearance:none) {
+
+              .safari_only { 
+
+                  color:#0000FF; 
+                  background-color:#CCCCCC; 
+
+              }
+          }}
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            <c:if test="${alert != null}">
+        <c:if test="${alert != null}">
             toastr.${alert}('${message}.', 'Thông báo', {timeOut: 5000})
-            </c:if>
+        </c:if>
         });
     </script>
 </head>

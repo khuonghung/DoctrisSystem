@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Role;
-import dal.UserDAO;
+import model.Appointment;
+import model.Reservation;
+import dal.*;
 import configs.*;
 import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -99,7 +102,7 @@ public class UserController extends HttpServlet {
                 String name = request.getParameter("name");
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
-                int role_id = 1;
+                int role_id = 2;
                 String img = "default";
                 boolean status = true;
                 String enpassword = EncodeData.enCode(password);
@@ -265,6 +268,53 @@ public class UserController extends HttpServlet {
                     request.getRequestDispatcher("user?action=recoverpass&type=recover").forward(request, response);
                 } else {
                     request.getRequestDispatcher("404.jsp").forward(request, response);
+                }
+            }
+
+            if (action.equals("history")) {
+                String type = request.getParameter("type");
+                PatientDao pdao = new PatientDao();
+                AppointmentDAO adao = new AppointmentDAO();
+                ReservationDAO rdao = new ReservationDAO();
+                List<Appointment> appointmentlist = null;
+                List<Reservation> reservationlist = null;
+                if (type.equals("appointment")) {
+                    appointmentlist = adao.getAppointmentHistory(pdao.getPatientIDByUsername(user.getUsername()));
+                } else if (type.equals("reservation")) {
+                    reservationlist = rdao.getReservationListHistory(pdao.getPatientIDByUsername(user.getUsername()));
+                }
+                if (appointmentlist != null || reservationlist != null) {
+                    int page, numperpage = 8;
+                    int size = 0;
+                    if (appointmentlist != null) {
+                        size = appointmentlist.size();
+                    }else{
+                        size = reservationlist.size();
+                    }
+                    int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                    String xpage = request.getParameter("page");
+                    if (xpage == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(xpage);
+                    }
+                    int start, end;
+                    String url = null;
+                    start = (page - 1) * numperpage;
+                    end = Math.min(page * numperpage, size);
+                    if (appointmentlist != null) {
+                        appointmentlist = adao.getListByPage(appointmentlist, start, end);
+                        request.setAttribute("appointmentlist", appointmentlist);
+                        url = "user?action=history&type=appointment";
+                    }else{
+                        reservationlist = rdao.getListByPage(reservationlist, start, end);
+                        request.setAttribute("reservationlist", reservationlist);
+                        url = "user?action=history&type=reservation";
+                    }
+                    request.setAttribute("page", page);
+                    request.setAttribute("url", url);
+                    request.setAttribute("num", num);
+                    request.getRequestDispatcher("history.jsp").forward(request, response);
                 }
             }
 
