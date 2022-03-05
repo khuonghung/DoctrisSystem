@@ -102,7 +102,7 @@ public class UserController extends HttpServlet {
                 String name = request.getParameter("name");
                 String rgender = request.getParameter("gender");
                 String rphone = request.getParameter("phone");
-                int role_id = 1;
+                int role_id = 2;
                 String img = "default";
                 boolean status = true;
                 String enpassword = EncodeData.enCode(password);
