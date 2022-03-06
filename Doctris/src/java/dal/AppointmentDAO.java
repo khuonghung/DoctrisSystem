@@ -397,7 +397,7 @@ public class AppointmentDAO {
                 + "appointments.status from appointments inner join doctor "
                 + "on appointments.doctor_id = doctor.doctor_id inner join patient "
                 + "on appointments.patient_id = patient.patient_id inner join users "
-                + "on patient.username = users.username where appointments.patient_id = ?";
+                + "on patient.username = users.username where appointments.patient_id = ? order by appointments.appointment_id DESC";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);

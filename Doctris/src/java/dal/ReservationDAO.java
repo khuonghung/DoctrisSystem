@@ -368,7 +368,7 @@ public class ReservationDAO {
                 + "reservations.date, reservations.time, reservations.status, service.fee FROM reservations \n"
                 + "inner join service on reservations.service_id = service.service_id \n"
                 + "inner join patient on reservations.patient_id = patient.patient_id \n"
-                + "inner join users on patient.username = users.username where reservations.patient_id = ?";
+                + "inner join users on patient.username = users.username where reservations.patient_id = ? order by reservations.reservation_id DESC";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
