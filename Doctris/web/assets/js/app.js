@@ -358,3 +358,16 @@ function CheckRePassword(text) {
     }
     return true;
 }
+
+function CheckNumber(text) {
+    var number = /([0-9])+/;
+    if(!number.test(text.value)){
+        text.setCustomValidity('Sai định dạng');
+    }else if (text.value < 0){
+        text.setCustomValidity('Yêu cầu lớn hơn 0');
+    }   
+    else {
+        text.setCustomValidity('');
+    }
+    return true;
+}
