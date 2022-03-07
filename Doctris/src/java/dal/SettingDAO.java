@@ -35,7 +35,7 @@ public class SettingDAO {
 
     public List<Setting> getAllSetting() throws MalformedURLException {
         List<Setting> list = new ArrayList<>();
-        String pre_apiURL = "https://doctriscare.ml/XML/Setting.xml";
+        String pre_apiURL = "https://doctris.azurewebsites.net/XML/Setting.xml";
         URL url = new URL(pre_apiURL);
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
