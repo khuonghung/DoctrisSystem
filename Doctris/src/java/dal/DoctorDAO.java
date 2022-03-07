@@ -37,7 +37,7 @@ public class DoctorDAO {
         String sql = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id ORDER BY RAND() LIMIT 8";
@@ -65,7 +65,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15), rs.getString(16)));
             }
         } catch (SQLException e) {
         } finally {
@@ -217,7 +217,7 @@ public class DoctorDAO {
 
     public Doctor getDoctorByID(int doctor_id) throws SQLException, IOException {
         String sql = "select cs.name,d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,u.email,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,u.email,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs on d.category_id = cs.id "
                 + "inner join doctris_system.users u on d.username = u.username "
@@ -247,7 +247,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(5), rs.getString(12), null, null);
                 Setting s = new Setting(rs.getString(1));
-                return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), rs.getDate(7), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image, rs.getDouble(13));
+                return new Doctor(s, rs.getInt(2), rs.getInt(3), rs.getString(4), a, rs.getBoolean(6), rs.getDate(7), rs.getInt(8), rs.getString(9), rs.getBoolean(10), base64Image, rs.getDouble(13), rs.getString(14));
             }
         } catch (SQLException e) {
         } finally {
@@ -321,7 +321,7 @@ public class DoctorDAO {
         String sql = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id";
@@ -349,7 +349,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15), rs.getString(16)));
             }
         } catch (SQLException e) {
         } finally {
@@ -365,23 +365,23 @@ public class DoctorDAO {
         String spec = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id where d.category_id = ?";
         String gen = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id where d.gender = ?";
-        String filter = "select concat_ws(cs.id,d.category_id)id,"
-                + " cs.name, cs.setting_id ,cs.status,"
-                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
-                + "from doctris_system.doctor d "
-                + "inner join doctris_system.category_service cs "
+        String filter = "select concat_ws(cs.id,d.category_id)id,\n"
+                + "cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position\n"
+                + "from doctris_system.doctor d \n"
+                + "inner join doctris_system.category_service cs \n"
                 + "on d.category_id = cs.id where d.gender = ? AND d.category_id = ?";
         try {
             connection = dbc.getConnection();
@@ -417,7 +417,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15), rs.getString(16)));
             }
         } catch (SQLException e) {
         } finally {
@@ -432,43 +432,43 @@ public class DoctorDAO {
         List<Doctor> list = new ArrayList<>();
         String star = "select concat_ws(cs.id,d.category_id)id, cs.name, cs.setting_id ,cs.status,\n"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee, sum(ratestar.star)/count(ratestar.star) star\n"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position, sum(ratestar.star)/count(ratestar.star) star\n"
                 + "from doctris_system.doctor d \n"
                 + "inner join doctris_system.category_service cs \n"
                 + "on d.category_id = cs.id left join ratestar on d.doctor_id = ratestar.doctor_id group by id, cs.name, cs.setting_id ,cs.status,\n"
-                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee order by star DESC";
-        String latest = "select concat_ws(cs.id,d.category_id)id,"
-                + " cs.name, cs.setting_id ,cs.status,"
-                + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
-                + "from doctris_system.doctor d "
-                + "inner join doctris_system.category_service cs "
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position order by star DESC";
+        String latest = "select concat_ws(cs.id,d.category_id)id,\n"
+                + "cs.name, cs.setting_id ,cs.status,\n"
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position\n"
+                + "from doctris_system.doctor d \n"
+                + "inner join doctris_system.category_service cs \n"
                 + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
         String popular = "select concat_ws(cs.id,d.category_id)id, cs.name, cs.setting_id ,cs.status,\n"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,\n"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee, count(appointments.appointment_id) appointment\n"
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position, count(appointments.appointment_id) appointment\n"
                 + "from doctris_system.doctor d\n"
                 + "inner join doctris_system.category_service cs\n"
                 + "on d.category_id = cs.id left join  appointments on d.doctor_id = appointments.doctor_id group by id, cs.name, cs.setting_id ,cs.status,\n"
-                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee order by appointment DESC";
+                + "d.doctor_id,d.role_id,d.doctor_name,d.username, d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position order by appointment DESC";
         String fee = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
         String ascending = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id ORDER BY d.doctor_id desc";
         String decrease = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id ORDER BY d.doctor_id asc";
@@ -513,7 +513,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15)));
+                list.add(new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15), rs.getString(16)));
             }
         } catch (SQLException e) {
         } finally {
@@ -528,7 +528,7 @@ public class DoctorDAO {
         String getdoctor = "select concat_ws(cs.id,d.category_id)id,"
                 + " cs.name, cs.setting_id ,cs.status,"
                 + "d.doctor_id,d.role_id,d.doctor_name,d.username,"
-                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee "
+                + "d.gender,d.DOB,d.phone,d.description,d.status,d.img,d.fee,d.position "
                 + "from doctris_system.doctor d "
                 + "inner join doctris_system.category_service cs "
                 + "on d.category_id = cs.id where d.doctor_id = ?";
@@ -557,7 +557,7 @@ public class DoctorDAO {
                 }
                 Account a = new Account(rs.getString(8));
                 Setting s = new Setting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4));
-                return new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15));
+                return new Doctor(s, rs.getInt(5), rs.getInt(6), rs.getString(7), a, rs.getBoolean(9), rs.getDate(10), rs.getInt(11), rs.getString(12), rs.getBoolean(13), base64Image, rs.getDouble(15), rs.getString(16));
             }
         } catch (SQLException e) {
         } finally {
@@ -656,7 +656,7 @@ public class DoctorDAO {
         }
         return arr;
     }
-    
+
     public List<RateStar> getListByPageRate(List<RateStar> list,
             int start, int end) {
         ArrayList<RateStar> arr = new ArrayList<>();
@@ -665,23 +665,23 @@ public class DoctorDAO {
         }
         return arr;
     }
-    
-    public int CountDoctor(){
+
+    public int CountDoctor() {
         int count = 0;
         String sql = "select count(*) from doctor";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 count = rs.getInt(1);
             }
         } catch (Exception e) {
         }
         return count;
     }
-    
-    public int getDoctorIDByUsername(String username){
+
+    public int getDoctorIDByUsername(String username) {
         int doctor_id = 0;
         String sql = "select doctor_id from doctor  where username = ?";
         try {
@@ -689,7 +689,7 @@ public class DoctorDAO {
             ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 doctor_id = rs.getInt(1);
             }
         } catch (Exception e) {
