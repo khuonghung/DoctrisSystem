@@ -31,7 +31,7 @@
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${patient}</h5>
-                                            <p class="text-muted mb-0">Patients</p>
+                                            <p class="text-muted mb-0">Bệnh nhân</p>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0">${doctor}</h5>
-                                            <p class="text-muted mb-0">Doctor</p>
+                                            <p class="text-muted mb-0">Bác sĩ</p>
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                         </div>
                                         <div class="flex-1 ms-2">
                                             <h5 class="mb-0"><fmt:formatNumber pattern="#,###,###,###" value="${Revenue}"/> đ</h5>
-                                            <p class="text-muted mb-0">Revenue</p>
+                                            <p class="text-muted mb-0">Doanh thu</p>
                                         </div>
                                     </div>
                                 </div>
