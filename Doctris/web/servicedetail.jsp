@@ -68,8 +68,9 @@
 
                             <h5 class="mt-4 py-2">Mô tả :</h5>
                             <p class="text-muted">${service.description}</p>
-
-
+                            <div class="mt-4 pt-2">
+                                <a href="book?type=reservation&id=${service.service_id}" class="btn btn-primary">Đặt lịch</a>
+                            </div>
                         </div>
                     </div>
                 </div>

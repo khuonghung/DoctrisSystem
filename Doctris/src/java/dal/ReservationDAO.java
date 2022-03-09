@@ -388,5 +388,29 @@ public class ReservationDAO {
         }
         return list;
     }
+    
+    public void Booking(int service_id, int patient_id, String staff, String date, String time, String description, String status, String payment) throws SQLException{
+        String sql = "INSERT INTO `reservations` (`patient_id`, `service_id`, "
+                + "`staff`, `date`, `time`, `status`, `description`, `payment`) VALUES "
+                + "(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            ps.setInt(2, service_id);
+            ps.setString(3, staff);
+            ps.setString(4, date);
+            ps.setString(5, time);
+            ps.setString(6, status);
+            ps.setString(7, description);
+            ps.setString(8, payment);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
 }

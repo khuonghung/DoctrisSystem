@@ -127,42 +127,82 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
-                        <div class="bg-white rounded shadow overflow-hidden">
-                            <div class="p-4 border-bottom">
-                                <h6 class="mb-0">Thông tin bác sĩ</h6>
-                            </div>
-                            <br><br><br><br><br>
-                            <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
-                                <c:if test="${sessionScope.doctor.img == 'default'}">
-                                    <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                </c:if>
-                                <c:if test="${sessionScope.doctor.img != 'default'}">
-                                    <img src="data:image/png;base64,${sessionScope.doctor.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
-                                </c:if>
-                                <h5 class="mt-3 mb-1">${sessionScope.doctor.doctor_name}</h5>
-                            </div>
-
-                            <div class="list-unstyled p-4">
-                                <div class="d-flex align-items-center mt-3">
-                                    <h6 class="mb-0">Phí : </h6>
-                                    <p class="text-muted mb-0 ms-2"><fmt:formatNumber pattern="#,###,###,###" value="${sessionScope.doctor.fee}" /> đ</p>
+                    <c:if test="${sessionScope.type == 'appointment'}">
+                        <div class="col-lg-5">
+                            <div class="bg-white rounded shadow overflow-hidden">
+                                <div class="p-4 border-bottom">
+                                    <h6 class="mb-0">Thông tin bác sĩ</h6>
                                 </div>
-                                <div class="d-flex align-items-center mt-3">
-                                    <h6 class="mb-0">Đánh giá : </h6>
-                                    <c:if test="${star != 0}">
-                                        <c:forEach var = "i" begin = "1" end = "${star}">
-                                            <li class="list-inline-item mb-0 ms-2"><i class="mdi mdi-star text-warning"></i></li>
-                                            </c:forEach>
-                                            <c:forEach var = "i" begin = "1" end = "${5-star}">
-                                            <li class="list-inline-item mb-0 ms-2"><i class="mdi mdi-star"></i></li>
-                                            </c:forEach>
-                                        </c:if>
-                                    <li class="list-inline-item me-2 h6 text-muted mb-0 ms-2">(${feedback} Đánh giá)</li>
+                                <br><br><br><br><br>
+                                <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
+                                    <c:if test="${sessionScope.doctor.img == 'default'}">
+                                        <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                    </c:if>
+                                    <c:if test="${sessionScope.doctor.img != 'default'}">
+                                        <img src="data:image/png;base64,${sessionScope.doctor.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                    </c:if>
+                                    <h5 class="mt-3 mb-1">${sessionScope.doctor.doctor_name}</h5>
+                                </div>
+
+                                <div class="list-unstyled p-4">
+                                    <div class="d-flex align-items-center mt-3">
+                                        <h6 class="mb-0">Phí : </h6>
+                                        <p class="text-muted mb-0 ms-2"><fmt:formatNumber pattern="#,###,###,###" value="${sessionScope.doctor.fee}" /> đ</p>
+                                    </div>
+                                    <div class="d-flex align-items-center mt-3">
+                                        <h6 class="mb-0">Đánh giá : </h6>
+                                        <c:if test="${star != 0}">
+                                            <c:forEach var = "i" begin = "1" end = "${star}">
+                                                <li class="list-inline-item mb-0 ms-2"><i class="mdi mdi-star text-warning"></i></li>
+                                                </c:forEach>
+                                                <c:forEach var = "i" begin = "1" end = "${5-star}">
+                                                <li class="list-inline-item mb-0 ms-2"><i class="mdi mdi-star"></i></li>
+                                                </c:forEach>
+                                            </c:if>
+                                        <li class="list-inline-item me-2 h6 text-muted mb-0 ms-2">(${feedback} Đánh giá)</li>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </c:if>
+                    <c:if test="${sessionScope.type == 'reservation'}">
+                        <div class="col-lg-5">
+                            <div class="bg-white rounded shadow overflow-hidden">
+                                <div class="p-4 border-bottom">
+                                    <h6 class="mb-0">Thông tin dịch vụ</h6>
+                                </div>
+                                <br><br><br><br><br>
+                                <div class="text-center avatar-profile margin-nagative mt-n5 position-relative pb-4 border-bottom">
+                                    <c:if test="${sessionScope.service.img == 'default'}">
+                                        <img src="assets/images/avata.png" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                    </c:if>
+                                    <c:if test="${sessionScope.service.img != 'default'}">
+                                        <img src="data:image/png;base64,${sessionScope.service.img}" class="rounded-circle shadow-md avatar avatar-md-md" alt="">
+                                    </c:if>
+                                    <h5 class="mt-3 mb-1">${sessionScope.service.title}</h5>
+                                </div>
+
+                                <div class="list-unstyled p-4">
+                                    <div class="d-flex align-items-center mt-3">
+                                        <h6 class="mb-0">Phí : </h6>
+                                        <p class="text-muted mb-0 ms-2"><fmt:formatNumber pattern="#,###,###,###" value="${sessionScope.service.fee}" /> đ</p>
+                                    </div>
+                                    <div class="d-flex align-items-center mt-3">
+                                        <h6 class="mb-0">Đánh giá : </h6>
+                                        <c:if test="${sessionScope.service.ratestar.star != 0}">
+                                            <c:forEach var = "i" begin = "1" end = "${sessionScope.service.ratestar.star}">
+                                                <li class="list-inline-item mb-0 ms-2"><i class="mdi mdi-star text-warning"></i></li>
+                                                </c:forEach>
+                                                <c:forEach var = "i" begin = "1" end = "${5-sessionScope.service.ratestar.star}">
+                                                <li class="list-inline-item mb-0 ms-2"><i class="mdi mdi-star"></i></li>
+                                                </c:forEach>
+                                            </c:if>
+                                        <li class="list-inline-item me-2 h6 text-muted mb-0 ms-2">(${sessionScope.service.ratestar.countfeedback} Đánh giá)</li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </section>

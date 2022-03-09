@@ -13,11 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
 import dal.*;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 /**
  *
@@ -44,9 +40,12 @@ public class Booking extends HttpServlet {
         DoctorDAO ddao = new DoctorDAO();
         PatientDao pdao = new PatientDao();
         UserDAO udao = new UserDAO();
+        ServiceDAO sdao = new ServiceDAO();
+        ReservationDAO rdao = new ReservationDAO();
         AppointmentDAO adao = new AppointmentDAO();
         Account user = (Account) session.getAttribute("user");
         Doctor d = (Doctor) session.getAttribute("doctor");
+        Service s = (Service) session.getAttribute("service");
         String type = request.getParameter("type");
         try {
             if (type.equals("appointment")) {
@@ -57,15 +56,27 @@ public class Booking extends HttpServlet {
                 request.setAttribute("star", star);
                 request.setAttribute("feedback", feedback);
                 session.setAttribute("doctor", doctor);
-                request.setAttribute("type", type);
+                session.setAttribute("type", type);
+            }
+            if (type.equals("reservation")) {
+                String id = request.getParameter("id");
+                Service service = sdao.getServiceById(id);
+                session.setAttribute("service", service);
+                session.setAttribute("type", type);
             }
             if (type.equals("checkout")) {
+
                 String date = request.getParameter("date");
                 String time = request.getParameter("time");
                 String description = request.getParameter("description");
                 String payment = request.getParameter("payment");
                 if (payment.equals("default")) {
-                    adao.Booking(d.getDoctor_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", d.getFee(), "Pending");
+                    if (session.getAttribute("type").equals("appointment")) {
+                        adao.Booking(d.getDoctor_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", d.getFee(), "Pending");
+                    }
+                    if (session.getAttribute("type").equals("reservation")) {
+                        rdao.Booking(s.getService_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", "Pending");
+                    }
                 }
                 response.sendRedirect("home");
                 return;
