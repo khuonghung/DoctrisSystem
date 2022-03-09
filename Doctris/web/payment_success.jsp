@@ -18,7 +18,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7 col-md-10 text-center">
-                        <img src="assets/images/svg/payment_success.svg" class="img-fluid" alt="">
+                        <img src="assets/images/gif/payment_success.gif" class="img-fluid" alt="">
                         <br><br><br><br>
                         <h3 class="mb-4">Thanh toán thành công.</h3>
                         <a href="home" class="btn btn-primary mt-2">Quay lại trang chủ</a>
