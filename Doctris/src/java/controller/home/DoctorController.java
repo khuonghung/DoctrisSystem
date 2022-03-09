@@ -120,7 +120,7 @@ public class DoctorController extends HttpServlet {
                     doctorall.add(new Doctor(s, doctor.getDoctor_id(), doctor.getRole_id(),
                             doctor.getDoctor_name(), a, doctor.isGender(), doctor.getDOB(),
                             doctor.getPhone(), doctor.getDescription(), doctor.isStatus(),
-                            doctor.getImg(), rateStar, doctor.getFee()));
+                            doctor.getImg(), rateStar, doctor.getFee(), doctor.getPosition()));
                 }
                 int page, numperpage = 6;
                 int size = doctorall.size();

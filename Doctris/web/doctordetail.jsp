@@ -67,7 +67,7 @@
                             <p class="text-muted">${detail.description}</p>
 
                             <div class="mt-4 pt-2">
-                                <a href="#" class="btn btn-primary">Đặt lịch</a>
+                                <a href="book?type=appointment&id=${detail.doctor_id}" class="btn btn-primary">Đặt lịch</a>
                             </div>
                         </div>
                     </div>

@@ -24,6 +24,12 @@ public class Patient {
     public Patient() {
     }
 
+    public Patient(int patient_id, String username) {
+        this.patient_id = patient_id;
+        this.username = username;
+
+    }
+
     public Patient(Account account, int patient_id, String username, int role_id, boolean status, String address, Date DOB) {
         this.account = account;
         this.patient_id = patient_id;
@@ -33,20 +39,22 @@ public class Patient {
         this.address = address;
         this.DOB = DOB;
     }
-    public Patient(Account account, int patient_id,  Date DOB,String address, boolean status) {
+
+    public Patient(Account account, int patient_id, Date DOB, String address, boolean status) {
         this.account = account;
         this.patient_id = patient_id;
         this.DOB = DOB;
         this.address = address;
         this.status = status;
     }
+
     public Patient(Account account, int patient_id, Date DOB, boolean status) {
         this.account = account;
         this.patient_id = patient_id;
         this.status = status;
         this.DOB = DOB;
     }
-    
+
     public Patient(Account account) {
         this.account = account;
     }

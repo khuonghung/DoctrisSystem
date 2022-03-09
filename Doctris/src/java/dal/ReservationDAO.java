@@ -368,7 +368,7 @@ public class ReservationDAO {
                 + "reservations.date, reservations.time, reservations.status, service.fee FROM reservations \n"
                 + "inner join service on reservations.service_id = service.service_id \n"
                 + "inner join patient on reservations.patient_id = patient.patient_id \n"
-                + "inner join users on patient.username = users.username where reservations.patient_id = ?";
+                + "inner join users on patient.username = users.username where reservations.patient_id = ? order by reservations.reservation_id DESC";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -387,6 +387,58 @@ public class ReservationDAO {
             }
         }
         return list;
+    }
+    
+    public void Booking(int service_id, int patient_id, String staff, String date, String time, String description, String status, String payment) throws SQLException{
+        String sql = "INSERT INTO `reservations` (`patient_id`, `service_id`, "
+                + "`staff`, `date`, `time`, `status`, `description`, `payment`) VALUES "
+                + "(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            ps.setInt(2, service_id);
+            ps.setString(3, staff);
+            ps.setString(4, date);
+            ps.setString(5, time);
+            ps.setString(6, status);
+            ps.setString(7, description);
+            ps.setString(8, payment);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+    public int getLastBooking(int patient_id) {
+        int id = 0;
+        String sql = "SELECT reservation_id FROM reservations where patient_id = ? order by reservation_id desc limit 1;";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return id;
+    }
+    
+    public void UpdateStatus(int id, String status) {
+        String sql = "UPDATE `reservations` SET `payment` = ? WHERE (`reservation_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
     }
 
 }

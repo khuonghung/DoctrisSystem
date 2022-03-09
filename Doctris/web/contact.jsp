@@ -61,7 +61,7 @@
                             </div>
                             <div class="card-body p-0 mt-3">
                                 <h5>Email</h5>
-                                <a href="mailto:doctris.care@gmail.com" class="link">doctris.care@gmail.com</a>
+                                <a href="mailto:support@doctriscare.ml" class="link">support@doctriscare.ml</a>
                             </div>
                         </div>
                     </div><!--end col-->

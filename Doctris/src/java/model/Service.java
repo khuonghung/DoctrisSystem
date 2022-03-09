@@ -28,13 +28,14 @@ public class Service {
         this.description = description;
     }
 
-    public Service(String title, Setting setting, RateStar ratestar, double fee, String description, int service_id) {
+    public Service(String title, Setting setting, RateStar ratestar, double fee, String description, int service_id, String img) {
         this.title = title;
         this.setting = setting;
         this.ratestar = ratestar;
         this.fee = fee;
         this.description = description;
         this.service_id = service_id;
+        this.img = img;
     }
 
     public Service(Setting setting, boolean status, int service_id, String title, double fee, String description, String img) {

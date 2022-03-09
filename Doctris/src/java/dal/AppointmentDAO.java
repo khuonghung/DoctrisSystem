@@ -389,7 +389,7 @@ public class AppointmentDAO {
         }
         return list;
     }
-    
+
     public List<Appointment> getAppointmentHistory(int patient_id) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String sql = "Select appointments.appointment_id, doctor.doctor_id, doctor.img, "
@@ -397,7 +397,7 @@ public class AppointmentDAO {
                 + "appointments.status from appointments inner join doctor "
                 + "on appointments.doctor_id = doctor.doctor_id inner join patient "
                 + "on appointments.patient_id = patient.patient_id inner join users "
-                + "on patient.username = users.username where appointments.patient_id = ?";
+                + "on patient.username = users.username where appointments.patient_id = ? order by appointments.appointment_id DESC";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -421,7 +421,7 @@ public class AppointmentDAO {
                 } else {
                     doctorImage = "default";
                 }
-                Doctor doctor = new Doctor(rs.getInt(2),doctorImage ,rs.getString(4));
+                Doctor doctor = new Doctor(rs.getInt(2), doctorImage, rs.getString(4));
                 Account account = new Account(rs.getString(5));
                 Patient patient = new Patient(account);
                 list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(6), rs.getTime(7), rs.getString(8)));
@@ -434,4 +434,57 @@ public class AppointmentDAO {
         }
         return list;
     }
+
+    public void Booking(int doctor_id, int patient_id, String staff, String date, String time, String description, String status, double fee, String payment) throws SQLException, IOException {
+        String sql = "INSERT INTO `appointments` (`doctor_id`, `patient_id`, `staff`, `date`, `time`, `description`, `status`, `fee`, `payment`) \n"
+                + "VALUES (?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, doctor_id);
+            ps.setInt(2, patient_id);
+            ps.setString(3, staff);
+            ps.setString(4, date);
+            ps.setString(5, time);
+            ps.setString(6, description);
+            ps.setString(7, status);
+            ps.setDouble(8, fee);
+            ps.setString(9, payment);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public int getLastBooking(int patient_id) {
+        int id = 0;
+        String sql = "SELECT appointment_id FROM appointments where patient_id = ? order by appointment_id desc limit 1";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return id;
+    }
+
+    public void UpdateStatus(int id, String status) {
+        String sql = "UPDATE `appointments` SET `payment` = ? WHERE (`appointment_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
 }
