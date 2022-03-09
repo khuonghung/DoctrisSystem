@@ -589,6 +589,20 @@ public class UserDAO {
             }
         }
         return list;
-
+    }
+    
+    public String getRandomStaff(){
+        String staff = null;
+        String sql = "select username from users where role_id = 4 AND status = 1 ORDER BY RAND() LIMIT 1";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                staff = rs.getString(1);
+            }
+        } catch (Exception e) {
+        }
+        return staff;
     }
 }

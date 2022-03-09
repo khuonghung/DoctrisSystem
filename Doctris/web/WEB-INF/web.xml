@@ -80,6 +80,10 @@
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>controller.admin.Dashboard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Booking</servlet-name>
+        <servlet-class>controller.home.Booking</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -139,6 +143,10 @@
     <servlet-mapping>
         <servlet-name>Dashboard</servlet-name>
         <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Booking</servlet-name>
+        <url-pattern>/book</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

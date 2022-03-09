@@ -389,7 +389,7 @@ public class AppointmentDAO {
         }
         return list;
     }
-    
+
     public List<Appointment> getAppointmentHistory(int patient_id) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String sql = "Select appointments.appointment_id, doctor.doctor_id, doctor.img, "
@@ -421,7 +421,7 @@ public class AppointmentDAO {
                 } else {
                     doctorImage = "default";
                 }
-                Doctor doctor = new Doctor(rs.getInt(2),doctorImage ,rs.getString(4));
+                Doctor doctor = new Doctor(rs.getInt(2), doctorImage, rs.getString(4));
                 Account account = new Account(rs.getString(5));
                 Patient patient = new Patient(account);
                 list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(6), rs.getTime(7), rs.getString(8)));
@@ -434,4 +434,29 @@ public class AppointmentDAO {
         }
         return list;
     }
+
+    public void Booking(int doctor_id, int patient_id, String staff, String date, String time, String description, String status, double fee, String payment) throws SQLException, IOException {
+        String sql = "INSERT INTO `appointments` (`doctor_id`, `patient_id`, `staff`, `date`, `time`, `description`, `status`, `fee`, `payment`) \n"
+                + "VALUES (?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, doctor_id);
+            ps.setInt(2, patient_id);
+            ps.setString(3, staff);
+            ps.setString(4, date);
+            ps.setString(5, time);
+            ps.setString(6, description);
+            ps.setString(7, status);
+            ps.setDouble(8, fee);
+            ps.setString(9, payment);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
 }
