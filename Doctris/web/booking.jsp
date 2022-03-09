@@ -110,8 +110,9 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Phương thức thanh toán</label>
-                                                <select name="payment" id="payment" class="form-control department-name select2input">
-                                                    <option selected="" value="default">Thanh toán sau khi khám</option>
+                                                <select name="payment" oninvalid="Select(this);" oninput="Select(this);" id="mySelect" class="form-control department-name select2input">
+                                                    <option selected="">Chọn phương thức thanh toán</option>
+                                                    <option value="default">Thanh toán sau khi khám</option>
                                                     <option value="vnpay">Thanh toán thông qua VNPay</option>
                                                 </select>
                                             </div>
@@ -119,7 +120,8 @@
 
                                         <div class="col-lg-12">
                                             <div class="d-grid">
-                                                <button type="submit" id="booking"class="booking btn btn-primary">Book</button>
+                                                <button type="submit" style="display: none" id="booking" class="default btn btn-primary">Đặt lịch</button>
+                                                <button type="submit"  style="display: none" id="booking" class="vnpay btn btn-primary">Thanh toán</button>
                                             </div>
                                         </div>
                                     </div>
@@ -231,13 +233,46 @@
                 dateFormat: "d/m/Y",
                 locale: "vn"
             });
+            function Select(text) {
+                if (text.value == "") {
+                    $(".default").hide();
+                    $(".vnpay").hide();
+                } else if (text.value == "default") {
+                    $(".default").show();
+                    $(".vnpay").hide();
+                } else if (text.value == "vnpay") {
+                    $(".vnpay").show();
+                    $(".default").hide();
+                } else {
+                    $(".default").hide();
+                    $(".vnpay").hide();
+                }
+            }
             $(document).ready(jQuery(function () {
-                jQuery(".booking").click(function () {
+                jQuery(".default").click(function () {
                     swal({
                         title: "Đặt lịch thành công",
                         text: "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi",
                         icon: "success",
                     })
+                });
+            }));
+
+            $(document).ready(jQuery(function () {
+                jQuery(".vnpay").click(function (e) {
+                    e.preventDefault();
+                    var form = $(this).parents('form');
+                    swal({
+                        icon: "warning",
+                        title: "Cảnh báo",
+                        text: "Bạn có chắc chắn muốn thanh toán ?",
+                        buttons: ["Hủy bỏ", "Đồng ý"],
+                    })
+                            .then((cofirm) => {
+                                if (cofirm) {
+                                    form.submit();
+                                }
+                            })
                 });
             }));
         </script>

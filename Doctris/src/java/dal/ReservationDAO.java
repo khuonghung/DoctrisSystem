@@ -412,5 +412,33 @@ public class ReservationDAO {
             }
         }
     }
+    
+    public int getLastBooking(int patient_id) {
+        int id = 0;
+        String sql = "SELECT reservation_id FROM reservations where patient_id = ? order by reservation_id desc limit 1;";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return id;
+    }
+    
+    public void UpdateStatus(int id, String status) {
+        String sql = "UPDATE `reservations` SET `payment` = ? WHERE (`reservation_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
 
 }
