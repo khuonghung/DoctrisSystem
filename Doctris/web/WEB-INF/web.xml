@@ -96,6 +96,10 @@
         <servlet-name>PaymentFailed</servlet-name>
         <servlet-class>controller.home.PaymentFailed</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Booking_Success</servlet-name>
+        <servlet-class>controller.home.Booking_Success</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>PaymentFailed</servlet-name>
         <url-pattern>/failed</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Booking_Success</servlet-name>
+        <url-pattern>/booking_success</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

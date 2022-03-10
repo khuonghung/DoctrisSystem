@@ -5,6 +5,7 @@
  */
 package controller.home;
 
+import configs.SendMail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import model.*;
@@ -41,6 +42,9 @@ public class PaymentVerification extends HttpServlet {
         HttpSession session = request.getSession();
         AppointmentDAO adao = new AppointmentDAO();
         ReservationDAO rdao = new ReservationDAO();
+        Account user = (Account) session.getAttribute("user");
+        Doctor d = (Doctor) session.getAttribute("doctor");
+        Service s = (Service) session.getAttribute("service");
         Appointment appointment = null;
         Reservation reservation = null;
         try {
@@ -57,12 +61,16 @@ public class PaymentVerification extends HttpServlet {
 
                 if (reservation != null) {
                     rdao.UpdateStatus(Integer.parseInt(vnp_TxnRef), "success");
+                    int fee = (int) Math.round(s.getFee());
+                    SendMail.Booking(Integer.parseInt(vnp_TxnRef), user.getEmail(), user.getName(), (String) session.getAttribute("date"), (String) session.getAttribute("time"), "Dịch vụ : " + s.getTitle(), fee, "Đã thanh toán");
                     response.sendRedirect(request.getContextPath() + "/success");
                     return;
                 }
 
                 if (appointment != null) {
                     adao.UpdateStatus(Integer.parseInt(vnp_TxnRef), "success");
+                    int fee = (int) Math.round(d.getFee());
+                    SendMail.Booking(Integer.parseInt(vnp_TxnRef), user.getEmail(), user.getName(), (String) session.getAttribute("date"), (String) session.getAttribute("time"), "Bác sĩ : " + d.getDoctor_name(), fee, "Đã thanh toán");
                     response.sendRedirect(request.getContextPath() + "/success");
                     return;
                 }
