@@ -237,5 +237,27 @@ public class PatientDao {
         }
         return list;
     }
+    
+    public Patient getPatientbyid(int patient_id) throws SQLException, IOException {
+        String sql = "SELECT u.name,u.email,u.phone,u.gender,p.DOB FROM users u inner join patient p\n"
+                + "on u.username = p.username\n"
+                + "where p.patient_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Account a = new Account(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4), null);
+                return new Patient(a, rs.getDate(5));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
 
 }

@@ -153,6 +153,20 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("patients", patients);
                 request.getRequestDispatcher("mypatients.jsp").forward(request, response);
             }
+            
+            if (action.equals("detailpatient")) {
+                int doctor_id = doctordao.getDoctorIDByUsername(user.getUsername());
+                int patient_id = Integer.parseInt(request.getParameter("id"));
+                
+                Patient patients = patientdao.getPatientbyid(patient_id);
+                List<model.Appointment> appointmentlist = appointmentdao.getAppointmentByPatient(doctor_id, patient_id);
+                
+                request.setAttribute("patients", patients);
+                request.setAttribute("appointmentlist", appointmentlist);
+                
+                request.getRequestDispatcher("mypatientdetails.jsp").forward(request, response);
+            }
+
 
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);

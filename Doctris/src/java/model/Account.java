@@ -102,6 +102,7 @@ public class Account {
         }
     }
     
+    
     public Account(String username, String name) {
         this.username = username;
         this.name = name;
