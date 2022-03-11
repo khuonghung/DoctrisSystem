@@ -22,6 +22,7 @@ import model.Doctor;
 import model.Patient;
 import model.RateStar;
 import model.Setting;
+import model.Appointment;
 
 /**
  *
@@ -58,13 +59,13 @@ public class DoctorController extends HttpServlet {
                 url = "doctor?action=all";
                 getdoctor = doctordao.getAllDoctorHome();
             }
-            
-            if(action.equals("sort")){
+
+            if (action.equals("sort")) {
                 String type = request.getParameter("type");
                 request.setAttribute("sort", type);
-                if(type.equals("all")){
+                if (type.equals("all")) {
                     response.sendRedirect("doctor?action=all");
-                }else{
+                } else {
                     getdoctor = doctordao.getSort(type);
                 }
                 url = "doctor?action=sort&type=" + type;
@@ -94,7 +95,7 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("rate", getRate);
                 request.getRequestDispatcher("doctordetail.jsp").forward(request, response);
             }
-            if(action.equals("myfeedback")){
+            if (action.equals("myfeedback")) {
                 List<RateStar> getRate = doctordao.getRateDoctor(doctordao.getDoctorIDByUsername(user.getUsername()));
                 int page, numperpage = 8;
                 int size = getRate.size();
@@ -146,27 +147,57 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("doctor", doctorlist);
                 request.getRequestDispatcher("doctor.jsp").forward(request, response);
             }
-            
+
             if (action.equals("mypatient")) {
                 int doctor_id = doctordao.getDoctorIDByUsername(user.getUsername());
                 List<Patient> patients = patientdao.getPatientByDoctor(doctor_id);
                 request.setAttribute("patients", patients);
                 request.getRequestDispatcher("mypatients.jsp").forward(request, response);
             }
-            
+
             if (action.equals("detailpatient")) {
                 int doctor_id = doctordao.getDoctorIDByUsername(user.getUsername());
                 int patient_id = Integer.parseInt(request.getParameter("id"));
-                
+
                 Patient patients = patientdao.getPatientbyid(patient_id);
                 List<model.Appointment> appointmentlist = appointmentdao.getAppointmentByPatient(doctor_id, patient_id);
-                
+
                 request.setAttribute("patients", patients);
                 request.setAttribute("appointmentlist", appointmentlist);
-                
+
                 request.getRequestDispatcher("mypatientdetails.jsp").forward(request, response);
             }
 
+            if (action.equals("myappointment")) {
+                List<Appointment> getAppointment = doctordao.getAllAppointment(doctordao.getDoctorIDByUsername(user.getUsername()));
+                int page, numperpage = 8;
+                int size = getAppointment.size();
+                int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                List<Appointment> AppointmentList = appointmentdao.getListByPage(getAppointment, start, end);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("AppointmentList", AppointmentList);
+                request.getRequestDispatcher("myappointment.jsp").forward(request, response);
+            }
+
+            if (action.equals("myappointmentdetail")) {
+                Appointment a = doctordao.getAppointmentDetail(Integer.parseInt(request.getParameter("id")));
+                request.setAttribute("a", a);
+                request.getRequestDispatcher("myappointmentdetail.jsp").forward(request, response);
+            }
+            if (action.equals("updateappointmentstatus")) {
+                doctordao.UpdateAppointmentStatus(Integer.parseInt(request.getParameter("id")));
+                response.sendRedirect("doctor?action=myappointmentdetail&id=" + request.getParameter("id"));
+            }
 
         } catch (IOException | SQLException | ServletException e) {
             System.out.println(e);

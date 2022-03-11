@@ -696,4 +696,77 @@ public class DoctorDAO {
         }
         return doctor_id;
     }
+
+    public List<Appointment> getAllAppointment(int id) throws SQLException {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT a.appointment_id, p.patient_id,  u.name,a.date, a.time,a.status from appointments a\n"
+                + "INNER JOIN patient p\n"
+                + "ON a.patient_id = p.patient_id\n"
+                + "INNER JOIN users u \n"
+                + "ON p.username = u.username\n"
+                + "WHERE a.doctor_id = ?\n"
+                + "group by a.appointment_id, p.patient_id, u.name,a.date, a.time,a.status\n"
+                + "order by CAST(a.date AS DATETIME) + CAST(a.time AS DATETIME) desc";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Appointment a = new Appointment(rs.getInt(1), new Patient(rs.getInt(2), rs.getString(3)), rs.getDate(4), rs.getTime(5), rs.getString(6));
+                list.add(a);
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+    }
+
+    public Appointment getAppointmentDetail(int id) throws SQLException {
+        Appointment a = new Appointment();
+        String sql = "SELECT a.appointment_id, p.patient_id,  u.name,a.date, a.time,a.status from appointments a\n"
+                + "                INNER JOIN patient p\n"
+                + "                ON a.patient_id = p.patient_id\n"
+                + "                INNER JOIN users u \n"
+                + "                ON p.username = u.username\n"
+                + "                WHERE a.appointment_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                a = new Appointment(rs.getInt(1), new Patient(rs.getInt(2), rs.getString(3)), rs.getDate(4), rs.getTime(5), rs.getString(6));
+
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return a;
+    }
+
+    public void UpdateAppointmentStatus(int id) throws SQLException {
+        String sql = "update appointments a\n"
+                + "Set a.status = 'Complete'\n"
+                + "WHERE a.appointment_id = ?";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+    }
+
 }
