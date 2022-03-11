@@ -264,7 +264,7 @@ public class AppointmentDAO {
                     patientImage = "default";
                 }
                 Doctor doctor = new Doctor(doctorImage, rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5));
-                Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9));
+                Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9), null);
                 Account staff = new Account(rs.getString(18), rs.getString(15));
                 Patient patient = new Patient(account, rs.getDate(10));
                 return new Appointment(rs.getInt(17), patient, doctor, staff, rs.getDate(11), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));

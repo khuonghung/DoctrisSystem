@@ -237,7 +237,7 @@ public class ReservationDAO {
                 }
                 Setting setting = new Setting(rs.getString(9));
                 Service service = new Service(setting, rs.getString(8), rs.getDouble(10), serviceImage);
-                Account account = new Account(patientImage, rs.getString(3), rs.getInt(4), rs.getBoolean(5));
+                Account account = new Account(patientImage, rs.getString(3), rs.getInt(4), rs.getBoolean(5), null);
                 Account staff = new Account(rs.getString(16), rs.getString(14));
                 Patient patient = new Patient(account, rs.getDate(6));
                 return new Reservation(rs.getInt(1), patient, service, rs.getDate(11), rs.getTime(12), rs.getString(13), staff, rs.getString(15));

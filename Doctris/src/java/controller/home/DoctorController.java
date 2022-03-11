@@ -6,7 +6,8 @@
 package controller.home;
 
 import dal.DoctorDAO;
-import dal.ServiceDAO;
+import dal.AppointmentDAO;
+import dal.PatientDao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
 import model.Doctor;
+import model.Patient;
 import model.RateStar;
 import model.Setting;
 
@@ -42,6 +44,8 @@ public class DoctorController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         String action = request.getParameter("action");
+        AppointmentDAO appointmentdao = new AppointmentDAO();
+        PatientDao patientdao = new PatientDao();
         DoctorDAO doctordao = new DoctorDAO();
         String url = null;
         List<Doctor> getdoctor = null;
@@ -141,6 +145,13 @@ public class DoctorController extends HttpServlet {
                 request.setAttribute("speciality", specialitylist);
                 request.setAttribute("doctor", doctorlist);
                 request.getRequestDispatcher("doctor.jsp").forward(request, response);
+            }
+            
+            if (action.equals("mypatient")) {
+                int doctor_id = doctordao.getDoctorIDByUsername(user.getUsername());
+                List<Patient> patients = patientdao.getPatientByDoctor(doctor_id);
+                request.setAttribute("patients", patients);
+                request.getRequestDispatcher("mypatients.jsp").forward(request, response);
             }
 
         } catch (IOException | SQLException | ServletException e) {

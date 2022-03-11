@@ -54,6 +54,12 @@ public class Appointment {
         this.status = status;
     }
     
+    public Appointment( Date date, Time time, String status) {
+        this.date = date;
+        this.time = time;
+        this.status = status;
+    }
+    
     public int getid() {
         return id;
     }

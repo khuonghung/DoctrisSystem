@@ -589,7 +589,7 @@ public class ServiceDAO {
                 } else {
                     base64Image = "default";
                 }
-                Account s = new Account(base64Image, rs.getString(2), 0, false);
+                Account s = new Account(base64Image, rs.getString(2), 0, false, null);
                 list.add(new RateStar(s, rs.getInt(3), rs.getString(4)));
             }
         } catch (SQLException e) {
