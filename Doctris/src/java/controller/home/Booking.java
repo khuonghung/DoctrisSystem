@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
 import dal.*;
+import configs.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -81,12 +82,20 @@ public class Booking extends HttpServlet {
                 String time = request.getParameter("time");
                 String description = request.getParameter("description");
                 String payment = request.getParameter("payment");
+                session.setAttribute("time", time);
+                session.setAttribute("date", date);
                 if (payment.equals("default")) {
                     if (session.getAttribute("type").equals("appointment")) {
                         adao.Booking(d.getDoctor_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", d.getFee(), "Pending");
+                        int booking_id = adao.getLastBooking(pdao.getPatientIDByUsername(user.getUsername()));
+                        int fee = (int) Math.round(d.getFee());
+                        SendMail.Booking(booking_id, user.getEmail(), user.getName(), date, time, "Bác sĩ : " + d.getDoctor_name(), fee, "Thanh toán tại phòng khám");
                     }
                     if (session.getAttribute("type").equals("reservation")) {
                         rdao.Booking(s.getService_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", "Pending");
+                        int booking_id = rdao.getLastBooking(pdao.getPatientIDByUsername(user.getUsername()));
+                        int fee = (int) Math.round(s.getFee());
+                        SendMail.Booking(booking_id, user.getEmail(), user.getName(), date, time, "Dịch vụ : " + s.getTitle(), fee, "Thanh toán tại phòng khám");
                     }
                 }
                 if (payment.equals("vnpay")) {
@@ -176,7 +185,7 @@ public class Booking extends HttpServlet {
                     response.sendRedirect(paymentUrl);
                     return;
                 }
-                response.sendRedirect("home");
+                response.sendRedirect("booking_success");
                 return;
             }
             request.getRequestDispatcher("booking.jsp").forward(request, response);

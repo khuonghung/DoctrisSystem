@@ -23,10 +23,6 @@
                             <img src="assets/images/logo-icon.png" height="50" alt="">
                             <h4 class="display-4 fw-bold text-white title- mt-3 mb-4">Nền Tảng <br> Hỗ Trợ Y Tế Trực Tuyến</h4>
                             <p class="para-desc text-white-50 mb-0">Nếu bạn hay người thân cần sự trợ giúp ngay lập tức, điều trị khẩn cấp trong một cuộc tư vấn đơn giản.</p>
-
-                            <div class="mt-4 pt-2">
-                                <a href="#l" class="btn btn-primary">Đặt lịch hẹn ngay tại đây ...</a>
-                            </div>
                         </div>
                     </div>
                 </div>

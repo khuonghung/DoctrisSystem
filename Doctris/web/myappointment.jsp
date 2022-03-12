@@ -31,7 +31,7 @@
                                             <th class="border-bottom p-3" >ID bệnh nhân</th>
                                             <th class="border-bottom p-3" >Ngày đặt lịch</th>
                                             <th class="border-bottom p-3" >Giờ đặt lịch</th>
-                                            <th class="border-bottom p-3" >Mô tả</th>
+                                            <th class="border-bottom p-3" >Trạng thái</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -43,7 +43,7 @@
                                                 <td class="p-3">${a.patient.patient_id}</td>
                                                 <td class="p-3"><fmt:formatDate type = "date" value = "${a.date}" /></td>
                                                 <td class="p-3"><fmt:formatDate type = "time" value = "${a.time}" /></td>
-                                                <td class="p-3" >${a.description}</td>
+                                                <td class="p-3" >${a.status}</td>
 
                                             </tr>
                                         </c:forEach>

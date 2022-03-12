@@ -22,11 +22,10 @@
                         <div class="col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                             <h5 class="text-light title- footer-head">Doctris</h5>
                             <ul class="list-unstyled footer-list mt-4">
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> About us</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Services</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Team</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Project</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Blog</a></li>
+                                <li><a href="contact" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Liên hệ</a></li>
+                                <li><a href="service?action=all" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Dịch vụ</a></li>
+                                <li><a href="doctor?action=all" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Bác sĩ</a></li>
+                                <li><a href="blogs" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Blog</a></li>
                             </ul>
                         </div>
 

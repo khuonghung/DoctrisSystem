@@ -237,7 +237,7 @@ public class ReservationDAO {
                 }
                 Setting setting = new Setting(rs.getString(9));
                 Service service = new Service(setting, rs.getString(8), rs.getDouble(10), serviceImage);
-                Account account = new Account(patientImage, rs.getString(3), rs.getInt(4), rs.getBoolean(5));
+                Account account = new Account(patientImage, rs.getString(3), rs.getInt(4), rs.getBoolean(5), null);
                 Account staff = new Account(rs.getString(16), rs.getString(14));
                 Patient patient = new Patient(account, rs.getDate(6));
                 return new Reservation(rs.getInt(1), patient, service, rs.getDate(11), rs.getTime(12), rs.getString(13), staff, rs.getString(15));
@@ -279,7 +279,7 @@ public class ReservationDAO {
 
     public int CountReservation() {
         int count = 0;
-        String sql = "select count(*) from reservations";
+        String sql = "select count(*) from reservations where reservations.status = 'Complete' AND month(reservations.date) = month(CURRENT_DATE)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -292,12 +292,26 @@ public class ReservationDAO {
         return count;
     }
 
-    public int SumFee() {
+    public int SumFee(String type) {
         int sum = 0;
-        String sql = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id where reservations.status = 'Assigned'";
+        String month = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id  ";
+        String today = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id where reservations.status = 'Complete' AND reservations.date = CURRENT_DATE";
+        String day7 = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id where reservations.status = 'Complete' AND reservations.date BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) AND CURRENT_DATE";
+        String day14 = "select sum(service.fee) from reservations inner join service on reservations.service_id = service.service_id where reservations.status = 'Complete' AND reservations.date BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY) AND CURRENT_DATE";
         try {
             connection = dbc.getConnection();
-            ps = connection.prepareStatement(sql);
+            if (type.equals("7day")) {
+                ps = connection.prepareStatement(day7);
+            }
+            if (type.equals("14day")) {
+                ps = connection.prepareStatement(day14);
+            }
+            if (type.equals("today")) {
+                ps = connection.prepareStatement(today);
+            }
+            if (type.equals("month")) {
+                ps = connection.prepareStatement(month);
+            }
             rs = ps.executeQuery();
             while (rs.next()) {
                 sum = rs.getInt(1);
@@ -333,9 +347,9 @@ public class ReservationDAO {
         return list;
     }
 
-    public List<Statistic> getDataLast7Day() {
+    public List<Statistic> getDataLast7Day(String type) {
         List<Statistic> list = new ArrayList<>();
-        String sql = "Select p.day , coalesce(count(u.reservation_id), 0) as count from (\n"
+        String day7 = "Select p.day , coalesce(count(u.reservation_id), 0) as count from (\n"
                 + "    Select curdate() as day\n"
                 + "          union\n"
                 + "    Select date_sub(Curdate(),interval 1 day)\n"
@@ -350,9 +364,58 @@ public class ReservationDAO {
                 + "         union\n"
                 + "    Select date_sub(Curdate(),interval 6 day))as p\n"
                 + "left join reservations as u on p.day = u.date group by p.day order by p.day asc";
+
+        String day14 = "Select p.day , coalesce(count(u.reservation_id), 0) as count from (\n"
+                + "                    Select curdate() as day\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 1 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 2 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 3 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 4 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 5 day)\n"
+                + "                         union\n"
+                + "                    Select date_sub(Curdate(),interval 6 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 7 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 8 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 9 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 10 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 11 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 12 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 13 day)\n"
+                + "                    )as p\n"
+                + "                    \n"
+                + "                left join reservations as u on p.day = u.date group by p.day order by p.day asc";
+
+        String day3 = "Select p.day , coalesce(count(r.reservation_id), 0) as count from (\n"
+                + "                    Select curdate() as day\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 1 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 2 day)\n"
+                + "                    )as p\n"
+                + "                left join reservations as r on p.day = r.date group by p.day order by p.day asc";
         try {
             connection = dbc.getConnection();
-            ps = connection.prepareStatement(sql);
+            if (type.equals("7day")) {
+                ps = connection.prepareStatement(day7);
+            }
+            if (type.equals("14day")) {
+                ps = connection.prepareStatement(day14);
+            }
+            if (type.equals("3day")) {
+                ps = connection.prepareStatement(day3);
+            }
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Statistic(rs.getDate(1), rs.getInt(2)));
@@ -361,7 +424,7 @@ public class ReservationDAO {
         }
         return list;
     }
-    
+
     public List<Reservation> getReservationListHistory(int patient_id) throws SQLException, IOException {
         List<Reservation> list = new ArrayList<>();
         String sql = "SELECT reservations.reservation_id, users.name, service.title, "
@@ -388,8 +451,8 @@ public class ReservationDAO {
         }
         return list;
     }
-    
-    public void Booking(int service_id, int patient_id, String staff, String date, String time, String description, String status, String payment) throws SQLException{
+
+    public void Booking(int service_id, int patient_id, String staff, String date, String time, String description, String status, String payment) throws SQLException {
         String sql = "INSERT INTO `reservations` (`patient_id`, `service_id`, "
                 + "`staff`, `date`, `time`, `status`, `description`, `payment`) VALUES "
                 + "(?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?)";
@@ -412,7 +475,7 @@ public class ReservationDAO {
             }
         }
     }
-    
+
     public int getLastBooking(int patient_id) {
         int id = 0;
         String sql = "SELECT reservation_id FROM reservations where patient_id = ? order by reservation_id desc limit 1;";
@@ -428,7 +491,7 @@ public class ReservationDAO {
         }
         return id;
     }
-    
+
     public void UpdateStatus(int id, String status) {
         String sql = "UPDATE `reservations` SET `payment` = ? WHERE (`reservation_id` = ?)";
         try {

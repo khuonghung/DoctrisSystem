@@ -249,12 +249,19 @@
                 }
             }
             $(document).ready(jQuery(function () {
-                jQuery(".default").click(function () {
+                jQuery(".default").click(function (e) {
+                    e.preventDefault();
+                    var form = $(this).parents('form');
                     swal({
-                        title: "Đặt lịch thành công",
-                        text: "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi",
-                        icon: "success",
+                        title: "Xác nhận",
+                        text: "Bạn có chắc chắn muốn khởi tạo lịch hẹn này ?",
+                        buttons: ["Hủy bỏ", "Đồng ý"],
                     })
+                            .then((cofirm) => {
+                                if (cofirm) {
+                                    form.submit();
+                                }
+                            })
                 });
             }));
 
@@ -263,8 +270,7 @@
                     e.preventDefault();
                     var form = $(this).parents('form');
                     swal({
-                        icon: "warning",
-                        title: "Cảnh báo",
+                        title: "Xác nhận",
                         text: "Bạn có chắc chắn muốn thanh toán ?",
                         buttons: ["Hủy bỏ", "Đồng ý"],
                     })

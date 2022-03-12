@@ -92,13 +92,17 @@ public class Account {
         }
     }
 
-    public Account(String img, String name, int phone, boolean gender) {
+    public Account(String img, String name, int phone, boolean gender, String email) {
         this.name = name;
         this.gender = gender;
         this.phone = phone;
         this.img = img;
+        if(email != null){
+            this.email = email;
+        }
     }
-
+    
+    
     public Account(String username, String name) {
         this.username = username;
         this.name = name;
