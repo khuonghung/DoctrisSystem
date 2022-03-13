@@ -26,6 +26,8 @@ import model.Account;
  */
 public class Authorization implements Filter {
 
+    private static final String ERROR401 = "/401.jsp";
+    private static final String LOGIN = "/user?action=login";
     private static final boolean debug = true;
 
     private FilterConfig filterConfig = null;
@@ -46,26 +48,47 @@ public class Authorization implements Filter {
             if (user != null) {
                 if (url.contains("patientmanage") || url.contains("doctormanage")
                         || url.contains("servicemanage") || url.contains("blogmanage")) {
-                    if (user != null && user.getRole().getRole_id() == 5 || user.getRole().getRole_id() == 1) {
+                    if (user.getRole().getRole_id() == 5 || user.getRole().getRole_id() == 1) {
                         filterChain.doFilter(servletRequest, servletResponse);
                     } else {
-                        response.sendRedirect(request.getContextPath() + "/401.jsp");
+                        response.sendRedirect(request.getContextPath() + ERROR401);
                     }
                 } else if (url.contains("appointmentmanage") || url.contains("reservationmanage")) {
-                    if (user != null && user.getRole().getRole_id() == 4 || user.getRole().getRole_id() == 1) {
+                    if (user.getRole().getRole_id() == 4 || user.getRole().getRole_id() == 1) {
                         filterChain.doFilter(servletRequest, servletResponse);
                     } else {
-                        response.sendRedirect(request.getContextPath() + "/401.jsp");
+                        response.sendRedirect(request.getContextPath() + ERROR401);
                     }
                 } else {
-                    if (user != null && user.getRole().getRole_id() == 1) {
+                    if (user.getRole().getRole_id() == 1) {
                         filterChain.doFilter(servletRequest, servletResponse);
                     } else {
-                        response.sendRedirect(request.getContextPath() + "/401.jsp");
+                        response.sendRedirect(request.getContextPath() + ERROR401);
                     }
                 }
             } else {
-                response.sendRedirect(request.getContextPath() + "/user?action=login");
+                response.sendRedirect(request.getContextPath() + LOGIN);
+            }
+        } else if (url.contains("user?action=history")) {
+            if (user != null) {
+                if (user.getRole().getRole_id() == 2) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    response.sendRedirect(request.getContextPath() + ERROR401);
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + LOGIN);
+            }
+        } else if (url.contains("doctor?action=myfeedback") || url.contains("doctor?action=mypatient")
+                || url.contains("doctor?action=myappointment")) {
+            if (user != null) {
+                if (user.getRole().getRole_id() == 3) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    response.sendRedirect(request.getContextPath() + ERROR401);
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + LOGIN);
             }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
