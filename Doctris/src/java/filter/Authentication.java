@@ -41,8 +41,8 @@ public class Authentication implements Filter {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("user");
         String url = request.getRequestURI() + "?" + request.getQueryString();
-        if (url.startsWith("/doctris/user?action=profile") || url.startsWith("/doctris/user?action=updateprofile")
-                || url.startsWith("/doctris/user?action=update_image") || url.startsWith("/doctris/user?action=changepassword")) {
+        if (url.contains("user?action=profile") || url.contains("user?action=updateprofile")
+                || url.contains("user?action=update_image") || url.contains("user?action=changepassword") || url.contains("user?action=updateprofile")) {
             if (user != null) {
                 filterchain.doFilter(servletRequest, servletResponse);
             } else {
