@@ -78,7 +78,7 @@
                                     </c:if>
                                     <c:if test="${sessionScope.user != null}">
                                         <c:if test="${sessionScope.user.role.role_id == 1}">
-                                    <a class="dropdown-item text-" href="dashboard"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Quản lý</a>
+                                    <a class="dropdown-item text-" href="dashboard?action=default"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Quản lý</a>
                                         </c:if>
                                         <c:if test="${sessionScope.user.role.role_id == 5}">
                                     <a class="dropdown-item text-" href="doctormanage?action=all"><span class="mb-0 d-inline-block me-1"><i class="uil uil-sign-out-alt align-middle h6"></i></span> Quản lý</a>

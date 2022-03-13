@@ -43,8 +43,9 @@
                                     </div>
                                     <div class="card-body">
                                         <a href="#" class="title text-dark h5 d-block mb-0">${d.doctor_name}</a>
-
                                         <small class="text-muted speciality">${d.setting.name}</small>
+                                        <br>
+                                        <small class="text-muted speciality">Chức vụ : ${d.position}</small>
                                         <div class="d-flex justify-content-between align-items-center mt-2">
                                             <ul class="list-unstyled mb-0">
                                                 <c:if test="${d.rateStar.star != 0}">
@@ -67,7 +68,7 @@
                                         </div>
                                         <small class="text-muted speciality">Phí đặt lịch : <fmt:formatNumber pattern="#,###,###,###" value="${d.fee}"/> đ</small>
                                         <div class="pt-2">
-                                            <button class="btn btn-soft-primary" onclick="window.location.href = 'user?action=login'">Đặt lịch</button>
+                                            <button class="btn btn-soft-primary" onclick="window.location.href = 'book?type=appointment&id=${d.doctor_id}'">Đặt lịch</button>
                                             <button class="btn btn-soft-primary" onclick="window.location.href = 'doctor?action=detail&id=${d.doctor_id}'">Chi tiết</button>  
                                         </div>
                                     </div>

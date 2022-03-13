@@ -22,11 +22,10 @@
                         <div class="col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                             <h5 class="text-light title- footer-head">Doctris</h5>
                             <ul class="list-unstyled footer-list mt-4">
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> About us</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Services</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Team</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Project</a></li>
-                                <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Blog</a></li>
+                                <li><a href="contact" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Liên hệ</a></li>
+                                <li><a href="service?action=all" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Dịch vụ</a></li>
+                                <li><a href="doctor?action=all" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Bác sĩ</a></li>
+                                <li><a href="blogs" class="text-foot"><i class="mdi mdi-chevron-right me-1"></i> Blog</a></li>
                             </ul>
                         </div>
 
@@ -35,7 +34,7 @@
                             <ul class="list-unstyled footer-list mt-4">
                                 <li class="d-flex align-items-center">
                                     <i data-feather="mail" class="fea icon-sm text-foot align-middle"></i>
-                                    <a href="mailto:doctris.care@gmail.com" class="text-foot ms-2">doctris.care@gmail.com</a>
+                                    <a href="mailto:support@doctriscare.ml" class="text-foot ms-2">support@doctriscare.ml</a>
                                 </li>
 
                                 <li class="d-flex align-items-center">
@@ -47,13 +46,6 @@
                                     <i data-feather="map-pin" class="fea icon-sm text-foot align-middle"></i>
                                     <a target="_blank" href="https://goo.gl/maps/G8Dyw5XUAiFcHrss5" class="video-play-icon text-foot ms-2">Tìm địa chỉ chúng tôi tại đây</a>
                                 </li>
-                            </ul>
-
-                            <ul class="list-unstyled social-icon footer-social mb-0 mt-4">
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="twitter" class="fea icon-sm fea-social"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="rounded-pill"><i data-feather="linkedin" class="fea icon-sm fea-social"></i></a></li>
                             </ul>
                         </div>
                     </div>

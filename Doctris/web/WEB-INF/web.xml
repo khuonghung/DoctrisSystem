@@ -80,6 +80,26 @@
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>controller.admin.Dashboard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Booking</servlet-name>
+        <servlet-class>controller.home.Booking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PaymentVerification</servlet-name>
+        <servlet-class>controller.home.PaymentVerification</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PaymentSucess</servlet-name>
+        <servlet-class>controller.home.PaymentSucess</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PaymentFailed</servlet-name>
+        <servlet-class>controller.home.PaymentFailed</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Booking_Success</servlet-name>
+        <servlet-class>controller.home.Booking_Success</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -139,6 +159,26 @@
     <servlet-mapping>
         <servlet-name>Dashboard</servlet-name>
         <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Booking</servlet-name>
+        <url-pattern>/book</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaymentVerification</servlet-name>
+        <url-pattern>/verification</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaymentSucess</servlet-name>
+        <url-pattern>/success</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaymentFailed</servlet-name>
+        <url-pattern>/failed</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Booking_Success</servlet-name>
+        <url-pattern>/booking_success</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -264,7 +264,7 @@ public class AppointmentDAO {
                     patientImage = "default";
                 }
                 Doctor doctor = new Doctor(doctorImage, rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getString(5));
-                Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9));
+                Account account = new Account(patientImage, rs.getString(7), rs.getInt(8), rs.getBoolean(9), null);
                 Account staff = new Account(rs.getString(18), rs.getString(15));
                 Patient patient = new Patient(account, rs.getDate(10));
                 return new Appointment(rs.getInt(17), patient, doctor, staff, rs.getDate(11), rs.getTime(12), rs.getString(13), rs.getDouble(16), rs.getString(14));
@@ -307,7 +307,7 @@ public class AppointmentDAO {
 
     public int CountAppointment() {
         int count = 0;
-        String sql = "select count(*) from appointments";
+        String sql = "select count(*) from appointments where status = 'Complete' AND month(appointments.date) = month(CURRENT_DATE)";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -320,12 +320,26 @@ public class AppointmentDAO {
         return count;
     }
 
-    public int SumFee() {
+    public int SumFee(String type) {
         int sum = 0;
-        String sql = "select sum(fee) from appointments where status = 'Assigned'";
+        String month = "select sum(fee) from appointments where status = 'Complete' AND month(appointments.date) = month(CURRENT_DATE)";
+        String today = "select sum(fee) from appointments where status = 'Complete' AND appointments.date = CURRENT_DATE";
+        String day7 = "select sum(fee) from appointments where status = 'Complete' AND appointments.date BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 7) DAY AND CURRENT_DATE";
+        String day14 = "select sum(fee) from appointments where status = 'Complete' AND appointments.date BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 14) DAY AND CURRENT_DATE";
         try {
             connection = dbc.getConnection();
-            ps = connection.prepareStatement(sql);
+            if (type.equals("7day")) {
+                ps = connection.prepareStatement(day7);
+            }
+            if (type.equals("14day")) {
+                ps = connection.prepareStatement(day14);
+            }
+            if (type.equals("today")) {
+                ps = connection.prepareStatement(today);
+            }
+            if (type.equals("month")) {
+                ps = connection.prepareStatement(month);
+            }
             rs = ps.executeQuery();
             while (rs.next()) {
                 sum = rs.getInt(1);
@@ -360,9 +374,9 @@ public class AppointmentDAO {
         return list;
     }
 
-    public List<Statistic> getDataLast7Day() {
+    public List<Statistic> getDataLast7Day(String type) {
         List<Statistic> list = new ArrayList<>();
-        String sql = "    \n"
+        String day7 = "    \n"
                 + "    Select p.day , coalesce(count(u.appointment_id), 0) as count from (\n"
                 + "    Select curdate() as day\n"
                 + "          union\n"
@@ -378,9 +392,57 @@ public class AppointmentDAO {
                 + "         union\n"
                 + "    Select date_sub(Curdate(),interval 6 day))as p\n"
                 + "left join appointments as u on p.day = u.date group by p.day order by p.day asc";
+
+        String day14 = "Select p.day , coalesce(count(u.appointment_id), 0) as count from (\n"
+                + "                    Select curdate() as day\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 1 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 2 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 3 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 4 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 5 day)\n"
+                + "                         union\n"
+                + "                    Select date_sub(Curdate(),interval 6 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 7 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 8 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 9 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 10 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 11 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 12 day)\n"
+                + "                    union\n"
+                + "                    Select date_sub(Curdate(),interval 13 day)\n"
+                + "                    )as p\n"
+                + "                    \n"
+                + "                left join appointments as u on p.day = u.date group by p.day order by p.day asc";
+
+        String day3 = "Select p.day , coalesce(count(u.appointment_id), 0) as count from (\n"
+                + "                    Select curdate() as day\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 1 day)\n"
+                + "                          union\n"
+                + "                    Select date_sub(Curdate(),interval 2 day)\n"
+                + "                    )as p left join appointments as u on p.day = u.date group by p.day order by p.day asc";
         try {
             connection = dbc.getConnection();
-            ps = connection.prepareStatement(sql);
+            if (type.equals("7day")) {
+                ps = connection.prepareStatement(day7);
+            }
+            if (type.equals("14day")) {
+                ps = connection.prepareStatement(day14);
+            }
+            if (type.equals("3day")) {
+                ps = connection.prepareStatement(day3);
+            }
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Statistic(rs.getDate(1), rs.getInt(2)));
@@ -389,7 +451,7 @@ public class AppointmentDAO {
         }
         return list;
     }
-    
+
     public List<Appointment> getAppointmentHistory(int patient_id) throws SQLException, IOException {
         List<Appointment> list = new ArrayList<>();
         String sql = "Select appointments.appointment_id, doctor.doctor_id, doctor.img, "
@@ -397,7 +459,7 @@ public class AppointmentDAO {
                 + "appointments.status from appointments inner join doctor "
                 + "on appointments.doctor_id = doctor.doctor_id inner join patient "
                 + "on appointments.patient_id = patient.patient_id inner join users "
-                + "on patient.username = users.username where appointments.patient_id = ?";
+                + "on patient.username = users.username where appointments.patient_id = ? order by appointments.appointment_id DESC";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
@@ -421,7 +483,7 @@ public class AppointmentDAO {
                 } else {
                     doctorImage = "default";
                 }
-                Doctor doctor = new Doctor(rs.getInt(2),doctorImage ,rs.getString(4));
+                Doctor doctor = new Doctor(rs.getInt(2), doctorImage, rs.getString(4));
                 Account account = new Account(rs.getString(5));
                 Patient patient = new Patient(account);
                 list.add(new Appointment(rs.getInt(1), patient, doctor, rs.getDate(6), rs.getTime(7), rs.getString(8)));
@@ -434,4 +496,80 @@ public class AppointmentDAO {
         }
         return list;
     }
+
+    public void Booking(int doctor_id, int patient_id, String staff, String date, String time, String description, String status, double fee, String payment) throws SQLException, IOException {
+        String sql = "INSERT INTO `appointments` (`doctor_id`, `patient_id`, `staff`, `date`, `time`, `description`, `status`, `fee`, `payment`) \n"
+                + "VALUES (?, ?, ?, STR_TO_DATE(?,'%d/%m/%Y'), ?, ?, ?, ?, ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, doctor_id);
+            ps.setInt(2, patient_id);
+            ps.setString(3, staff);
+            ps.setString(4, date);
+            ps.setString(5, time);
+            ps.setString(6, description);
+            ps.setString(7, status);
+            ps.setDouble(8, fee);
+            ps.setString(9, payment);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public int getLastBooking(int patient_id) {
+        int id = 0;
+        String sql = "SELECT appointment_id FROM appointments where patient_id = ? order by appointment_id desc limit 1";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return id;
+    }
+
+    public void UpdateStatus(int id, String status) {
+        String sql = "UPDATE `appointments` SET `payment` = ? WHERE (`appointment_id` = ?)";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
+     public List<Appointment> getAppointmentByPatient(int doctor_id, int patient_id) throws SQLException, IOException {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "select a.date,a.time,a.status from appointments a inner join patient p\n"
+                + "on a.patient_id = p.patient_id \n"
+                + "where a.doctor_id = ? and p.patient_id = ? ORDER BY a.date ASC";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, doctor_id);
+            ps.setInt(2, patient_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Appointment(rs.getDate(1), rs.getTime(2), rs.getString(3)));
+            }
+        } catch (SQLException e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return list;
+     }
+
 }

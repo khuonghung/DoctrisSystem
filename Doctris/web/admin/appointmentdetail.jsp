@@ -160,7 +160,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Phí tư vấn</label>
-                                            <input name="fee" id="number" type="number" class="form-control" value="${appointment.fee}">
+                                            <input name="fee" oninvalid="CheckNumber(this);" oninput="CheckNumber(this);" id="number" type="number" class="form-control" value="${appointment.fee}">
                                         </div>
                                     </div>
                                 </div>

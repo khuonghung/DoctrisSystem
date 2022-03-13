@@ -17,6 +17,9 @@
     <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/tiny-slider.css" />
     <link href="assets/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/flatpickr.min.css">
+    <link href="assets/css/jquery.timepicker.min.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <style>

@@ -25,11 +25,12 @@ public class Doctor {
     private String img;
     private RateStar rateStar;
     private double fee;
+    private String position;
 
     public Doctor() {
     }
 
-    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, double fee) {
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, double fee, String position) {
         this.setting = setting;
         this.doctor_id = doctor_id;
         this.role_id = role_id;
@@ -42,9 +43,10 @@ public class Doctor {
         this.status = status;
         this.img = img;
         this.fee = fee;
+        this.position = position;
     }
 
-    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, RateStar rateStar, double fee) {
+    public Doctor(Setting setting, int doctor_id, int role_id, String doctor_name, Account account, boolean gender, Date DOB, int phone, String description, boolean status, String img, RateStar rateStar, double fee, String position) {
         this.setting = setting;
         this.doctor_id = doctor_id;
         this.role_id = role_id;
@@ -58,6 +60,7 @@ public class Doctor {
         this.img = img;
         this.rateStar = rateStar;
         this.fee = fee;
+        this.position = position;
     }
     
     public Doctor(String img, String doctor_name, int phone, boolean gender, String description) {
@@ -193,6 +196,14 @@ public class Doctor {
 
     public void setFee(double fee) {
         this.fee = fee;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
 }

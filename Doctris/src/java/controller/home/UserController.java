@@ -88,8 +88,9 @@ public class UserController extends HttpServlet {
             }
 
             if (action.equals("logout")) {
-                session.removeAttribute("user");
+                session.invalidate();
                 response.sendRedirect("home");
+                return;
             }
             if (action.equals("register")) {
                 request.getRequestDispatcher("register.jsp").forward(request, response);

@@ -72,9 +72,9 @@ public class ServiceDAO {
         return list;
     }
 
-    public ArrayList<Service> getAllService() throws SQLException {
+    public ArrayList<Service> getAllService() throws SQLException, IOException {
         ArrayList<Service> list = new ArrayList<>();
-        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, s.service_id  FROM doctris_system.service s \n"
+        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, s.service_id, s.img  FROM doctris_system.service s \n"
                 + "left join doctris_system.ratestar r\n"
                 + "on s.service_id = r.service_id\n"
                 + "inner join doctris_system.category_service cs\n"
@@ -86,10 +86,27 @@ public class ServiceDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 RateStar r = new RateStar(rs.getInt(3), rs.getInt(4));
                 Setting s = new Setting();
                 s.setSetting_name(rs.getString(2));
-                list.add(new Service(rs.getString(1), s, r, rs.getDouble(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Service(rs.getString(1), s, r, rs.getDouble(5), rs.getString(6), rs.getInt(7), base64Image));
             }
         } catch (SQLException e) {
         } finally {
@@ -100,9 +117,9 @@ public class ServiceDAO {
         return list;
     }
 
-    public Service getServiceById(String id) throws SQLException {
+    public Service getServiceById(String id) throws SQLException, IOException {
         Service s = new Service();
-        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, s.service_id  FROM doctris_system.service s \n"
+        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, s.service_id, s.img FROM doctris_system.service s \n"
                 + "left join doctris_system.ratestar r\n"
                 + "on s.service_id = r.service_id\n"
                 + "inner join doctris_system.category_service cs\n"
@@ -114,10 +131,27 @@ public class ServiceDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 RateStar r = new RateStar(rs.getInt(3), rs.getInt(4));
                 Setting se = new Setting();
                 se.setSetting_name(rs.getString(2));
-                s = new Service(rs.getString(1), se, r, rs.getDouble(5), rs.getString(6), rs.getInt(7));
+                s = new Service(rs.getString(1), se, r, rs.getDouble(5), rs.getString(6), rs.getInt(7), base64Image);
             }
         } catch (SQLException e) {
         } finally {
@@ -170,9 +204,9 @@ public class ServiceDAO {
         return list;
     }
 
-    public ArrayList<Service> getServiceFiltered(String filter, String sort) throws SQLException {
+    public ArrayList<Service> getServiceFiltered(String filter, String sort) throws SQLException, IOException {
         ArrayList<Service> list = new ArrayList<>();
-        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, cs.id, s.service_id  FROM doctris_system.service s \n"
+        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, cs.id, s.service_id, s.img  FROM doctris_system.service s \n"
                 + "                left join doctris_system.ratestar r\n"
                 + "                on s.service_id = r.service_id\n"
                 + "                inner join doctris_system.category_service cs\n"
@@ -184,10 +218,27 @@ public class ServiceDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 RateStar r = new RateStar(rs.getInt(3), rs.getInt(4));
                 Setting s = new Setting();
                 s.setSetting_name(rs.getString(2));
-                list.add(new Service(rs.getString(1), s, r, rs.getDouble(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Service(rs.getString(1), s, r, rs.getDouble(5), rs.getString(6), rs.getInt(7), base64Image));
             }
         } catch (SQLException e) {
         } finally {
@@ -222,7 +273,7 @@ public class ServiceDAO {
 
     public ArrayList<Service> Search(String search) throws SQLException {
         ArrayList<Service> list = new ArrayList<>();
-        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, s.service_id  FROM doctris_system.service s \n"
+        String sql = "SELECT s.title, cs.name, sum(r.star)/count(r.star), count(r.feedback), s.fee, s.description, s.service_id, s.img FROM doctris_system.service s \n"
                 + "left join doctris_system.ratestar r\n"
                 + "on s.service_id = r.service_id\n"
                 + "inner join doctris_system.category_service cs\n"
@@ -234,10 +285,27 @@ public class ServiceDAO {
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String base64Image = null;
+                Blob blob = rs.getBlob(8);
+                if (blob != null) {
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                } else {
+                    base64Image = "default";
+                }
                 RateStar r = new RateStar(rs.getInt(3), rs.getInt(4));
                 Setting s = new Setting();
                 s.setSetting_name(rs.getString(2));
-                list.add(new Service(rs.getString(1), s, r, rs.getDouble(5), rs.getString(6), rs.getInt(7)));
+                list.add(new Service(rs.getString(1), s, r, rs.getDouble(5), rs.getString(6), rs.getInt(7), base64Image));
             }
 
         } catch (Exception e) {
@@ -521,7 +589,7 @@ public class ServiceDAO {
                 } else {
                     base64Image = "default";
                 }
-                Account s = new Account(base64Image, rs.getString(2), 0, false);
+                Account s = new Account(base64Image, rs.getString(2), 0, false, null);
                 list.add(new RateStar(s, rs.getInt(3), rs.getString(4)));
             }
         } catch (SQLException e) {

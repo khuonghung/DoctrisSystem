@@ -14,6 +14,7 @@ import java.sql.Date;
 public class Patient {
 
     Account account;
+    Appointment appointment;
     private int patient_id;
     private String username;
     private int role_id;
@@ -22,6 +23,12 @@ public class Patient {
     private Date DOB;
 
     public Patient() {
+    }
+
+    public Patient(int patient_id, String username) {
+        this.patient_id = patient_id;
+        this.username = username;
+
     }
 
     public Patient(Account account, int patient_id, String username, int role_id, boolean status, String address, Date DOB) {
@@ -33,13 +40,15 @@ public class Patient {
         this.address = address;
         this.DOB = DOB;
     }
-    public Patient(Account account, int patient_id,  Date DOB,String address, boolean status) {
+
+    public Patient(Account account, int patient_id, Date DOB, String address, boolean status) {
         this.account = account;
         this.patient_id = patient_id;
         this.DOB = DOB;
         this.address = address;
         this.status = status;
     }
+
     public Patient(Account account, int patient_id, Date DOB, boolean status) {
         this.account = account;
         this.patient_id = patient_id;
@@ -47,6 +56,13 @@ public class Patient {
         this.DOB = DOB;
     }
     
+    public Patient(Account account,Date DOB,int patient_id , Appointment appointment) {
+        this.account = account;
+        this.DOB = DOB;
+        this.patient_id = patient_id;
+        this.appointment = appointment;
+    }
+
     public Patient(Account account) {
         this.account = account;
     }
@@ -111,4 +127,13 @@ public class Patient {
     public void setDOB(Date DOB) {
         this.DOB = DOB;
     }
+    
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
 }
