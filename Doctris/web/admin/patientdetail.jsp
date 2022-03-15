@@ -121,7 +121,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Họ tên <span class="text-danger"></span></label>
-                                                        <input name="name" id="name" type="text" class="form-control" value="${patient.account.name}">
+                                                        <input name="name" oninvalid="CheckFullName(this);" oninput="CheckFullName(this);" id="name" type="text" class="form-control" value="${patient.account.name}">
                                                     </div>
                                                 </div>
                                                 <input hidden name="patient_id" id="name" type="text" class="form-control" value="${patient.patient_id}">
@@ -148,7 +148,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Số điện thoại <span class="text-danger"></span></label>
-                                                        <input name="phone" id="name" type="text" class="form-control" value="0${patient.account.phone}">
+                                                        <input name="phone" oninvalid="CheckPhone(this);" oninput="CheckPhone(this);" id="name" type="text" class="form-control" value="0${patient.account.phone}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
@@ -160,7 +160,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Ngày sinh <span class="text-danger"></span></label>
-                                                        <input name="DOB" id="name" type="date" class="form-control" value="${patient.DOB}">
+                                                        <input name="DOB" id="name" type="date" onkeydown="return false" min="1922-01-01" max="2003-01-01" class="form-control" value="${patient.DOB}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
