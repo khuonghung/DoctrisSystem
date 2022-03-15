@@ -96,13 +96,14 @@ public class Account {
         this.name = name;
         this.gender = gender;
         this.phone = phone;
-        this.img = img;
-        if(email != null){
+        if (img != null) {
+            this.img = img;
+        }
+        if (email != null) {
             this.email = email;
         }
     }
-    
-    
+
     public Account(String username, String name) {
         this.username = username;
         this.name = name;

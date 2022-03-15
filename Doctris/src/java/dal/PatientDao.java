@@ -248,7 +248,7 @@ public class PatientDao {
             ps.setInt(1, patient_id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Account a = new Account(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4), null);
+                Account a = new Account(null, rs.getString(1), rs.getInt(3), rs.getBoolean(4), rs.getString(2));
                 return new Patient(a, rs.getDate(5));
             }
         } catch (SQLException e) {
