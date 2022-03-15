@@ -80,7 +80,7 @@ public class Authorization implements Filter {
                 response.sendRedirect(request.getContextPath() + LOGIN);
             }
         } else if (url.contains("doctor?action=myfeedback") || url.contains("doctor?action=mypatient")
-                || url.contains("doctor?action=myappointment")) {
+                || url.contains("doctor?action=myappointment") || url.contains("doctor?action=detailpatient")) {
             if (user != null) {
                 if (user.getRole().getRole_id() == 3) {
                     filterChain.doFilter(servletRequest, servletResponse);
