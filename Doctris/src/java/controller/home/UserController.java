@@ -164,7 +164,7 @@ public class UserController extends HttpServlet {
                     userdao.RemoveCaptcha(account.getUsername());
                     userdao.AddCaptcha(account.getUsername(), captcha);
                     request.setAttribute("error", "Link đặt lại mật khẩu được gửi đến email của bạn!");
-                    request.getRequestDispatcher("user?action=login").forward(request, response);
+                    request.getRequestDispatcher("user?action=recover").forward(request, response);
                 }
             }
 
