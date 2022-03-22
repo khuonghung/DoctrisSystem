@@ -33,6 +33,7 @@
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Tên</th>
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Số Sao</th>
                                                 <th class="border-bottom p-3" style="min-width: 180px;">Đánh giá</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -87,6 +88,7 @@
                                                         </c:if>
                                                     </td>
                                                     <td class="p-3">${r.feedback}</td>
+                                                    <td class="p-3"><fmt:formatDate pattern="dd/MM/yyyy HH:mm" value="${r.date}"/></td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>

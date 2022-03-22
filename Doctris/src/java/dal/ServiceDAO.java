@@ -564,7 +564,7 @@ public class ServiceDAO {
 
     public List<RateStar> getFeedback(int service_id) throws SQLException, IOException {
         List<RateStar> list = new ArrayList<>();
-        String sql = "SELECT u.img, u.name, r.star,r.feedback FROM doctris_system.ratestar r "
+        String sql = "SELECT u.img, u.name, r.star,r.feedback,r.datetime FROM doctris_system.ratestar r "
                 + "inner join doctris_system.users u on r.username = u.username where r.service_id = ? ORDER BY r.datetime DESC";
         try {
             connection = dbc.getConnection();
@@ -590,7 +590,7 @@ public class ServiceDAO {
                     base64Image = "default";
                 }
                 Account s = new Account(base64Image, rs.getString(2), 0, false, null);
-                list.add(new RateStar(s, rs.getInt(3), rs.getString(4)));
+                list.add(new RateStar(s, rs.getInt(3), rs.getString(4), rs.getTimestamp(5)));
             }
         } catch (SQLException e) {
         } finally {
