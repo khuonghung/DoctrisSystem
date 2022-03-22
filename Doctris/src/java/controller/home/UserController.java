@@ -289,7 +289,7 @@ public class UserController extends HttpServlet {
                     int size = 0;
                     if (appointmentlist != null) {
                         size = appointmentlist.size();
-                    }else{
+                    } else {
                         size = reservationlist.size();
                     }
                     int num = (size % 8 == 0 ? (size / 8) : ((size / 8)) + 1);
@@ -307,7 +307,7 @@ public class UserController extends HttpServlet {
                         appointmentlist = adao.getListByPage(appointmentlist, start, end);
                         request.setAttribute("appointmentlist", appointmentlist);
                         url = "user?action=history&type=appointment";
-                    }else{
+                    } else {
                         reservationlist = rdao.getListByPage(reservationlist, start, end);
                         request.setAttribute("reservationlist", reservationlist);
                         url = "user?action=history&type=reservation";
