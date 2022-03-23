@@ -83,7 +83,11 @@ public class UserController extends HttpServlet {
                     response.addCookie(cemail);
                     response.addCookie(cpass);
                     response.addCookie(rem);
-                    response.sendRedirect("home");
+                    if (account.getRole().getRole_id() == 1) {
+                        response.sendRedirect("dashboard?action=default");
+                    } else {
+                        response.sendRedirect("home");
+                    }
                 }
             }
 
