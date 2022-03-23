@@ -67,9 +67,12 @@
                                             </div>                                                                        
                                         </div>
                                     </div>
-                                    ${a.status.equals("Assigned")?"<input type=\"submit\" id=\"submit\" name=\"send\" class=\"btn btn-primary\" value=\"Hoàn thành lịch hẹn\">":""}
-
                                 </form>
+                                <div class="col-md-6">
+                                    <c:if test="${a.status.equals(\"Assigned\")}">
+                                        <button class="btn btn-info active" type="button" style="width: 140px" value="${a.id}">Hoàn thành lịch hẹn</button>
+                                    </c:if>
+                                </div>
 
                             </div>
                         </div>
@@ -81,9 +84,38 @@
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
             <jsp:include page="layout/search.jsp"/>
 
+        <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/simplebar.min.js"></script>
+        <script src="assets/js/select2.min.js"></script>
+        <script src="assets/js/select2.init.js"></script>
+        <script src="assets/js/flatpickr.min.js"></script>
+        <script src="assets/js/flatpickr.init.js"></script>
+        <script src="assets/js/jquery.timepicker.min.js"></script> 
+        <script src="assets/js/timepicker.init.js"></script> 
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/js/app.js"></script>
+        <script src="assets/js/sweetalert.min.js"></script>
+        <script>
+            $(document).ready(jQuery(function () {
+                
+                jQuery(".active").click(function () {
+                    swal({
+                        title: "Cảnh báo",
+                        text: "Bạn có chắc chắn muốn hoàn thành lịch hẹn?",
+                        buttons: ["Hủy bỏ", "Đồng ý"]
+                    })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    window.location = "doctor?action=updateappointmentstatus&id=" + $(this).attr("value");
+                                    swal("Thành công.!", {
+                                    });
+                                }
+                            });
+                });
+            }));
+        </script>
+
     </body>
 
 </html>

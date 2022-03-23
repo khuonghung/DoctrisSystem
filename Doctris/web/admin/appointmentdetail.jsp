@@ -183,6 +183,7 @@
                                         <div class="mb-3">
                                             <label class="form-label">Trạng thái</label>
                                             <select name="status" class="form-select" aria-label="Default select example">
+                                                <option <c:if test="${appointment.status == 'Complete'}">selected</c:if> value="Complete">Complete</option>
                                                 <option <c:if test="${appointment.status == 'Assigned'}">selected</c:if> value="Assigned">Assigned</option>
                                                 <option <c:if test="${appointment.status == 'Pending'}">selected</c:if> value="Pending">Pending</option>
                                                 <option <c:if test="${appointment.status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>

@@ -68,7 +68,9 @@
                                         </div>
                                         <small class="text-muted speciality">Phí đặt lịch : <fmt:formatNumber pattern="#,###,###,###" value="${d.fee}"/> đ</small>
                                         <div class="pt-2">
-                                            <button class="btn btn-soft-primary" onclick="window.location.href = 'book?type=appointment&id=${d.doctor_id}'">Đặt lịch</button>
+                                            <c:if test="${user.getRole().getRole_id() == 2}">
+                                                <button class="btn btn-soft-primary" onclick="window.location.href = 'book?type=appointment&id=${d.doctor_id}'">Đặt lịch</button>
+                                            </c:if>
                                             <button class="btn btn-soft-primary" onclick="window.location.href = 'doctor?action=detail&id=${d.doctor_id}'">Chi tiết</button>  
                                         </div>
                                     </div>

@@ -28,7 +28,7 @@
                                         <div id="search" class="menu-search mb-0">
                                             <form action="doctormanage?action=search" method="POST" id="searchform" class="searchform">
                                                 <div>
-                                                    <input type="text" class="form-control border rounded-pill" name="txt" id="s" placeholder="Tìm kiếm tài khoản...">
+                                                    <input type="text" class="form-control border rounded-pill" name="txt" id="s" placeholder="Tìm kiếm bác sĩ...">
                                                     <input type="submit" id="searchsubmit" value="Search">
                                                 </div>
                                             </form>

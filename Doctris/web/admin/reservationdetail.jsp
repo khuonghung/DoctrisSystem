@@ -139,32 +139,33 @@
                                 <h5 class="mb-0">Cập nhật thông tin</h5>
                             </div>
                             <form action="reservationmanage?action=update&id=${reservation.id}<c:if test="${sessionScope.user.role.role_id == 4}">&staff=${reservation.staff.username}</c:if>" method="POST">
-                                <div class="tab-content p-4" id="pills-tabContent">
-                                    <div class="col-lg-12">
+                                    <div class="tab-content p-4" id="pills-tabContent">
+                                        <div class="col-lg-12">
                                         <c:if test="${sessionScope.user.role.role_id == 1}">
-                                        <div class="mb-3">
-                                            <label class="form-label">Nhân viên hỗ trợ</label>
-                                            <select name="staff" class="form-select">
-                                                <c:forEach items="${staff}" var="s">
-                                                    <option <c:if test="${reservation.staff.username == s.username}">selected</c:if> class="form-control" value="${s.username}">${s.name}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Nhân viên hỗ trợ</label>
+                                                <select name="staff" class="form-select">
+                                                    <c:forEach items="${staff}" var="s">
+                                                        <option <c:if test="${reservation.staff.username == s.username}">selected</c:if> class="form-control" value="${s.username}">${s.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
                                         </c:if>
                                         <div class="mb-3">
                                             <label class="form-label">Trạng thái</label>
                                             <select name="status" class="form-select" aria-label="Default select example">
+                                                <option <c:if test="${reservation.status == 'Complete'}">selected</c:if> value="Complete">Complete</option>
                                                 <option <c:if test="${reservation.status == 'Assigned'}">selected</c:if> value="Assigned">Assigned</option>
                                                 <option <c:if test="${reservation.status == 'Pending'}">selected</c:if> value="Pending">Pending</option>
                                                 <option <c:if test="${reservation.status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-content p-0" id="pills-tabContent">
-                                            <input type="submit" id="submit" name="send" class="btn btn-primary"
-                                                    value="Cập nhật">
+                                                </select>
+                                            </div>
+                                            <div class="tab-content p-0" id="pills-tabContent">
+                                                <input type="submit" id="submit" name="send" class="btn btn-primary"
+                                                       value="Cập nhật">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </form>
                             </div>
                         </div>

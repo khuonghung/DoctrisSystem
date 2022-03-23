@@ -67,7 +67,9 @@
                             <p class="text-muted">${detail.description}</p>
 
                             <div class="mt-4 pt-2">
-                                <a href="book?type=appointment&id=${detail.doctor_id}" class="btn btn-primary">Đặt lịch</a>
+                                <c:if test="${user.getRole().getRole_id() == 2}">
+                                    <a href="book?type=appointment&id=${detail.doctor_id}" class="btn btn-primary">Đặt lịch</a>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -91,10 +93,10 @@
                                             <c:if test="${r.user.img != 'default'}">
                                                 <img src="data:image/png;base64,${r.user.img}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                             </c:if>
-                                                <c:if test="${r.user.img == 'default'}">
+                                            <c:if test="${r.user.img == 'default'}">
                                                 <img src="assets/images/avata.png" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
                                             </c:if>
-                                            
+
                                         </a>
                                         <div class="commentor-detail">
                                             <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">${r.user.username}</a></h6>
@@ -122,8 +124,8 @@
         <jsp:include page="layout/footer.jsp"/>
 
         <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-pills btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
-        <jsp:include page="layout/search.jsp"/>
-        <jsp:include page="layout/facebookchat.jsp"/>
+            <jsp:include page="layout/search.jsp"/>
+            <jsp:include page="layout/facebookchat.jsp"/>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
