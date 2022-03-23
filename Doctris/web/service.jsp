@@ -129,7 +129,9 @@
                             <td class="p-3" style="width: 250px">${d.description}</td>
                             <td class="text-end p-3">
                                 <a href="service?action=detail&id=${d.service_id}" type="button"class="btn btn-info" style="">Chi tiết</a>
-                                <a href="book?type=reservation&id=${d.service_id}" type="button"class="btn btn-info" style="">Đặt lịch</a>
+                                <c:if test="${user.getRole().getRole_id() == 2}">
+                                    <a href="book?type=reservation&id=${d.service_id}" type="button"class="btn btn-info" style="">Đặt lịch</a>
+                                </c:if>
                             </td>
                             </tr>
                         </c:forEach>

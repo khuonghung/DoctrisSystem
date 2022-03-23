@@ -90,6 +90,16 @@ public class Authorization implements Filter {
             } else {
                 response.sendRedirect(request.getContextPath() + LOGIN);
             }
+        } else if (url.contains("book")) {
+            if (user != null) {
+                if (user.getRole().getRole_id() == 2) {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    response.sendRedirect(request.getContextPath() + ERROR401);
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + LOGIN);
+            }
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
