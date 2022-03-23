@@ -51,7 +51,7 @@
                                                     <td class="">${a.account.email}</td>
                                                     <td class=""><fmt:formatDate pattern="dd/MM/yyyy" value="${a.DOB}" /></td>
                                                      <td class="text-end ">
-                                                        <a href="doctor?action=detailpatient&id=${a.patient_id}" type="button"class="btn btn-info">Chi tiết</a>
+                                                        <a href="doctor?action=detailpatient&id=${a.patient_id}" ><u>Detail</u></a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
