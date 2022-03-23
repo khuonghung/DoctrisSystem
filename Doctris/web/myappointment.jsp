@@ -32,11 +32,12 @@
                                             <th class="border-bottom p-3" >Ngày đặt lịch</th>
                                             <th class="border-bottom p-3" >Giờ đặt lịch</th>
                                             <th class="border-bottom p-3" >Trạng thái</th>
+                                            <th class="border-bottom p-3" ></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach items="${AppointmentList}" var="a">
-                                            <tr onclick="window.location = 'doctor?action=myappointmentdetail&id=${a.id}'">
+                                            <tr>
 
                                                 <th class="p-3">${a.id}</th>
                                                 <td class="p-3">${a.patient.username}</td>
@@ -44,7 +45,9 @@
                                                 <td class="p-3"><fmt:formatDate type = "date" value = "${a.date}" /></td>
                                                 <td class="p-3"><fmt:formatDate type = "time" value = "${a.time}" /></td>
                                                 <td class="p-3" >${a.status}</td>
-
+                                                <td class="text-end ">
+                                                    <a href="doctor?action=myappointmentdetail&id=${a.patient.patient_id}" type="button"class="btn btn-info">Chi tiết</a>
+                                                </td>   
                                             </tr>
                                         </c:forEach>
                                     </tbody>

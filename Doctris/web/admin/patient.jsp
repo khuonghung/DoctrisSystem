@@ -177,11 +177,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <div class="d-grid">
-                                                <button type="submit" id="submit" class="btn btn-primary">Lọc</button>
-                                            </div>
-                                        </div>
+
                                     </form>
                                 </div>
                             </div>

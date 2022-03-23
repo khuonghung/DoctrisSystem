@@ -48,6 +48,7 @@
                                             <div class="col-md-8">
                                                 <select name="status" class="form-select" aria-label="Default select example">
                                                     <option <c:if test="${status == 'all'}">selected</c:if> value="all">Tất cả</option>
+                                                    <option <c:if test="${status == 'Complete'}">selected</c:if> value="Complete">Complete</option>
                                                     <option <c:if test="${status == 'Assigned'}">selected</c:if> value="Assigned">Assigned</option>
                                                     <option <c:if test="${status == 'Pending'}">selected</c:if> value="Pending">Pending</option>
                                                     <option <c:if test="${status == 'Cancelled'}">selected</c:if> value="Cancelled">Cancelled</option>
