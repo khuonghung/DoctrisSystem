@@ -11,7 +11,52 @@
 <!DOCTYPE html>
 <html lang="en">
     <jsp:include page="layout/head.jsp"/>
-    <body>  
+    <body>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .rate {
+                float: left;
+                height: 46px;
+                padding: 0 10px;
+            }
+            .rate:not(:checked) > input {
+                clip: rect(0 0 0 0);
+                clip-path: inset(50%);
+                height: 1px;
+                overflow: hidden;
+                position: absolute;
+                width: 1px;
+            }
+            .rate:not(:checked) > label {
+                float:right;
+                width:1em;
+                overflow:hidden;
+                white-space:nowrap;
+                cursor:pointer;
+                font-size:30px;
+                color:#ccc;
+            }
+            .rate:not(:checked) > label:before {
+                content: '★ ';
+            }
+            .rate > input:checked ~ label {
+                color: #ffc700;    
+            }
+            .rate:not(:checked) > label:hover,
+            .rate:not(:checked) > label:hover ~ label {
+                color: #deb217;  
+            }
+            .rate > input:checked + label:hover,
+            .rate > input:checked + label:hover ~ label,
+            .rate > input:checked ~ label:hover,
+            .rate > input:checked ~ label:hover ~ label,
+            .rate > label:hover ~ input:checked ~ label {
+                color: #c59b08;
+            }
+        </style>
         <jsp:include page="layout/menu_white.jsp"/>
         <section class="bg-half-170 d-table w-100 bg-light">
             <div class="container">
@@ -86,6 +131,40 @@
                 </div>
 
                 <div class="row">
+                    <c:if test="${allow == 'true'}">
+                        <h5 class="card-title mt-4 mb-0">Đánh giá :</h5>
+                        <form action="rate?service=${service.service_id}" method="POST" class="mt-3">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" />
+                                            <label for="star5" title="text">5 stars</label>
+                                            <input type="radio" id="star4" name="rate" value="4" />
+                                            <label for="star4" title="text">4 stars</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="text">3 stars</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="text">2 stars</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="text">1 star</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phản hồi của bạn</label>
+                                        <textarea id="message" rows="3" name="comment" class="form-control" required=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="send d-grid">
+                                        <button type="submit" class="btn btn-primary">Gửi phản hồi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </c:if>
                     <ul class="media-list list-unstyled mb-0">
                         <c:forEach items="${rate}" var="r">
                             <li class="mt-4">

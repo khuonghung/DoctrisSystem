@@ -100,6 +100,10 @@
         <servlet-name>Booking_Success</servlet-name>
         <servlet-class>controller.home.Booking_Success</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RateController</servlet-name>
+        <servlet-class>controller.home.RateController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/user</url-pattern>
@@ -179,6 +183,10 @@
     <servlet-mapping>
         <servlet-name>Booking_Success</servlet-name>
         <url-pattern>/booking_success</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RateController</servlet-name>
+        <url-pattern>/rate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

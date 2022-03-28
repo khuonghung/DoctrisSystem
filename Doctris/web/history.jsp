@@ -27,7 +27,7 @@
                                     <h5 class="mb-0">Lịch sử dịch vụ</h5>
                                 </c:if>
                             </div>
-                            <div class="p-4">
+                            <div class="p-2">
                                 <div class="table-responsive bg-white shadow rounded">
                                     <c:if test="${appointmentlist != null}">
                                         <table class="table mb-0 table-center">
@@ -57,6 +57,9 @@
                                                         <td class="p-3">${a.date}</td>
                                                         <td class="p-3">${a.time}</td>
                                                         <td class="p-3">${a.status}</td>
+                                                        <c:if test="${a.status == 'Complete'}">
+                                                            <td><button style="padding: -40px" class="btn btn-soft-primary" onclick="window.location.href = 'doctor?action=detail&id=${a.doctor.doctor_id}&allow=true'">Đánh giá</button></td>
+                                                        </c:if>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>
@@ -89,6 +92,9 @@
                                                         <td class="p-3">${r.time}</td>
                                                         <td class="p-3"><fmt:formatNumber pattern="##########" value="${r.service.fee}"/> đ</td>
                                                         <td class="p-3">${r.status}</td>
+                                                        <c:if test="${r.status == 'Complete'}">
+                                                            <td><button style="padding: -40px" class="btn btn-soft-primary" onclick="window.location.href = 'service?action=detail&id=${r.service.service_id}&allow=true'">Đánh giá</button></td>
+                                                        </c:if>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>

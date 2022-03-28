@@ -59,7 +59,7 @@ public class ServiceController extends HttpServlet {
             if (action.equals("filter")) {
                 String search = request.getParameter("search");
                 String Speciality = request.getParameter("Speciality");
-                String   sort = request.getParameter("sort");
+                String sort = request.getParameter("sort");
                 switch (sort) {
                     case "1":
                         sort = " order by s.title asc";
@@ -81,12 +81,17 @@ public class ServiceController extends HttpServlet {
                 speciality = servicedao.getAllSpeciality();
             }
             if (action.equals("detail")) {
+                String allow = request.getRequestURI() + "?" + request.getQueryString();
+                if (allow.contains("allow=true")) {
+                    allow = "true";
+                }
                 String id = request.getParameter("id");
                 Service service = new Service();
                 service = servicedao.getServiceById(id);
                 List<RateStar> rate = servicedao.getRateService(Integer.parseInt(id));
                 request.setAttribute("service", service);
                 request.setAttribute("rate", rate);
+                request.setAttribute("allow", allow);
                 request.getRequestDispatcher("servicedetail.jsp").forward(request, response);
             }
             if (AllService != null) {

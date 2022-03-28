@@ -97,9 +97,10 @@ public class Service {
         }
     }
 
-    public Service(String title, double fee) {
+    public Service(int service_id, String title, double fee) {
         this.title = title;
         this.fee = fee;
+        this.service_id = service_id;
     }
 
     public Setting getSetting() {

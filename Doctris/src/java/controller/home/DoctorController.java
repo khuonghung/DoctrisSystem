@@ -89,9 +89,14 @@ public class DoctorController extends HttpServlet {
                 int star = doctordao.getStars(detail.getDoctor_id());
                 int feedback = doctordao.CountFeedback(detail.getDoctor_id());
                 List<RateStar> getRate = doctordao.getRateDoctor(detail.getDoctor_id());
+                String allow = request.getRequestURI() + "?" + request.getQueryString();
+                if(allow.contains("allow=true")){
+                    allow = "true";
+                }
                 request.setAttribute("detail", detail);
                 request.setAttribute("star", star);
                 request.setAttribute("feedback", feedback);
+                request.setAttribute("allow", allow);
                 request.setAttribute("rate", getRate);
                 request.getRequestDispatcher("doctordetail.jsp").forward(request, response);
             }
