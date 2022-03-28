@@ -264,6 +264,7 @@ public class UserController extends HttpServlet {
                     int role_id = Integer.parseInt(request.getParameter("role_id"));
                     boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     userdao.Register(email, password, username, role_id, name, phone, gender, status);
+                    userdao.insertPatient(username);
                     session.removeAttribute("register");
                     userdao.RemoveCaptcha(username);
                     request.setAttribute("success", "Đăng ký thành công...");

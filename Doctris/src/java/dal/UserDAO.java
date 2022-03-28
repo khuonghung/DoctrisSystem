@@ -78,6 +78,21 @@ public class UserDAO {
         return null;
     }
 
+    public void insertPatient(String username) throws SQLException {
+        String sql = "INSERT INTO `patient` (`username`, `role_id`, `status`) VALUES (?, '2', '1')";
+        try {
+            connection = dbc.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
     public Account checkAcc(String email, String username) throws SQLException {
         String sql = "select * from users where email=? or username=?";
         try {
@@ -590,15 +605,15 @@ public class UserDAO {
         }
         return list;
     }
-    
-    public String getRandomStaff(){
+
+    public String getRandomStaff() {
         String staff = null;
         String sql = "select username from users where role_id = 4 AND status = 1 ORDER BY RAND() LIMIT 1";
         try {
             connection = dbc.getConnection();
             ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 staff = rs.getString(1);
             }
         } catch (Exception e) {
