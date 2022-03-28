@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_Returnurl = "http://localhost:8080/doctris/verification";
+    public static String vnp_Returnurl = "http://doctriscare.ml/verification";
     public static String vnp_TmnCode = "2HI8UZZV";
     public static String vnp_HashSecret = "GZGESIMQFAWZACMSAKWAMXZQMWADWVDB";
     public static String vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
