@@ -103,22 +103,24 @@ public class Booking extends HttpServlet {
                     String vnp_Version = "2.0.0";
                     String vnp_Command = "pay";
                     String vnp_OrderInfo = null;
+                    String vnp_TxnRef = null;
                     int amount = 0;
                     if (session.getAttribute("type").equals("appointment")) {
                         adao.Booking(d.getDoctor_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", d.getFee(), "Pending");
                         booking_id = adao.getLastBooking(pdao.getPatientIDByUsername(user.getUsername()));
                         vnp_OrderInfo = "appointment : " + booking_id;
                         amount = (int) Math.round(d.getFee()) * 100;
+                        vnp_TxnRef = "A" + booking_id + "";
                     }
                     if (session.getAttribute("type").equals("reservation")) {
                         rdao.Booking(s.getService_id(), pdao.getPatientIDByUsername(user.getUsername()), udao.getRandomStaff(), date, time, description, "Assigned", "Pending");
                         booking_id = rdao.getLastBooking(pdao.getPatientIDByUsername(user.getUsername()));
                         vnp_OrderInfo = "reservation : " + booking_id;
                         amount = (int) Math.round(s.getFee()) * 100;
+                        vnp_TxnRef = "R" + booking_id + "";
                     }
 
                     String orderType = "billpayment";
-                    String vnp_TxnRef = booking_id + "";
                     String vnp_IpAddr = config.getIpAddress(request);
                     String vnp_TmnCode = config.vnp_TmnCode;
                     Map<String, String> vnp_Params = new HashMap<>();
