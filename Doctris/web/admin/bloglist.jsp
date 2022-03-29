@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-2 mt-4 mt-sm-0">
                                 <div class="d-grid">
-                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addnew">Thêm mới</a>
+                                    <a href="blogmanage?action=addblog" class="btn btn-primary" >Thêm mới</a>
                                 </div>
                             </div>
                             <div class="col-md-10 row">
@@ -105,6 +105,7 @@
                                     </div>
                                 </form>
 
+
                             </div>
                             <br>
 
@@ -112,34 +113,56 @@
                             <div class="row">
                                 <!-- hiển thị blog-->
 
-                            <c:forEach items="${listblog}" var="b">
-                                <div class="col-lg-4 col-md-6 col-12 mb-4 pb-2">
-                                    <div class="card blog blog-primary border-0 shadow rounded overflow-hidden">
-                                        <img src="data:image/png;base64,${b.img}" class="img-fluid" alt="">
-                                        <div class="card-body p-4">
-                                            <ul class="list-unstyled mb-2">
-                                                <li class="list-inline-item text-muted small me-3"><i class="uil uil-calendar-alt text-dark h6 me-1"></i><fmt:formatDate pattern="dd/MM/yyyy" value="${b.date}" /></li>
-                                            </ul>
-                                            <a href="blogmanage?action=detail&blog_id=${b.blog_id}" class="text-dark title h7">${b.title}</a>
-                                            <c:set var = "detail" value = "${b.describe}"/>
-                                            <c:set var = "brief_info" value = "${fn:substring(detail, 0, 50)}" />
-                                            <p style="font-size: 9">${brief_info}[...]</p>
-                                            <div class="post-meta d-flex justify-content-between mt-3">
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="list-inline-item me-2 mb-0" style="color:gray">${b.category.name}</li>
-                                                </ul>
-
-                                            </div>
-                                            <p>Status: ${b.status?"Active":"Disable"}</p>
-                                            <p>Author: ${b.author}</p>
-                                            <a href="blogmanage?action=hide&blog_id=${b.blog_id}&status=${b.status?"active":"disable"}" type="button"class="btn btn-info">Hide</a>
-                                            <a href="blogmanage?action=detail&blog_id=${b.blog_id}" type="button"class="btn btn-info">View</a>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-12 mt-4">
+                                        <div class="table-responsive bg-white shadow rounded">
+                                            <table class="table mb-0 table-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-bottom p-3" >ID</th>
+                                                        <th class="border-bottom p-3" >Ảnh</th>
+                                                        <th class="border-bottom p-3" >Tiêu đề</th>
+                                                        <th class="border-bottom p-3" >Loại</th>
+                                                        <th class="border-bottom p-3" >Tác giả</th>
+                                                        <th class="border-bottom p-3" >Nổi bật</th>
+                                                        <th class="border-bottom p-3" >Trạng thái</th>
+                                                        <th class="border-bottom p-3 text-center" >Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:forEach items="${listblog}" var="b">
+                                                    <tr>
+                                                        <td class="p-3">${b.blog_id}</td>
+                                                        <td class="p-3"><img src="data:image/png;base64,${b.img}" class="img-fluid" alt=""></td>
+                                                        <td class="p-3">${b.title}</td>
+                                                        <td class="p-3">${b.category.name}</td>
+                                                        <td class="p-3">${b.author}</td>
+                                                        <td class="p-3">
+                                                            <c:if test="${b.featured == true}">
+                                                            <p>Tiêu Điểm</p>
+                                                        </c:if>
+                                                        <c:if test="${b.featured == false}">
+                                                            <p>Bình thường</p>
+                                                        </c:if>
+                                                        </td>
+                                                        <td class=" text-center p-3">
+                                                            <c:if test="${b.status == true}">
+                                                                <a href="blogmanage?action=hide&blog_id=${b.blog_id}&status=${b.status?"active":"disable"}"style="width: 80px" value="${b.status}" type="button"class="btn btn-info">Ẩn</a>
+                                                            </c:if>
+                                                            <c:if test="${b.status == false}">
+                                                                <a href="blogmanage?action=hide&blog_id=${b.blog_id}&status=${b.status?"active":"disable"}"style="width: 80px" value="${b.status}" type="button"class="btn btn-info">Hiện</a>
+                                                            </c:if>
+                                                        </td>
+                                                        <td class="p-3">
+                                                            <a href="blogmanage?action=detail&blog_id=${b.blog_id}" style="width: 80px" type="button"class="btn btn-info">View</a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
-
                                 </div>
-                            </c:forEach>
-
+                            </div>   
                             <c:set var="page" value="${page}"/>
                             <div class="row text-center">
                                 <div class="col-12 mt-4">
@@ -158,99 +181,6 @@
             </main>
         </div>
 
-        <div class="modal fade" id="addnew" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm blog</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-3 pt-4">
-                        <form enctype="multipart/form-data" action="blogmanage?action=addnew" method="POST">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Danh Mục<span class="text-danger">*</span></label>
-                                        <select name="category_id" class="form-select" aria-label="Default select example">
-                                            <c:forEach items="${categories}" var="c">
-                                                <option value="${c.id}">${c.name}</option>
-                                            </c:forEach>
-                                        </select> 
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Tiêu đề <span class="text-danger">*</span></label>
-                                    <input name="title" id="name" type="text" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Ảnh <span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <div class="col-lg-offset-5 col-lg-15">
-                                            <div class="profile-pic">
-                                                <label class="-label" for="file">
-                                                    <c:if test="${ not empty blog.img}">
-                                                        <img src="data:image/jpg;base64,${blog.img}" id="output" width="200" />
-                                                    </c:if>
-                                                    <c:if test="${empty blog.img}">
-                                                        <img src="" id="output" width="200" alt=""/>
-                                                    </c:if>
-                                                </label>
-                                                <br><br>
-                                                <input id="file" type="file" onchange="loadFile(event)" name="image"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Mô tả<span class="text-danger">*</span></label>
-
-                                    <textarea rows="10" cols="70" id="describe" name="describe" ></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Nổi bật <span class="text-danger"></span></label>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td><input id="credit" name="featured" value="true" type="radio" class="form-check-input"
-                                                           checked required ></td>
-                                                <td><label class="form-check-label">Nổi bật</label></td>
-                                                <td></td>
-                                                <td><input id="debit" name="featured" value="false" type="radio" class="form-check-input"
-                                                           required></td>
-                                                <td><label class="form-check-label">Không nổi bật</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Status <span class="text-danger"></span></label>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td><input id="credit" name="status" value="true" type="radio" class="form-check-input"
-                                                           checked required ></td>
-                                                <td><label class="form-check-label">Active</label></td>
-                                                <td></td>
-                                                <td><input id="debit" name="status" value="false" type="radio" class="form-check-input"
-                                                           required></td>
-                                                <td><label class="form-check-label">Disable</label></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
         <style>
             .Choicefile{
                 display: block;

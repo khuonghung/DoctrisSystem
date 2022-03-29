@@ -20,9 +20,20 @@ public class Blog {
     private String describe;
     private Date date;
     private String author;
+
     private boolean status;
     private boolean featured;
+    private String brief;
 
+    
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
+    }
+    
     public boolean isFeatured() {
         return featured;
     }

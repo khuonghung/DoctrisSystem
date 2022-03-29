@@ -42,12 +42,15 @@ public class BlogController extends HttpServlet {
         BlogDAO blogDB = new BlogDAO();
         try {
             if (action == null) {
+                
                 ArrayList<Blog> blogs = blogDB.getActiveBlogs();
-                
+
+
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
-                
+
                 ArrayList<Blog> featured_blogs = blogDB.getBlogsByFeatured();
-                
+                request.setAttribute("featured_blogs", featured_blogs);
+
                 //phân trang
                 int page, numperpage = 6;
                 int type = 0;
@@ -68,31 +71,67 @@ public class BlogController extends HttpServlet {
                 request.setAttribute("num", num);
                 request.setAttribute("categories", categories);
                 request.setAttribute("blogs", blogs);
-                request.setAttribute("featured_blogs", featured_blogs);
                 request.setAttribute("listblog", listblog);
                 request.getRequestDispatcher("blogList.jsp").forward(request, response);
             }
-            
+
             if (action.equals("detail")) {
                 int id = Integer.parseInt(request.getParameter("blog_id"));
-                
+
                 Blog blog = blogDB.getBlog(id);
                 request.setAttribute("blog", blog);
-                
+
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
                 request.setAttribute("categories", categories);
+
+                ArrayList<Blog> featured_blogs = blogDB.getBlogsByFeatured();
+                request.setAttribute("featured_blogs", featured_blogs);
+
+                request.getRequestDispatcher("blogDetail.jsp").forward(request, response);
+            }
+
+            if (action.equals("search")) {
+                String content = request.getParameter("content");
+
+                ArrayList<Blog> blogs = blogDB.search(content);
+                request.setAttribute("blogs", blogs);
+
+                ArrayList<Blog> featured_blogs = blogDB.getBlogsByFeatured();
+                request.setAttribute("featured_blogs", featured_blogs);
+                
+                ArrayList<Category_Blog> categories = blogDB.getCategories();
+                int page, numperpage = 6;
+                int type = 0;
+                int size = blogs.size();
+                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
+                String xpage = request.getParameter("page");
+                if (xpage == null) {
+                    page = 1;
+                } else {
+                    page = Integer.parseInt(xpage);
+                }
+                int start, end;
+                start = (page - 1) * numperpage;
+                end = Math.min(page * numperpage, size);
+                ArrayList<Blog> listblog = blogDB.getListByPage(blogs, start, end);
+                request.setAttribute("type", type);
+                request.setAttribute("page", page);
+                request.setAttribute("num", num);
+                request.setAttribute("categories", categories);
+                request.setAttribute("blogs", blogs);
+                request.setAttribute("listblog", listblog);
+                request.getRequestDispatcher("blogList.jsp").forward(request, response);
+            }
+
+            if (action.equals("category")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                ArrayList<Blog> blogs = blogDB.getBlogsByCategory(id);
+                request.setAttribute("blogs", blogs);
                 
                 ArrayList<Blog> featured_blogs = blogDB.getBlogsByFeatured();
                 request.setAttribute("featured_blogs", featured_blogs);
                 
-                request.getRequestDispatcher("blogDetail.jsp").forward(request, response);
-            }
-            
-            if (action.equals("search")) {
-                String content = request.getParameter("content");
-                
-                ArrayList<Blog> blogs = blogDB.search(content);
-                request.setAttribute("blogs", blogs);
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
                 int page, numperpage = 6;
                 int type = 0;
@@ -116,41 +155,7 @@ public class BlogController extends HttpServlet {
                 request.setAttribute("listblog", listblog);
                 request.getRequestDispatcher("blogList.jsp").forward(request, response);
             }
-            
-            if (action.equals("category")) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                
-                ArrayList<Blog> blogs = blogDB.getBlogsByCategory(id);
-                request.setAttribute("blogs", blogs);
-                ArrayList<Category_Blog> categories = blogDB.getCategories();
-                int page, numperpage = 6;
-                int type = 0;
-                int size = blogs.size();
-                int num = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);//so trang
-                String xpage = request.getParameter("page");
-                if (xpage == null) {
-                    page = 1;
-                } else {
-                    page = Integer.parseInt(xpage);
-                }
-                int start, end;
-                start = (page - 1) * numperpage;
-                end = Math.min(page * numperpage, size);
-                ArrayList<Blog> listblog = blogDB.getListByPage(blogs, start, end);
-                request.setAttribute("type", type);
-                request.setAttribute("page", page);
-                request.setAttribute("num", num);
-                request.setAttribute("categories", categories);
-                request.setAttribute("blogs", blogs);
-                request.setAttribute("listblog", listblog);
-                request.getRequestDispatcher("blogList.jsp").forward(request, response);
-            }
-            
-            
-            
-            
-            
-            
+
         } catch (IOException | ServletException e) {
             System.out.println(e);
         }

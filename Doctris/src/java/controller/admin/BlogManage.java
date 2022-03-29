@@ -71,10 +71,9 @@ public class BlogManage extends HttpServlet {
                 ArrayList<Account> authors = blogDB.GetAuthors();
                 request.setAttribute("authors", authors);
 
-                
                 request.setAttribute("content", content);
                 blogs = blogDB.search(content);
-                
+
             }
 
             if (action.equals("filter")) {
@@ -121,8 +120,18 @@ public class BlogManage extends HttpServlet {
 
                 ArrayList<Category_Blog> categories = blogDB.getCategories();
                 request.setAttribute("categories", categories);
+                
+                ArrayList<Account> authors = blogDB.GetAuthors();
+                request.setAttribute("authors", authors);
 
                 blogs = blogDB.sortBlogs(type);
+            }
+            
+            if (action.equals("addblog")) {
+                ArrayList<Category_Blog> categories = blogDB.getCategories();
+                request.setAttribute("categories", categories);
+                
+                request.getRequestDispatcher("admin/addblog.jsp").forward(request, response);
             }
 
             if (action.equals("addnew")) {
@@ -130,10 +139,11 @@ public class BlogManage extends HttpServlet {
                 String username = account.getUsername();
                 int category_id = Integer.parseInt(request.getParameter("category_id"));
                 String title = request.getParameter("title");
+                String brief = request.getParameter("brief");
                 String describe = request.getParameter("describe");
                 boolean featured = Boolean.parseBoolean(request.getParameter("featured"));
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
-                
+
                 Part filePart = request.getPart("image");
                 InputStream inputImage = null;
                 if (filePart.getSize() != 0) {
@@ -145,8 +155,8 @@ public class BlogManage extends HttpServlet {
                 } else {
                     inputImage = null;
                 }
-                
-                blogDB.AddBlog(category_id, title, inputImage, describe, featured, username, status);
+
+                blogDB.AddBlog(category_id, title, inputImage, brief, describe, featured, username, status);
 
                 alert = "success";
                 message = "Thêm mới thành công";
@@ -171,12 +181,12 @@ public class BlogManage extends HttpServlet {
                 int blog_id = Integer.parseInt(request.getParameter("blogid"));
                 int category_id = Integer.parseInt(request.getParameter("category_id"));
                 String title = request.getParameter("title");
+                String brief = request.getParameter("brief");
                 String describe = request.getParameter("describe");
                 boolean featured = Boolean.parseBoolean(request.getParameter("featured"));
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
 
-                
-                blogDB.UpdateBlog(category_id, title, describe, featured, status, blog_id);
+                blogDB.UpdateBlog(category_id, title, brief, describe, featured, status, blog_id);
                 alert = "success";
                 message = "Sửa thành công";
                 request.setAttribute("alert", alert);
@@ -184,7 +194,7 @@ public class BlogManage extends HttpServlet {
                 request.getRequestDispatcher("blogmanage?action=all").forward(request, response);
 
             }
-            
+
             if (action.equals("update_image")) {
                 int blog_id = Integer.parseInt(request.getParameter("blog_id"));
                 Part image = request.getPart("image");

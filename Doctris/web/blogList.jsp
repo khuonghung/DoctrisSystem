@@ -56,8 +56,7 @@
                                         </ul>
                                         <a href="blogs?action=detail&blog_id=${b.blog_id}" class="text-dark title h7">${b.title}</a>
                                         <c:set var = "detail" value = "${b.describe}"/>
-                                        <c:set var = "brief_info" value = "${fn:substring(detail, 0, 50)}" />
-                                        <p style="font-size: 9">${brief_info}[...]</p>
+                                        <p style="font-size: 9">${b.brief}</p>
                                         <div class="post-meta d-flex justify-content-between mt-3">
                                             <ul class="list-unstyled mb-0">
                                                 <li class="list-inline-item me-2 mb-0" style="color:gray">${b.category.name}</li>

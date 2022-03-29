@@ -50,6 +50,7 @@
                                 <li class="list-inline-item user text-muted me-2"><i class="mdi mdi-account"></i> ${requestScope.blog.author}</li>
                                 <li class="list-inline-item date text-muted"><i class="mdi mdi-calendar-check"></i><fmt:formatDate pattern="dd/MM/yyyy" value="${blog.date}" /></li>
                             </ul>
+                            <p>${requestScope.blog.brief}</p>
                         <p class="text-muted mt-4">${requestScope.blog.describe}</p>
                     </div><!--end col-->
 

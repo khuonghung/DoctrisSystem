@@ -52,11 +52,12 @@ public class BlogDAO {
                 Blog b = new Blog();
                 b.setBlog_id(rs.getInt("blog_id"));
                 b.setTitle(rs.getString("title"));
+                b.setBrief(rs.getString("brief"));
                 //start
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
                 if (blob != null) {
-
+                    
                     InputStream inputStream = blob.getBinaryStream();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     byte[] buffer = new byte[4096];
@@ -108,6 +109,7 @@ public class BlogDAO {
                 Blog b = new Blog();
                 b.setBlog_id(rs.getInt("blog_id"));
                 b.setTitle(rs.getString("title"));
+                b.setBrief(rs.getString("brief"));
                 //start
                 Blob blob = rs.getBlob("img");
                 String noImage = "";
@@ -165,6 +167,7 @@ public class BlogDAO {
                 b.setBlog_id(rs.getInt("blog_id"));
                 b.setTitle(rs.getString("title"));
                 Blob blob = rs.getBlob("img");
+                b.setBrief(rs.getString("brief"));
                 String noImage = "";
                 if (blob != null) {
 
@@ -242,6 +245,7 @@ public class BlogDAO {
                 b.setBlog_id(rs.getInt("blog_id"));
                 b.setTitle(rs.getString("title"));
                 Blob blob = rs.getBlob("img");
+                b.setBrief(rs.getString("brief"));
                 String noImage = "";
                 if (blob != null) {
 
@@ -295,6 +299,7 @@ public class BlogDAO {
                 b.setBlog_id(rs.getInt("blog_id"));
                 b.setTitle(rs.getString("title"));
                 Blob blob = rs.getBlob("img");
+                b.setBrief(rs.getString("brief"));
                 String noImage = "";
                 if (blob != null) {
 
@@ -344,6 +349,7 @@ public class BlogDAO {
                 b.setBlog_id(rs.getInt("blog_id"));
                 b.setTitle(rs.getString("title"));
                 Blob blob = rs.getBlob("img");
+                b.setBrief(rs.getString("brief"));
                 String noImage = "";
                 if (blob != null) {
 
@@ -460,6 +466,7 @@ public class BlogDAO {
                 b.setDescribe(rs.getString("describe"));
                 b.setStatus(rs.getBoolean("status"));
                 b.setAuthor(rs.getString("author"));
+                b.setBrief(rs.getString("brief"));
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
                 c.setName(rs.getString("category_name"));
@@ -530,6 +537,7 @@ public class BlogDAO {
                 b.setDescribe(rs.getString("describe"));
                 b.setStatus(rs.getBoolean("status"));
                 b.setAuthor(rs.getString("author"));
+                b.setBrief(rs.getString("brief"));
                 Category_Blog c = new Category_Blog();
                 c.setId(rs.getInt("category_id"));
                 c.setName(rs.getString("category_name"));
@@ -542,7 +550,7 @@ public class BlogDAO {
         return blogs;
     }
 
-    public void AddBlog(int category_id, String title, InputStream img,
+      public void AddBlog(int category_id, String title, InputStream img,String brief,
             String describe, Boolean featured, String username, Boolean status) {
         try {
             connection = dbc.getConnection();
@@ -551,6 +559,7 @@ public class BlogDAO {
                     + "`category_id`,\n"
                     + "`title`,\n"
                     + "`img`,\n"
+                    + "`brief`,\n"
                     + "`describe`,\n"
                     + "`date`,\n"
                     + "`featured`,\n"
@@ -558,6 +567,7 @@ public class BlogDAO {
                     + "`status`)\n"
                     + "VALUES\n"
                     + "(\n"
+                    + "? ,\n"
                     + "? ,\n"
                     + "? ,\n"
                     + "? ,\n"
@@ -570,17 +580,18 @@ public class BlogDAO {
             stm.setInt(1, category_id);
             stm.setString(2, title);
             stm.setBlob(3, img);
-            stm.setString(4, describe);
-            stm.setBoolean(5, featured);
-            stm.setString(6, username);
-            stm.setBoolean(7, status);
+            stm.setString(4, brief);
+            stm.setString(5, describe);
+            stm.setBoolean(6, featured);
+            stm.setString(7, username);
+            stm.setBoolean(8, status);
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BlogDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void UpdateBlog(int category_id, String title,
+    public void UpdateBlog(int category_id, String title,String brief,
             String describe, Boolean featured, Boolean status, int blog_id) throws IOException {
         try {
             connection = dbc.getConnection();
@@ -588,6 +599,7 @@ public class BlogDAO {
                     + "SET\n"
                     + "`category_id` = ?,\n"
                     + "`title` = ?,\n"
+                    + "`brief` = ?,\n"
                     + "`describe` = ?,\n"
                     + "`featured` = ?,\n"
                     + "`status` = ?\n"
@@ -595,10 +607,11 @@ public class BlogDAO {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, category_id);
             stm.setString(2, title);
-            stm.setString(3, describe);
-            stm.setBoolean(4, featured);
-            stm.setBoolean(5, status);
-            stm.setInt(6, blog_id);
+            stm.setString(3, brief);
+            stm.setString(4, describe);
+            stm.setBoolean(5, featured);
+            stm.setBoolean(6, status);
+            stm.setInt(7, blog_id);
             stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BlogDAO.class.getName()).log(Level.SEVERE, null, ex);

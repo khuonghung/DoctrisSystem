@@ -71,6 +71,11 @@
                                                     </select> 
                                                 </div>
                                             </div>
+                                                
+                                            <div class="mb-3">
+                                                <label class="form-label">Thông Tin Tóm Tắt<span class="text-danger">*</span></label>
+                                                <textarea rows="" cols="" id="brief" name="brief" style="width: 720px; height:50px" >${blog.brief}</textarea>
+                                            </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Mô tả<span class="text-danger">*</span></label>
@@ -227,6 +232,7 @@
                                                         }
                                                         var editor = '';
                                                         $(document).ready(function () {
+                                                            editor = CKEDITOR.replace('brief');
                                                             editor = CKEDITOR.replace('describe');
                                                             $(".Choicefile").bind('click', function () {
                                                                 $("#uploadfile").click();
